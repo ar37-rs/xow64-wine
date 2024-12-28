@@ -18,7 +18,7 @@ Launch specific *.exe
 ```
 ~/xow64 your_app_name.exe
 ```
-Quite wine or terminate all wine process.
+Quite wine or terminate all wine related process.
 ```
 ~/xow64 q
 ```

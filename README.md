@@ -14,9 +14,13 @@ Start wine on desktop terminal (desktop mode)
 ```
 ~/xow64 s
 ```
+Launch winecfg
+```
+~/xow64 winecfg
+```
 Launch specific *.exe
 ```
-~/xow64 your_app_name.exe
+~/xow64 app_name.exe
 ```
 Quite wine or terminate all wine related process.
 ```

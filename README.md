@@ -9,7 +9,7 @@ and then
 ```
 ~/xow64 install-deps && ~/xow64 update
 ```
-# Usage (on desktop environment such xfce4,lxqt native termux-x11):
+# Usage (on desktop environment such xfce4 native termux-x11):
 Start wine on desktop terminal (desktop mode)
 ```
 ~/xow64 s

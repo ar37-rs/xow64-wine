@@ -22,9 +22,22 @@ Launch specific *.exe
 ```
 ~/xow64 app_name.exe
 ```
+## Additional usage:
 Quite wine or terminate all wine related process.
 ```
 ~/xow64 q
+```
+Updating box64
+```
+~/xow64 update-box64
+```
+Updating wine
+```
+~/xow64 update-wine
+```
+Updating patch
+```
+~/xow64 update-patch
 ```
 
 # Credits and 3rd parties:

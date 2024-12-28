@@ -1,5 +1,27 @@
 # Xow64-Wine
-wine-wow64 + box64 presetuped for termux-glibc (aarch64).
+wine-10-wow64-staging + box64 presetuped for termux-glibc (aarch64).
+# Installation:
+```
+cd && pkg install wget 
+rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64 && chmod +x ~/xow64
+```
+and then
+```
+~/xow64 install-deps && ~/xow64 update
+```
+# Usage (on desktop environment such xfce4 native termux-x11):
+Start wine in desktop mode
+```
+~/xow64 s
+```
+Launch specific *.exe
+```
+~/xow64 your_app_name.exe
+```
+Quite wine or terminate all wine process.
+```
+~/xow64 q
+```
 
 # Credits and 3rd parties:
 

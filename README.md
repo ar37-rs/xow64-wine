@@ -39,7 +39,9 @@ Updating patch
 ```
 ~/xow64 update-patch
 ```
+Install InputBrige for virtual controller:
 
+[From here](https://github.com/ar37-rs/xow64-wine/releases/download/latest/InputBridge_v0.1.9.9.apk)
 # Credits and 3rd parties:
 
 https://www.winehq.org
@@ -53,3 +55,5 @@ https://github.com/ptitSeb/box64
 https://github.com/airidosas252/Wine-Builds
 
 https://github.com/Kron4ek/Wine-Builds
+
+[InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)

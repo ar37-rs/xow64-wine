@@ -29,15 +29,19 @@ Quite wine or terminate all wine related process.
 ```
 ~/xow64 q
 ```
-Updating box64
+Install box64-0.3.3
 ```
-~/xow64 update-box64
+~/xow64 box64-0.3.3
 ```
-Updating wine
+Install box64-0.3.1
+```
+~/xow64 box64-0.3.1
+```
+Update wine
 ```
 ~/xow64 update-wine
 ```
-Updating patch
+Update patch
 ```
 ~/xow64 update-patch
 ```

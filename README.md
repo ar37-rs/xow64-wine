@@ -33,6 +33,10 @@ Install box64-0.3.1
 ```
 ~/xow64 box64-0.3.1
 ```
+Install box64-0.3.0
+```
+~/xow64 box64-0.3.0
+```
 Update wine
 ```
 ~/xow64 update-wine
@@ -43,7 +47,7 @@ Update patch
 ```
 
 # Note:
-Using virtual controller, install InputBrige
+* Using virtual controller, install InputBrige
 
 [From here](https://github.com/ar37-rs/xow64-wine/releases/download/latest/InputBridge_v0.1.9.9.apk)
 
@@ -52,6 +56,7 @@ and start command in desktop termux terminal:
 ~/xow64 s
 ```
 and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
+* If experiencing any emulation issue, try different version of box64 above.
 
 # Credits and 3rd parties:
 

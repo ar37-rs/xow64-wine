@@ -12,10 +12,6 @@ and then
 # Usage (on desktop environment such xfce4 native termux-x11):
 [(Read for more info to setup desktop for native termux-x11)](https://github.com/ar37-rs/xfce4-termux)
 
-Start wine on desktop terminal (desktop mode)
-```
-~/xow64 s
-```
 Launch winecfg
 ```
 ~/xow64 winecfg
@@ -48,6 +44,14 @@ Update patch
 Install InputBrige for virtual controller:
 
 [From here](https://github.com/ar37-rs/xow64-wine/releases/download/latest/InputBridge_v0.1.9.9.apk)
+
+# Note:
+Using virtual contoller, start command in desktop termux terminal:
+```
+~/xow64 s
+```
+and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
+
 # Credits and 3rd parties:
 
 https://www.winehq.org

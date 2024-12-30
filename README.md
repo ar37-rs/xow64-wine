@@ -56,7 +56,7 @@ and start command in desktop termux terminal:
 ~/xow64 s
 ```
 and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
-* If experiencing any emulation issue, try different version of box64 above.
+* If experiencing any emulation issue, try using different version of box64 above.
 
 # Credits and 3rd parties:
 

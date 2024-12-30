@@ -41,12 +41,13 @@ Update patch
 ```
 ~/xow64 update-patch
 ```
-Install InputBrige for virtual controller:
+
+# Note:
+Using virtual controller, install InputBrige
 
 [From here](https://github.com/ar37-rs/xow64-wine/releases/download/latest/InputBridge_v0.1.9.9.apk)
 
-# Note:
-Using virtual contoller, start command in desktop termux terminal:
+and start command in desktop termux terminal:
 ```
 ~/xow64 s
 ```

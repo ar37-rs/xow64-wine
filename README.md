@@ -71,7 +71,7 @@ Update patch
 * If experiencing any emulation issue, try using different version of box64 above.
 * Using virgl for Wine3d (Direct3D) support (Universal supported GPUs)
 
-    [(Read for more info to use virgl on termux)](https://github.com/ar37-rs/virgl-angle-termux)
+    [(Read for more info on how to use virgl on termux)](https://github.com/ar37-rs/virgl-angle-termux)
     
 # Links for addtional guides and manual setup:
 * dxvk:

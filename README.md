@@ -58,7 +58,13 @@ and start command in desktop termux terminal:
 and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
 * If experiencing any emulation issue, try using different version of box64 above.
 
-# Credits and 3rd parties:
+# Links for addtional guides and manual setup:
+* dxvk:
+https://github.com/doitsujin/dxvk
+* wined3d
+https://fdossena.com/?p=wined3d/index.frag
+
+# Other links for credits (3rd parties):
 
 https://www.winehq.org
 

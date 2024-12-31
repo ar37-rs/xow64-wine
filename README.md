@@ -10,7 +10,7 @@ and then
 ~/xow64 install-deps && ~/xow64 update
 ```
 # Usage (on desktop environment such xfce4 native termux-x11):
-[(Read for more info to setup desktop for native termux-x11)](https://github.com/ar37-rs/xfce4-termux)
+[(Read for more info to setup xfce4 desktop for native termux-x11)](https://github.com/ar37-rs/xfce4-termux)
 
 Launch winecfg
 ```

@@ -25,6 +25,18 @@ Quit wine or terminate all wine related process.
 ```
 ~/xow64 q
 ```
+Using vulkan panfrost driver (only for specific supported Mali-G series with kernel 5.10+)
+```
+~/xow64 vk-panfrost
+```
+Using vulkan llvmpipe (Universal CPUs)
+```
+~/xow64 vk-llvmpipe
+```
+Switch back using default vulkan driver (If any)
+```
+~/xow64 vk-default
+```
 Install box64-0.3.3
 ```
 ~/xow64 box64-0.3.3
@@ -57,7 +69,10 @@ Update patch
     ```
     and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
 * If experiencing any emulation issue, try using different version of box64 above.
+* Using virgl for Wine3d (Direct3D) support (Universal supported GPUs)
 
+    [(Read for more info to use virgl on termux)](https://github.com/ar37-rs/virgl-angle-termux)
+    
 # Links for addtional guides and manual setup:
 * dxvk:
 

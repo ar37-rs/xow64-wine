@@ -1,5 +1,5 @@
 # Xow64-Wine
-Wine-10-rc4-wow64-staging + box64 presetuped for termux-glibc (aarch64).
+Wine-10-rc5-wow64-staging + box64 presetuped for termux-glibc (aarch64).
 # Installation:
 ```
 cd && pkg install wget 

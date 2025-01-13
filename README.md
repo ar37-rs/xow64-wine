@@ -7,7 +7,7 @@ rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/releases/download/l
 ```
 and then
 ```
-~/xow64 install-deps && ~/xow64 update
+~/xow64 install-deps && ~/xow64 update-all
 ```
 # Usage (on desktop environment such xfce4 native termux-x11):
 [(Read for more info to setup xfce4 desktop for native termux-x11)](https://github.com/ar37-rs/xfce4-termux)
@@ -86,9 +86,19 @@ Install box64 v0.3.0
 ~/xow64 box64=0.3.0
 ```
 
+Update box64
+```
+~/xow64 update-box64
+```
+
 Update wine
 ```
 ~/xow64 update-wine
+```
+
+Update virgl (virpipe) driver
+```
+~/xow64 update-virpipe
 ```
 
 Update patch

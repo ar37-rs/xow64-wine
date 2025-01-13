@@ -21,7 +21,7 @@ Launch specific *.exe
 ~/xow64 app_name.exe
 ```
 ## Additional usage:
-Using specific patched virgl (virpipe) driver:
+Using specific patched virgl (virpipe) driver (Universal GPUs):
 ```
 ~/xow64 driver=virpipe
 ```
@@ -107,9 +107,6 @@ Update patch
     ```
     and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
 * If experiencing any emulation issue, try using different version of box64 above.
-* Using virgl for Wine3d (Direct3D) support (Universal supported GPUs)
-
-    [(Read for more info on how to use virgl on termux)](https://github.com/ar37-rs/virgl-angle-termux)
     
 # Links for addtional guides and manual setup:
 * dxvk:

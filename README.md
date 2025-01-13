@@ -36,7 +36,7 @@ Configure virpipe for OpenGL/ES apps/games:
 ~/xow64 virgl-cfg=gl
 ```
 
-Using default driver:
+Switch back using default driver:
 ```
 ~/xow64 driver=default
 ```

@@ -132,16 +132,17 @@ Uninstall (remove) xow64-wine.
     https://fdossena.com/?p=wined3d/index.frag
 
 # Other links for credits (3rd parties):
+https://github.com/ptitSeb/box64
 
 https://www.winehq.org
+
+https://www.mesa3d.org
 
 https://github.com/termux
 
 https://github.com/termux/termux-x11
 
 https://github.com/termux-pacman/glibc-packages
-
-https://github.com/ptitSeb/box64
 
 https://github.com/airidosas252/Wine-Builds
 

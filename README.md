@@ -106,6 +106,11 @@ Update patch
 ~/xow64 update-patch
 ```
 
+Uninstall (remove) xow64-wine. 
+```
+~/xow64 remove-all
+```
+
 # Note:
 * Using virtual controller, install InputBrige
 

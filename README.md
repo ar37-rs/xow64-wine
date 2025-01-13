@@ -21,38 +21,76 @@ Launch specific *.exe
 ~/xow64 app_name.exe
 ```
 ## Additional usage:
+Using specific patched virgl (virpipe) driver:
+```
+~/xow64 driver=virpipe
+```
+
+Configure virpipe for d3d9+ (Direct X) apps/games fix and optimizations:
+```
+~/xow64 virgl-cfg=d3d
+```
+
+Configure virpipe for OpenGL/ES apps/games:
+```
+~/xow64 virgl-cfg=gl
+```
+
+Using default driver:
+```
+~/xow64 driver=default
+```
+
+Using vulkan llvmpipe (Universal CPUs)
+```
+~/xow64 vk=llvmpipe
+```
+
+Using vulkan panfrost driver (only for specific rooted devices with specific supported Mali-G series with kernel 5.10+)
+```
+~/xow64 vk=panfrost
+```
+
+Switch back using default vulkan driver (If any)
+```
+~/xow64 vk=default
+```
+
+Disable wine debugger (for stability):
+```
+~/xow64 debug=false
+```
+
+Re-enable wine debugger:
+```
+~/xow64 debug=true
+```
+
 Quit wine or terminate all wine related process.
 ```
 ~/xow64 q
 ```
-Using vulkan panfrost driver (only for specific supported Mali-G series with kernel 5.10+)
+
+Install box64 v0.3.3
 ```
-~/xow64 vk-panfrost
+~/xow64 box64=0.3.3
 ```
-Using vulkan llvmpipe (Universal CPUs)
+
+Install box64 v0.3.1
 ```
-~/xow64 vk-llvmpipe
+~/xow64 box64=0.3.1
 ```
-Switch back using default vulkan driver (If any)
+
+Install box64 v0.3.0
 ```
-~/xow64 vk-default
+~/xow64 box64=0.3.0
 ```
-Install box64-0.3.3
-```
-~/xow64 box64-0.3.3
-```
-Install box64-0.3.1
-```
-~/xow64 box64-0.3.1
-```
-Install box64-0.3.0
-```
-~/xow64 box64-0.3.0
-```
+
 Update wine
 ```
 ~/xow64 update-wine
 ```
+
 Update patch
 ```
 ~/xow64 update-patch

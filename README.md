@@ -21,9 +21,18 @@ Launch specific *.exe
 ~/xow64 app_name.exe
 ```
 ## Additional usage:
-Using specific patched virgl (virpipe) driver (Universal GPUs):
+Using newer build of virgl (virpipe) driver
+
+(Universal GPUs and android 10+ only, recommended for stability):
 ```
 ~/xow64 driver=virpipe
+```
+
+Using specific patched virgl (virpipe) driver
+
+(Universal GPUs and android 8+ only, faster FPS and unstable):
+```
+~/xow64 driver=virpipe-patched
 ```
 
 Configure virpipe for d3d9+ (Direct X) apps/games fix and optimizations:

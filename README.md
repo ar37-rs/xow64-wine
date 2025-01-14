@@ -25,29 +25,29 @@ Launch specific *.exe
 ## Additional usage:
 Using newer build of virgl (virpipe) driver
 
-(Universal GPUs and android 10+ only, recommended for stability):
+(Universal GPUs and android 10+ only, recommended for stability)
 ```
 ~/xow64 driver=virpipe
 ```
 
 Using specific patched virgl (virpipe) driver
 
-(Universal GPUs and android 8+ only, faster FPS and unstable):
+(Universal GPUs and android 8+ only, faster FPS and unstable)
 ```
 ~/xow64 driver=virpipe-patched
 ```
 
-Configure virpipe for d3d9+ (Direct X) apps/games fix and optimizations:
+Configure virpipe for d3d9+ (Direct X) apps/games fix and optimizations
 ```
 ~/xow64 virgl-cfg=d3d
 ```
 
-Configure virpipe for OpenGL/ES apps/games:
+Configure virpipe for OpenGL/ES apps/games
 ```
 ~/xow64 virgl-cfg=gl
 ```
 
-Switch back using default driver:
+Switch back using default driver
 ```
 ~/xow64 driver=default
 ```
@@ -67,17 +67,17 @@ Switch back using default vulkan driver (If any)
 ~/xow64 vk=default
 ```
 
-Disable wine debugger (for stability):
+Disable wine debugger (for stability)
 ```
 ~/xow64 debug=false
 ```
 
-Re-enable wine debugger:
+Re-enable wine debugger
 ```
 ~/xow64 debug=true
 ```
 
-Quit wine or terminate all wine related process.
+Quit wine or terminate all wine related process
 ```
 ~/xow64 q
 ```
@@ -117,7 +117,7 @@ Update patch
 ~/xow64 update-patch
 ```
 
-Uninstall (remove) xow64-wine. 
+Uninstall (remove) xow64-wine
 ```
 ~/xow64 remove-all
 ```
@@ -127,7 +127,7 @@ Uninstall (remove) xow64-wine.
 
     [From here](https://github.com/ar37-rs/xow64-wine/releases/download/latest/InputBridge_v0.1.9.9.apk)
 
-    and start command in desktop termux terminal:
+    and start command in desktop termux terminal
     ```
     ~/xow64 s
     ```

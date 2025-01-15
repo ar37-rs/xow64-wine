@@ -67,7 +67,7 @@ Switch back using default vulkan driver (If any)
 ~/xow64 vk=default
 ```
 
-Using dxvk-proton (vkd3d)
+Using dxvk-proton (vkd3d) + enabling winedlloverride cnc-ddraw
 ```
 ~/xow64 vkd3d=true
 ```
@@ -154,11 +154,11 @@ Uninstall (remove) xow64-wine
     and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
 * If experiencing any emulation issue, try using different version of box64 above.
     
-# Addtional guide and manual wine3d versioning setup:
-* wined3d:
-
-    https://fdossena.com/?p=wined3d/index.frag
-
+# Addtional guide:
+* for cnc-ddraw setup visit link below
+  
+    https://github.com/FunkyFr3sh/cnc-ddraw
+  
 # Other links for credits (3rd parties):
 https://github.com/ptitSeb/box64
 

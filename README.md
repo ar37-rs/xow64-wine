@@ -62,7 +62,7 @@ Using vulkan panfrost driver (only for specific rooted devices with specific sup
 ~/xow64 vk=panfrost
 ```
 
-Switch back using default vulkan driver (If any)
+Switch back using default vulkan driver, for preconfigured Turnip and amd Xclipse GPU (if any)
 ```
 ~/xow64 vk=default
 ```

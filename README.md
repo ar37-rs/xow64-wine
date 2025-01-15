@@ -67,7 +67,7 @@ Switch back using default vulkan driver (If any)
 ~/xow64 vk=default
 ```
 
-Using dxvk-proton (vkd3d) + enabling winedlloverride cnc-ddraw
+Using dxvk-proton (vkd3d)
 ```
 ~/xow64 vkd3d=true
 ```
@@ -75,6 +75,16 @@ Using dxvk-proton (vkd3d) + enabling winedlloverride cnc-ddraw
 Disable dxvk-proton (vkd3d)
 ```
 ~/xow64 vkd3d=false
+```
+
+Enable winedlloverride for cnc-ddraw
+```
+~/xow64 cnc-ddraw=true
+```
+
+Disable winedlloverride for cnc-ddraw
+```
+~/xow64 cnc-ddraw=false
 ```
 
 Disable wine debugger (for stability)
@@ -155,7 +165,7 @@ Uninstall (remove) xow64-wine
 * If experiencing any emulation issue, try using different version of box64 above.
     
 # Addtional guide:
-* for cnc-ddraw setup visit link below
+* Using cnc-ddraw (visit link below)
   
     https://github.com/FunkyFr3sh/cnc-ddraw
   

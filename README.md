@@ -162,7 +162,7 @@ Uninstall (remove) xow64-wine
     ~/xow64 s
     ```
     and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
-* If experiencing any emulation issue, try using different version of box64 above.
+* If experiencing any emulation issue, try using different version of box64 and drivers available above accordingly.
     
 # Addtional guide:
 * Using cnc-ddraw (visit link below)

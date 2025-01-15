@@ -67,6 +67,16 @@ Switch back using default vulkan driver (If any)
 ~/xow64 vk=default
 ```
 
+Using dxvk-proton (vkd3d)
+```
+~/xow64 vkd3d=true
+```
+
+Disable dxvk-proton (vkd3d)
+```
+~/xow64 vkd3d=false
+```
+
 Disable wine debugger (for stability)
 ```
 ~/xow64 debug=false
@@ -117,6 +127,11 @@ Update angle-android
 ~/xow64 update-angle
 ```
 
+Update dxvk-proton (vkd3d)
+```
+~/xow64 update-vkd3d
+```
+
 Update patch
 ```
 ~/xow64 update-patch
@@ -139,10 +154,7 @@ Uninstall (remove) xow64-wine
     and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
 * If experiencing any emulation issue, try using different version of box64 above.
     
-# Links for addtional guides and manual setup:
-* dxvk:
-
-    https://github.com/doitsujin/dxvk
+# Addtional guide and manual wine3d versioning setup:
 * wined3d:
 
     https://fdossena.com/?p=wined3d/index.frag
@@ -163,5 +175,11 @@ https://github.com/termux-pacman/glibc-packages
 https://github.com/airidosas252/Wine-Builds
 
 https://github.com/Kron4ek/Wine-Builds
+
+https://gitlab.com/Ph42oN/dxvk-gplasync
+
+https://github.com/doitsujin/dxvk
+
+https://github.com/HansKristian-Work/vkd3d-proton
 
 [InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)

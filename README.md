@@ -112,6 +112,11 @@ Update virgl (virpipe) driver
 ~/xow64 update-virpipe
 ```
 
+Update angle-android
+```
+~/xow64 update-angle
+```
+
 Update patch
 ```
 ~/xow64 update-patch

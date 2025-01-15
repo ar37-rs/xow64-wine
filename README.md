@@ -67,7 +67,7 @@ Switch back using default vulkan driver, for preconfigured turnip Adreno and amd
 ~/xow64 vk=default
 ```
 
-Using dxvk-proton (vkd3d)
+Using dxvk-proton (supported on vulkan llvmpipe and any supported GPU)  
 ```
 ~/xow64 vkd3d=true
 ```

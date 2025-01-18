@@ -31,7 +31,7 @@ Launch specific *.exe
 ## Additional usage:
 Using newer build of virgl (virpipe) driver
 
-(For some supported GPUs and android 10+ only, recommended for stability)
+(For some supported GPUs and android 10+ only)
 ```
 ~/xow64 driver=virpipe
 ```

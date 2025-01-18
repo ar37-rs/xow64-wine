@@ -102,13 +102,14 @@ elif [[ "$1" == "update-virpipe" ]]; then
     dpkg -i ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb
     touch ~/xow64_virgl/.virgl
     echo "done."
+    ~/xow64_virgl/vglx cd .
 elif [[ "$1" == "update-angle" ]]; then
     echo "Updating angle-android..."
     cd && rm -rf ~/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv ~/angle-android_2.1.2-latest.deb ~/xow64_virgl/angle-android_2.1.2-latest.deb
     ~/xow64_virgl/vglx q
     dpkg -i ~/xow64_virgl/angle-android_2.1.2-latest.deb
     echo "done."
-    LD_LIBRARY_PATH=/data/data/com.termux/files/usr/opt/angle-android/vulkan-null virgl_test_server --use-egl-surfaceless --use-gles &
+    ~/xow64_virgl/vglx cd .
 elif [[ "$1" == "update-vkd3d" ]]; then
     echo "Updating dxvk-proton (vkd3d) components..."
     cd && rm -rf ~/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz ~/xow64_wine/xow64_dxvk_proton.tar.xz
@@ -192,8 +193,8 @@ elif [[ "$1" == "driver=virpipe-patched" ]]; then
     dpkg -i ~/xow64_virgl/angle-android_2.1.2-latest.deb
     echo "Installing virgl direct connection..."
     dpkg -i ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64-patched.deb
-    echo "Virpipe with patched direct xcb connection is installed"
-    echo "Using virgl (virpipe) driver."
+    echo "Virpipe with patched direct xcb connection is installed."
+    ~/xow64_virgl/vglx cd .
 elif [[ "$1" == "driver=virpipe" ]]; then
 
     if [ -d ~/xow64_virgl ]; then
@@ -233,8 +234,7 @@ elif [[ "$1" == "driver=virpipe" ]]; then
     echo "Installing virgl..."
     dpkg -i ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb
     echo "Virpipe is installed"
-    echo "Using virgl (virpipe) driver."
-    
+    ~/xow64_virgl/vglx cd .
 elif [[ "$1" == "driver=default" ]]; then
     if [ -f ~/xow64_virgl/.virgl ]; then
         rm -rf ~/xow64_virgl/.virgl

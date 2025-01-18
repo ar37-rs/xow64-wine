@@ -47,6 +47,8 @@ Configure virpipe for OpenGL/ES apps/games
 ```
 
 Switch back using default driver
+
+(using any preconfigured termux gl driver including virgl if any)
 ```
 ~/xow64 driver=default
 ```

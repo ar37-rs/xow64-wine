@@ -1,4 +1,4 @@
-![alt_test](image/wine.png)
+![alt_test](components/wine.png)
 
 # Xow64-Wine
 Wine-10-rc5-wow64-staging + box64 presetuped for termux-glibc (aarch64)

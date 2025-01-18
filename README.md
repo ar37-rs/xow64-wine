@@ -160,7 +160,7 @@ Uninstall (remove) xow64-wine
 # Note:
 * Using virtual controller, install InputBrige
 
-    [From here](https://github.com/ar37-rs/xow64-wine/blob/main/components/InputBridge_v0.1.9.9.apk)
+    [From here](https://github.com/ar37-rs/xow64-wine/releases/download/latest/InputBridge_v0.1.9.9.apk)
 
     and start command in desktop termux terminal
     ```

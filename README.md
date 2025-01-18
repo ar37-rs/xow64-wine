@@ -5,7 +5,7 @@ Wine-10-rc5-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 # Installation:
 Make sure if wget is installed
 ```
-pkg install wget
+pkg install wget openssl
 ```
 
 Install xow64

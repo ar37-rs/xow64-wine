@@ -1,0 +1,376 @@
+DESKTOP_SIZE=800x600
+# export WLR_USE_UNIX_SOCKET=1
+# using glthread relatively faster for wined3d (very intense cpu)
+# export MESA_GLTHREAD=true
+export WINEESYNC_TERMUX=1
+export WINEESYNC=1
+export WINE_CA_CERT_PATH=$PREFIX/glibc/etc/ca-certificates
+export WINEPREFIX=~/.xow64_wine
+export BOX64_RCFILE=~/xow64_box64/etc/box64.box64rc
+export BOX64_PATH=~/xow64_wine/bin
+export BOX64_LD_LIBRARY_PATH=~/xow64_wine/lib/wine/i386-windows:~/xow64_wine/lib/wine/x86_64-windows:~/xow64_wine/lib/wine/x86_64-unix:~/xow64_box64/lib/x86_64-linux-gnu:~/xow64_box64/lib/i386-linux-gnu
+export BOX64_INPROCESSGPU=1
+export BOX64_NOSANDBOX=1
+export BOX64_X11THREADS=1
+export BOX64_MMAP32=1
+export BOX64_DYNAREC_SAFEFLAGS=2
+export BOX64_DYNAREC_STRONGMEM=1
+export BOX64_DYNAREC_BIGBLOCK=0
+# export BOX64_DYNAREC_WEAKBARRIER=1
+# export BOX64_DYNAREC_X87DOUBLE=1
+# export BOX64_DYNAREC_PAUSE=1
+# export BOX64_DYNAREC_WAIT=1
+# export BOX64_DYNAREC_CALLRET=1
+# export BOX64_DYNAREC_FASTNAN=0
+# export BOX64_DYNAREC_FASTROUND=0
+# export BOX64_DYNAREC_FORWARD=256
+# export BOX64_MAXCPU=8
+# export BOX64_PREFER_WRAPPED=0
+# export BOX64_PREFER_EMULATED=1
+# export BOX64_UNITYPLAYER=1
+# export BOX64_WRAP_EGL=$PREFIX/lib/libGL.so.1
+# export BOX64_NOSIGILL=0
+# export BOX64_NOBANNER=1
+echo "info: WINEPREFIX=~/.xow64_wine"
+if [ -f ~/xow64_wine/.no_debug ]; then
+export WINEDEBUG=-all
+fi
+
+vkinfo() {
+    if [ -f ~/xow64_wine/.vk-radeon ]; then
+        echo "using radeon vulkan driver."
+        export LIBGL_DRI3_DISABLE=0
+        export MESA_GL_VERSION_OVERRIDE=4.6COMPAT
+	export MESA_GLSL_VERSION_OVERRIDE=460
+	export MESA_GLES_VERSION_OVERRIDE=3.2
+	export MESA_LOADER_DRIVER_OVERRIDE=zink
+	if [ -f $PREFIX/glibc/share/vulkan/icd.d/radeon_icd.aarch64.json ]; then
+	    export VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/radeon_icd.aarch64.json
+        else
+            export VK_ICD_FILENAMES=~/xow64_virgl/share/vulkan/icd.d/radeon_icd.aarch64.json
+        fi
+    elif [ -f ~/xow64_wine/.vk-turnip ]; then
+        export LIBGL_DRI3_DISABLE=0
+        echo "using adreno/turnip vulkan driver."
+        export MESA_GL_VERSION_OVERRIDE=4.6COMPAT
+	export MESA_GLSL_VERSION_OVERRIDE=460
+	export MESA_GLES_VERSION_OVERRIDE=3.2
+	export MESA_LOADER_DRIVER_OVERRIDE=zink
+	export TU_DEBUG=noconform
+        export VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/freedreno_icd.aarch64.json
+    elif [ -f ~/xow64_wine/.vk-llvmpipe ]; then
+        echo "using llvmpipe vulkan driver."
+        if [ -f ~/xow64_virgl/share/vulkan/icd.d/lvp_icd.aarch64.json ]; then
+            export VK_ICD_FILENAMES=~/xow64_virgl/share/vulkan/icd.d/lvp_icd.aarch64.json
+        else
+            export VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/lvp_icd.aarch64.json
+        fi
+    else
+	echo "using default vulkan driver."
+    fi
+    
+    if [ -f ~/xow64_wine/.dxvk-proton ]; then
+        echo "with dxvk-proton (vkd3d) enabled."
+    fi
+}
+
+if [[ "$1" == "install-deps" ]]; then
+    cd && pkg update && pkg install virglrenderer angle-android glibc-repo glibc-runner && pkg update && pkg install libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc
+elif [[ "$1" == "update-all" ]]; then
+        echo "Installing and updating all xow64 components..."
+        cd && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf ~/xow64_box64.tar.xz && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_virgl.tar.xz && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_virgl.tar.xz && echo "extracting xow64_virgl.tar.xz..." && tar -xf ~/xow64_virgl.tar.xz && rm -rf ~/xow64_virgl.tar.xz && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && echo "done, all xow64 components are updated."
+elif [[ "$1" == "box64=0.3.3" || "$1" == "update-box64" ]]; then
+        echo "Installing box64-0.3.3..."
+        cd && rm -rf ~/xow64_box64.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf ~/xow64_box64.tar.xz && rm -rf ~/xow64_box64.tar.xz && echo "done."
+elif [[ "$1" == "box64=0.3.1" ]]; then
+        echo "Installing box64-0.3.1..."
+        cd && rm -rf ~/xow64_box64-0.3.1.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_box64-0.3.1.tar.xz && echo "extracting xow64_box64-0.3.1.tar.xz..." && tar -xf ~/xow64_box64-0.3.1.tar.xz && rm -rf ~/xow64_box64-0.3.1.tar.xz && echo "done."
+elif [[ "$1" == "box64=0.3.0" ]]; then
+        echo "Installing box64-0.3.0..."
+        cd && rm -rf ~/xow64_box64-0.3.0.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_box64-0.3.0.tar.xz && echo "extracting xow64_box64-0.3.0.tar.xz..." && tar -xf ~/xow64_box64-0.3.0.tar.xz && rm -rf ~/xow64_box64-0.3.0.tar.xz && echo "done."        
+elif [[ "$1" == "update-wine" ]]; then
+        echo "Updating wine..."
+        cd && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine.tar.xz && echo "done."
+elif [[ "$1" == "update-patch" ]]; then
+        echo "Updating patch..."
+        cd && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && echo "done."
+elif [[ "$1" == "update-virpipe" ]]; then
+        echo "Updating virgl (virpipe)..."
+        cd && rm -rf ~/xow64_virgl.tar.xz && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_virgl.tar.xz && echo "extracting xow64_virgl.tar.xz..." && tar -xf ~/xow64_virgl.tar.xz && rm -rf ~/xow64_virgl.tar.xz && rm -rf ~/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/angle-android_2.1.2-latest.deb && mv ~/angle-android_2.1.2-latest.deb ~/xow64_virgl/angle-android_2.1.2-latest.deb && rm -rf ~/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/virglrenderer_1.1.0-11_aarch64.deb && mv ~/virglrenderer_1.1.0-11_aarch64.deb ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/virglrenderer_1.1.0-11_aarch64-patched.deb && mv ~/virglrenderer_1.1.0-11_aarch64-patched.deb ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64-patched.deb && rm -rf ~/vgl && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/vgl && chmod +x ~/vgl && cp ~/vgl ~/xow64_virgl/vglx
+    ~/xow64_virgl/vglx q
+    dpkg -i ~/xow64_virgl/angle-android_2.1.2-latest.deb
+    dpkg -i ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb
+    touch ~/xow64_virgl/.virgl
+    echo "done."
+elif [[ "$1" == "update-angle" ]]; then
+    echo "Updating angle-android..."
+    cd && rm -rf ~/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/angle-android_2.1.2-latest.deb && mv ~/angle-android_2.1.2-latest.deb ~/xow64_virgl/angle-android_2.1.2-latest.deb
+    ~/xow64_virgl/vglx q
+    dpkg -i ~/xow64_virgl/angle-android_2.1.2-latest.deb
+    echo "done."
+    LD_LIBRARY_PATH=/data/data/com.termux/files/usr/opt/angle-android/vulkan-null virgl_test_server --use-egl-surfaceless --use-gles &
+elif [[ "$1" == "update-vkd3d" ]]; then
+    echo "Updating dxvk-proton (vkd3d) components..."
+    cd && rm -rf ~/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz ~/xow64_wine/xow64_dxvk_proton.tar.xz
+    echo "done."
+elif [[ "$1" == "q" ]]; then
+    echo "quiting wine..."
+    kill -9 $(pgrep -f "wine") 2>/dev/null
+    sleep 1
+elif [[ "$1" == "vk=radeon" ]]; then
+    if [ -f ~/xow64_wine/.vk-turnip ]; then
+        rm -rf ~/xow64_wine/.vk-turnip
+    fi
+    if [ -f ~/xow64_wine/.vk-llvmpipe ]; then
+        rm -rf ~/xow64_wine/.vk-llvmpipe
+    fi
+    touch ~/xow64_wine/.vk-radeon
+    echo "using vulkan radeon driver."
+elif [[ "$1" == "vk=turnip" ]]; then
+    if [ -f ~/xow64_wine/.vk-llvmpipe ]; then
+        rm -rf ~/xow64_wine/.vk-llvmpipe
+    fi
+    if [ -f ~/xow64_wine/.vk-radeon ]; then
+        rm -rf ~/xow64_wine/.vk-radeon
+    fi
+    touch ~/xow64_wine/.vk-turnip
+    echo "using adreno/turnip driver."
+elif [[ "$1" == "vk=lvp" ]]; then
+    if [ -f ~/xow64_wine/.vk-radeon ]; then
+        rm -rf ~/xow64_wine/.vk-radeon
+    fi
+    if [ -f ~/xow64_wine/.vk-turnip ]; then
+        rm -rf ~/xow64_wine/.vk-turnip
+    fi
+    touch ~/xow64_wine/.vk-llvmpipe
+    echo "using vulkan llvmpipe driver."
+elif [[ "$1" == "vk=default" ]]; then
+    if [ -f ~/xow64_wine/.vk-turnip ]; then
+        rm -rf ~/xow64_wine/.vk-turnip
+    fi
+    if [ -f ~/xow64_wine/.vk-radeon ]; then
+        rm -rf ~/xow64_wine/.vk-radeon
+    fi
+    if [ -f ~/xow64_wine/.vk-llvmpipe ]; then
+        rm -rf ~/xow64_wine/.vk-llvmpipe
+    fi
+    echo "using vulkan default driver."
+elif [[ "$1" == "driver=virpipe-patched" ]]; then
+    if [ -d ~/xow64_virgl ]; then
+        clear
+    else
+        echo "Installing virgl patched components..."
+        cd && rm -rf ~/xow64_virgl.tar.xz && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_virgl.tar.xz && echo "extracting xow64_virgl.tar.xz..." && tar -xf ~/xow64_virgl.tar.xz && rm -rf ~/xow64_virgl.tar.xz
+    fi
+    
+    if [ -f ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64-patched.deb ]; then
+        clear
+    else
+        cd && rm -rf ~/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/virglrenderer_1.1.0-11_aarch64-patched.deb && mv ~/virglrenderer_1.1.0-11_aarch64-patched.deb ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64-patched.deb
+    fi
+    
+    if [ -f ~/xow64_virgl/angle-android_2.1.2-latest.deb ]; then
+        clear
+    else
+        cd && rm -rf ~/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/angle-android_2.1.2-latest.deb && mv ~/angle-android_2.1.2-latest.deb ~/xow64_virgl/angle-android_2.1.2-latest.deb
+    fi
+    
+    if [ -f ~/xow64_virgl/vglx ]; then
+        clear
+    else
+       cd && rm -rf ~/vgl && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/vgl && chmod +x ~/vgl && cp ~/vgl ~/xow64_virgl/vglx
+    fi
+    
+    if [ -f ~/xow64_virgl/.virgl ]; then
+        clear
+    else
+        touch ~/xow64_virgl/.virgl
+    fi
+    
+    ~/xow64_virgl/vglx q
+    echo "Installing angle-android with vulkan validation layer..."
+    dpkg -i ~/xow64_virgl/angle-android_2.1.2-latest.deb
+    echo "Installing virgl direct connection..."
+    dpkg -i ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64-patched.deb
+    echo "Virpipe with patched direct xcb connection is installed"
+    echo "Using virgl (virpipe) driver."
+elif [[ "$1" == "driver=virpipe" ]]; then
+
+    if [ -d ~/xow64_virgl ]; then
+        clear
+    else
+        echo "Installing virgl components..."
+        cd && rm -rf ~/xow64_virgl.tar.xz && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_virgl.tar.xz && echo "extracting xow64_virgl.tar.xz..." && tar -xf ~/xow64_virgl.tar.xz && rm -rf ~/xow64_virgl.tar.xz
+    fi
+    
+    if [ -f ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb ]; then
+        clear
+    else
+        cd && rm -rf ~/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/virglrenderer_1.1.0-11_aarch64.deb && mv ~/virglrenderer_1.1.0-11_aarch64.deb ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb
+    fi
+    
+    if [ -f ~/xow64_virgl/angle-android_2.1.2-latest.deb ]; then
+        clear
+    else
+        cd && rm -rf ~/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/angle-android_2.1.2-latest.deb && mv ~/angle-android_2.1.2-latest.deb ~/xow64_virgl/angle-android_2.1.2-latest.deb
+    fi
+    
+    if [ -f ~/xow64_virgl/vglx ]; then
+        clear
+    else
+       cd && rm -rf ~/vgl && wget https://github.com/ar37-rs/virgl-angle-termux/blob/main/vgl && chmod +x ~/vgl && cp ~/vgl ~/xow64_virgl/vglx
+    fi
+    
+    if [ -f ~/xow64_virgl/.virgl ]; then
+        clear
+    else
+        touch ~/xow64_virgl/.virgl
+    fi
+    
+    ~/xow64_virgl/vglx q
+    echo "Installing angle-android with vulkan validation layer..."
+    dpkg -i ~/xow64_virgl/angle-android_2.1.2-latest.deb
+    echo "Installing virgl..."
+    dpkg -i ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb
+    echo "Virpipe is installed"
+    echo "Using virgl (virpipe) driver."
+    
+elif [[ "$1" == "driver=default" ]]; then
+    if [ -f ~/xow64_virgl/.virgl ]; then
+        rm -rf ~/xow64_virgl/.virgl
+    fi
+    echo "using default OpenGL/ES driver."
+elif [[ "$1" == "debug=true" ]]; then
+    if [ -f ~/xow64_wine/.no_debug ]; then
+        rm -rf ~/xow64_wine/.no_debug
+    fi
+    echo "Wine debugger enabled."
+elif [[ "$1" == "debug=false" ]]; then
+    touch ~/xow64_wine/.no_debug
+    echo "Wine debugger disabled."
+elif [[ "$1" == "virgl-cfg=d3d" ]]; then
+    ~/xow64_virgl/vglx cfg-d3d
+elif [[ "$1" == "virgl-cfg=gl" ]]; then
+    ~/xow64_virgl/vglx cfg-gl
+elif [[ "$1" == "vkd3d=true" ]]; then
+if [ ! -f ~/.xow64_wine/user.reg ]; then
+    grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
+fi
+
+if [ ! -f ~/xow64_wine/xow64_dxvk_proton.tar.xz ]; then
+    echo "Installing dxvk-proton (vkd3d) components..."
+    cd && rm -rf ~/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz ~/xow64_wine/xow64_dxvk_proton.tar.xz
+fi
+
+echo "extracting xow64_dxvk_proton.tar.xz..." && cd ~/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r ~/xow64_wine/.xow64_wine ~/ && rm -rf ~/xow64_wine/.xow64_wine
+if [ -f ~/.xow64_wine/user.reg ]; then
+kill -9 $(pgrep -f "wine") 2>/dev/null
+cd && cat << EOF >> ~/.xow64_wine/user.reg
+[Software\\\Wine\\\DllOverrides]
+"dxgi"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d11"="native,builtin"
+"d3d12"="native,builtin"
+"d3d12core"="native,builtin"
+EOF
+echo "dxvk-proton (vkd3d) are activated"
+touch ~/xow64_wine/.dxvk-proton
+fi
+echo "done."
+elif [[ "$1" == "vkd3d=false" ]]; then
+if [ ! -f ~/.xow64_wine/user.reg ]; then
+    grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
+fi
+if [ -f ~/.xow64_wine/user.reg ]; then
+   kill -9 $(pgrep -f "wine") 2>/dev/null
+   sed -i '/d3d8"=/d' ~/.xow64_wine/user.reg
+   sed -i '/d3d9"=/d' ~/.xow64_wine/user.reg
+   sed -i '/d3d10core"=/d' ~/.xow64_wine/user.reg
+   sed -i '/d3d11"=/d' ~/.xow64_wine/user.reg
+   sed -i '/d3d12"=/d' ~/.xow64_wine/user.reg
+   sed -i '/d3d12core"=/d' ~/.xow64_wine/user.reg
+fi
+if [ -f ~/xow64_wine/.dxvk-proton ]; then
+    rm -rf ~/xow64_wine/.dxvk-proton
+fi
+echo "done."
+echo "dxvk-proton (vkd3d) are deactivated."
+elif [[ "$1" == "cnc-ddraw=true" ]]; then
+if [ ! -f ~/.xow64_wine/user.reg ]; then
+    grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
+fi
+
+if [ -f ~/.xow64_wine/user.reg ]; then
+kill -9 $(pgrep -f "wine") 2>/dev/null
+cd && cat << EOF >> ~/.xow64_wine/user.reg
+[Software\\\Wine\\\DllOverrides]
+"ddraw"="native,builtin"
+"winmm"="native,builtin"
+EOF
+echo "done."
+echo "winedlloverride for cnc-ddraw is activated."
+fi
+elif [[ "$1" == "cnc-ddraw=false" ]]; then
+if [ ! -f ~/.xow64_wine/user.reg ]; then
+    grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
+fi
+if [ -f ~/.xow64_wine/user.reg ]; then
+   kill -9 $(pgrep -f "wine") 2>/dev/null
+   sed -i '/ddraw"=/d' ~/.xow64_wine/user.reg
+   sed -i '/winmm"=/d' ~/.xow64_wine/user.reg
+fi
+echo "winedlloverride for cnc-ddraw is deactivated."
+elif [[ "$1" == "remove-all" ]]; then
+    echo "xow64 will be removed in 7 seconds..."
+    sleep 2
+    echo "xow64 will be removed in 6 seconds..."
+    sleep 1
+    clear
+    echo "xow64 will be removed in 5 seconds..."
+    sleep 1
+    clear
+    echo "xow64 will be removed in 4 seconds..."
+    sleep 1
+    clear
+    echo "xow64 will be removed in 3 seconds..."
+    sleep 1
+    clear
+    echo "xow64 will be removed in 2 seconds..."
+    sleep 1
+    clear
+    echo "xow64 will be removed in 1 second..."
+    sleep 1
+    clear
+    echo "xow64 will be removed in 0 second..."
+    sleep 1
+    clear
+    echo "removing ~/.xow64_wine..."
+    rm -rf ~/.xow64_wine
+    echo "removing ~/xow64_wine..."
+    rm -rf ~/xow64_wine
+    echo "removing ~/xow64_box64..."
+    rm -rf ~/xow64_box64
+    echo "removing ~/xow64_virgl..."
+    rm -rf ~/xow64_virgl
+    echo "done."
+elif [[ "$1" == "s" ]]; then
+    vkinfo
+    if [ -f ~/xow64_virgl/.virgl ]; then
+        export LD_LIBRARY_PATH=~/xow64_virgl/lib
+        export LIBGL_DRIVERS_PATH=~/xow64_virgl/lib/dri
+        ~/xow64_virgl/vglx grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESKTOP_SIZE explorer
+    else
+        grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESKTOP_SIZE explorer
+    fi
+else
+    vkinfo
+    if [ -f ~/xow64_virgl/.virgl ]; then
+        export LD_LIBRARY_PATH=~/xow64_virgl/lib
+        export LIBGL_DRIVERS_PATH=~/xow64_virgl/lib/dri
+        ~/xow64_virgl/vglx grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
+    else
+        grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
+    fi
+fi

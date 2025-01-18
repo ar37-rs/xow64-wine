@@ -5,7 +5,7 @@ Wine-10-rc5-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 # Installation:
 ```
 cd && pkg install wget 
-rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64 && chmod +x ~/xow64
+rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/xow64 && chmod +x ~/xow64
 ```
 and then
 ```

@@ -5,7 +5,7 @@ Wine-10-rc5-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 # Installation:
 ```
 cd && pkg install wget 
-rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64 && chmod +x ~/xow64
+rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/blob/main/xow64 && chmod +x ~/xow64
 ```
 and then
 ```
@@ -54,15 +54,20 @@ Switch back using default driver
 
 Using vulkan llvmpipe (Universal CPUs)
 ```
-~/xow64 vk=llvmpipe
+~/xow64 vk=lvp
 ```
 
-Using vulkan panfrost driver (only for specific rooted devices with specific supported Mali-G series with kernel 5.10+)
+Using vulkan adreno/turnip driver 
 ```
-~/xow64 vk=panfrost
+~/xow64 vk=turnip
 ```
 
-Switch back using default vulkan driver, for preconfigured turnip Adreno and amd Xclipse GPU (if any)
+Using vulkan radeon driver (for AMD based GPUs such Xclipse)
+```
+~/xow64 vk=radeon
+```
+
+Switch back using default vulkan driver (if any)
 ```
 ~/xow64 vk=default
 ```

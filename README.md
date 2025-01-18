@@ -3,10 +3,16 @@
 # Xow64-Wine
 Wine-10-rc5-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 # Installation:
+Make sure if wget is installed
 ```
-cd && pkg install wget 
+pkg install wget
+```
+
+Install xow64
+```
 rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/xow64 && chmod +x ~/xow64
 ```
+
 and then
 ```
 ~/xow64 install-deps && ~/xow64 update-all

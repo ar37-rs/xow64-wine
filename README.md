@@ -36,13 +36,6 @@ Using newer build of virgl (virpipe) driver
 ~/xow64 driver=virpipe
 ```
 
-Using specific patched virgl (virpipe) driver
-
-(For some supported GPUs and android 8+ only, faster FPS and unstable)
-```
-~/xow64 driver=virpipe-patched
-```
-
 Configure virpipe for d3d9+ (Direct X) apps/games fix and optimizations
 ```
 ~/xow64 virgl-cfg=d3d

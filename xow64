@@ -40,6 +40,7 @@ vkinfo() {
     if [ -f ~/xow64_wine/.vk-radeon ]; then
         echo "using radeon vulkan driver."
         export LIBGL_DRI3_DISABLE=0
+        export LIBGL_ALWAYS_SOFTWARE=0
         export MESA_GL_VERSION_OVERRIDE=4.6COMPAT
 	export MESA_GLSL_VERSION_OVERRIDE=460
 	export MESA_GLES_VERSION_OVERRIDE=3.2
@@ -51,6 +52,7 @@ vkinfo() {
         fi
     elif [ -f ~/xow64_wine/.vk-turnip ]; then
         export LIBGL_DRI3_DISABLE=0
+        export LIBGL_ALWAYS_SOFTWARE=0
         echo "using adreno/turnip vulkan driver."
         export MESA_GL_VERSION_OVERRIDE=4.6COMPAT
 	export MESA_GLSL_VERSION_OVERRIDE=460

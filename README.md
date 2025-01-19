@@ -169,11 +169,6 @@ Uninstall (remove) xow64-wine
     ```
     and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game.
 
-    or just start ib from terminal like so
-    ```
-    ~/xow64 ib
-    ```
-
 * If experiencing any emulation issue, try using different version of box64 and drivers available above accordingly.
 
 * If there's problem when installing xow64, make sure the latest correct termux app version is installed from here:

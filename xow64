@@ -250,10 +250,14 @@ elif [[ "$1" == "debug=true" ]]; then
 elif [[ "$1" == "debug=false" ]]; then
     touch ~/xow64_wine/.no_debug
     echo "Wine debugger disabled."
-elif [[ "$1" == "virgl-cfg=d3d" ]]; then
+elif [[ "$1" == "vgl-cfg=d3d" ]]; then
     ~/xow64_virgl/vglx config=d3d
-elif [[ "$1" == "virgl-cfg=gl" ]]; then
+elif [[ "$1" == "vgl-cfg=gl" ]]; then
     ~/xow64_virgl/vglx config=gl
+elif [[ "$1" == "vgl-use=angle" ]]; then
+    ~/xow64_virgl/vglx use-angle
+elif [[ "$1" == "vgl-use=android" ]]; then
+    ~/xow64_virgl/vglx use-android
 elif [[ "$1" == "vkd3d=true" ]]; then
 if [ ! -f ~/.xow64_wine/user.reg ]; then
     grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
@@ -360,18 +364,14 @@ elif [[ "$1" == "remove-all" ]]; then
 elif [[ "$1" == "s" ]]; then
     vkinfo
     if [ -f ~/xow64_virgl/.virgl ]; then
-        export LD_LIBRARY_PATH=~/xow64_virgl/lib:$LD_LIBRARY_PATH
-        export LIBGL_DRIVERS_PATH=~/xow64_virgl/lib/dri
-        ~/xow64_virgl/vglx grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESKTOP_SIZE explorer
+        ~/xow64_virgl/vglx cd . && export LD_LIBRARY_PATH=~/xow64_virgl/lib:$LD_LIBRARY_PATH && LIBGL_DRIVERS_PATH=~/xow64_virgl/lib/dri grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESKTOP_SIZE explorer
     else
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESKTOP_SIZE explorer
     fi
 else
     vkinfo
     if [ -f ~/xow64_virgl/.virgl ]; then
-        export LD_LIBRARY_PATH=~/xow64_virgl/lib:$LD_LIBRARY_PATH
-        export LIBGL_DRIVERS_PATH=~/xow64_virgl/lib/dri
-        ~/xow64_virgl/vglx grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
+        ~/xow64_virgl/vglx cd . && export LD_LIBRARY_PATH=~/xow64_virgl/lib:$LD_LIBRARY_PATH && LIBGL_DRIVERS_PATH=~/xow64_virgl/lib/dri grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
     else
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
     fi

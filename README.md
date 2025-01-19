@@ -36,17 +36,27 @@ Using newer build of virgl (virpipe) driver
 ~/xow64 driver=virpipe
 ```
 
+Using virpipe angle driver
+```
+~/xow64 vgl-use=angle
+```
+
+Using virpipe native android driver
+```
+~/xow64 vgl-use=android
+```
+
 Configure virpipe for d3d9+ (Direct X) apps/games fix and optimizations
 ```
-~/xow64 virgl-cfg=d3d
+~/xow64 vgl-cfg=d3d
 ```
 
 Configure virpipe for OpenGL/ES apps/games
 ```
-~/xow64 virgl-cfg=gl
+~/xow64 vgl-cfg=gl
 ```
 
-Switch back using default driver
+Switch back using default OpenGL driver
 
 (using any preconfigured termux gl driver including virgl if any)
 ```

@@ -41,7 +41,7 @@ Using virpipe angle driver
 ~/xow64 vgl-use=angle
 ```
 
-Using virpipe native android driver
+Using virpipe native android driver (less stable might using older version of virgl)
 ```
 ~/xow64 vgl-use=android
 ```

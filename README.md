@@ -1,7 +1,12 @@
 ![alt_test](components/wine.png)
 
 # Xow64-Wine
-Wine-10-rc6-wow64-staging + box64 presetuped for termux-glibc (aarch64)
+Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
+
+# Current status
+wine version: 10-rc6
+box64 version: 0.3.3
+
 # Installation:
 Make sure if wget is installed
 ```

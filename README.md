@@ -3,7 +3,7 @@
 # Xow64-Wine
 Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 
-# Current status;
+# Current status:
 Wine version: 10-rc6
 
 Box64 version: 0.3.3

@@ -111,7 +111,6 @@ elif [[ "$1" == "update-patch" ]]; then
             echo "Installing box64-0.3.3..."
             cd && rm -rf ~/xow64_box64.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf ~/xow64_box64.tar.xz && rm -rf ~/xow64_box64.tar.xz
         fi
-        
         echo "Updating patch..."
         cd && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && echo "done."
 elif [[ "$1" == "update-virpipe" ]]; then
@@ -185,31 +184,31 @@ elif [[ "$1" == "driver=virpipe-patched" ]]; then
         echo "Installing virgl patched components..."
         cd && rm -rf ~/xow64_virgl.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_virgl.tar.xz && echo "extracting xow64_virgl.tar.xz..." && tar -xf ~/xow64_virgl.tar.xz && rm -rf ~/xow64_virgl.tar.xz
     fi
-    
+
     if [ -f ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64-patched.deb ]; then
         clear
     else
         cd && rm -rf ~/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/virglrenderer_1.1.0-11_aarch64-patched.deb && mv ~/virglrenderer_1.1.0-11_aarch64-patched.deb ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64-patched.deb
     fi
-    
+
     if [ -f ~/xow64_virgl/angle-android_2.1.2-latest.deb ]; then
         clear
     else
         cd && rm -rf ~/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv ~/angle-android_2.1.2-latest.deb ~/xow64_virgl/angle-android_2.1.2-latest.deb
     fi
-    
+
     if [ -f ~/xow64_virgl/vglx ]; then
         clear
     else
        cd && rm -rf ~/vgl && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/vgl && chmod +x ~/vgl && cp ~/vgl ~/xow64_virgl/vglx
     fi
-    
+
     if [ -f ~/xow64_virgl/.virgl ]; then
         clear
     else
         touch ~/xow64_virgl/.virgl
     fi
-    
+
     ~/xow64_virgl/vglx q
     echo "Installing angle-android with vulkan validation layer..."
     dpkg -i ~/xow64_virgl/angle-android_2.1.2-latest.deb
@@ -226,31 +225,31 @@ elif [[ "$1" == "driver=virpipe" ]]; then
         echo "Installing virgl components..."
         cd && rm -rf ~/xow64_virgl.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_virgl.tar.xz && echo "extracting xow64_virgl.tar.xz..." && tar -xf ~/xow64_virgl.tar.xz && rm -rf ~/xow64_virgl.tar.xz
     fi
-    
+
     if [ -f ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb ]; then
         clear
     else
         cd && rm -rf ~/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/virglrenderer_1.1.0-11_aarch64.deb && mv ~/virglrenderer_1.1.0-11_aarch64.deb ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb
     fi
-    
+
     if [ -f ~/xow64_virgl/angle-android_2.1.2-latest.deb ]; then
         clear
     else
         cd && rm -rf ~/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv ~/angle-android_2.1.2-latest.deb ~/xow64_virgl/angle-android_2.1.2-latest.deb
     fi
-    
+
     if [ -f ~/xow64_virgl/vglx ]; then
         clear
     else
        cd && rm -rf ~/vgl && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/vgl && chmod +x ~/vgl && cp ~/vgl ~/xow64_virgl/vglx
     fi
-    
+
     if [ -f ~/xow64_virgl/.virgl ]; then
         clear
     else
         touch ~/xow64_virgl/.virgl
     fi
-    
+
     ~/xow64_virgl/vglx q
     echo "Installing angle-android with vulkan validation layer..."
     dpkg -i ~/xow64_virgl/angle-android_2.1.2-latest.deb

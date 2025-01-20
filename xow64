@@ -8,6 +8,7 @@ export WINE_CA_CERT_PATH=$PREFIX/glibc/etc/ca-certificates
 export WINEPREFIX=~/.xow64_wine
 export BOX64_RCFILE=~/xow64_box64/etc/box64.box64rc
 export BOX64_PATH=~/xow64_wine/bin
+export LD_LIBRARY_PATH=~/xow64_box64/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
 export BOX64_LD_LIBRARY_PATH=~/xow64_wine/lib/wine/i386-windows:~/xow64_wine/lib/wine/x86_64-windows:~/xow64_wine/lib/wine/x86_64-unix:~/xow64_box64/lib/x86_64-linux-gnu:~/xow64_box64/lib/i386-linux-gnu
 export BOX64_INPROCESSGPU=1
 export BOX64_NOSANDBOX=1

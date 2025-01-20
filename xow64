@@ -38,10 +38,10 @@ fi
 
 vgl_cfg {
     if [ ! -f ~/.vgl-d3d ]; then
-	    export MESA_EXTENSION_OVERRIDE="+GL_ARB_compute_shader +GL_ARB_compute_variable_group_size +GL_ARB_depth_clamp +GL_ARB_blend_func_extended +GL_ARB_ES3_1_compatibility +GL_ARB_ES3_compatibility +GL_ARB_shader_atomic_counters +GL_ARB_shader_atomic_counter_ops"
-	else
-	    export MESA_EXTENSION_OVERRIDE="+GL_ARB_compute_shader +GL_ARB_compute_variable_group_size +GL_ARB_depth_clamp +GL_ARB_blend_func_extended +GL_ARB_ES3_1_compatibility +GL_ARB_ES3_compatibility -GL_EXT_texture_sRGB -GL_EXT_texture_sRGB_R8 -GL_EXT_texture_sRGB_RG8 +GL_ARB_shader_atomic_counters +GL_ARB_shader_atomic_counter_ops"
-    # export VREND_TWEAK=bgra-dest-swz
+	export MESA_EXTENSION_OVERRIDE="+GL_ARB_compute_shader +GL_ARB_compute_variable_group_size +GL_ARB_depth_clamp +GL_ARB_blend_func_extended +GL_ARB_ES3_1_compatibility +GL_ARB_ES3_compatibility +GL_ARB_shader_atomic_counters +GL_ARB_shader_atomic_counter_ops"
+    else
+	export MESA_EXTENSION_OVERRIDE="+GL_ARB_compute_shader +GL_ARB_compute_variable_group_size +GL_ARB_depth_clamp +GL_ARB_blend_func_extended +GL_ARB_ES3_1_compatibility +GL_ARB_ES3_compatibility -GL_EXT_texture_sRGB -GL_EXT_texture_sRGB_R8 -GL_EXT_texture_sRGB_RG8 +GL_ARB_shader_atomic_counters +GL_ARB_shader_atomic_counter_ops"
+    	# export VREND_TWEAK=bgra-dest-swz
     fi
 }
 

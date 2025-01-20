@@ -3,10 +3,10 @@
 # Xow64-Wine
 Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 
-# Current status
-wine version: 10-rc6
+# Current status;
+Wine version: 10-rc6
 
-box64 version: 0.3.3
+Box64 version: 0.3.3
 
 # Installation:
 Make sure if wget is installed

@@ -30,6 +30,27 @@ Launch winecfg
 ```
 ~/xow64 winecfg
 ```
+
+Launch GPU Caps (test OpenGL and Vulkan)
+```
+~/xow64 gpucaps
+```
+
+Launch TestD3D (D3D9)
+```
+~/xow64 testd3d
+```
+
+Launch CubeMap (test EnvMapping D3D9)
+```
+~/xow64 cubemap
+```
+
+Launch SphereMap (test EnvMapping D3D9)
+```
+~/xow64 spheremap
+```
+
 Launch specific *.exe
 ```
 ~/xow64 app_name.exe

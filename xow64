@@ -1,3 +1,6 @@
+#!/data/data/com.termux/files/usr/bin/bash
+# https://github.com/ar37-rs/xow64-wine
+
 DESKTOP_SIZE=800x600
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread relatively faster for wined3d (very intense cpu)

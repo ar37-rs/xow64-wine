@@ -36,6 +36,15 @@ if [ -f ~/xow64_wine/.no_debug ]; then
 export WINEDEBUG=-all
 fi
 
+vgl_cfg {
+    if [ ! -f ~/.vgl-d3d ]; then
+	    export MESA_EXTENSION_OVERRIDE="+GL_ARB_compute_shader +GL_ARB_compute_variable_group_size +GL_ARB_depth_clamp +GL_ARB_blend_func_extended +GL_ARB_ES3_1_compatibility +GL_ARB_ES3_compatibility +GL_ARB_shader_atomic_counters +GL_ARB_shader_atomic_counter_ops"
+	else
+	    export MESA_EXTENSION_OVERRIDE="+GL_ARB_compute_shader +GL_ARB_compute_variable_group_size +GL_ARB_depth_clamp +GL_ARB_blend_func_extended +GL_ARB_ES3_1_compatibility +GL_ARB_ES3_compatibility -GL_EXT_texture_sRGB -GL_EXT_texture_sRGB_R8 -GL_EXT_texture_sRGB_RG8 +GL_ARB_shader_atomic_counters +GL_ARB_shader_atomic_counter_ops"
+    # export VREND_TWEAK=bgra-dest-swz
+    fi
+}
+
 vkinfo() {
     if [ -f ~/xow64_wine/.vk-radeon ]; then
         echo "using radeon vulkan driver."
@@ -104,6 +113,7 @@ elif [[ "$1" == "update-virpipe" ]]; then
     dpkg -i ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb
     touch ~/xow64_virgl/.virgl
     echo "done."
+    vgl_cfg
     ~/xow64_virgl/vglx cd .
 elif [[ "$1" == "update-angle" ]]; then
     echo "Updating angle-android..."
@@ -111,6 +121,7 @@ elif [[ "$1" == "update-angle" ]]; then
     ~/xow64_virgl/vglx q
     dpkg -i ~/xow64_virgl/angle-android_2.1.2-latest.deb
     echo "done."
+    vgl_cfg
     ~/xow64_virgl/vglx cd .
 elif [[ "$1" == "update-vkd3d" ]]; then
     echo "Updating dxvk-proton (vkd3d) components..."
@@ -196,6 +207,7 @@ elif [[ "$1" == "driver=virpipe-patched" ]]; then
     echo "Installing virgl direct connection..."
     dpkg -i ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64-patched.deb
     echo "Virpipe with patched direct xcb connection is installed."
+    vgl_cfg
     ~/xow64_virgl/vglx cd .
 elif [[ "$1" == "driver=virpipe" ]]; then
 
@@ -236,6 +248,7 @@ elif [[ "$1" == "driver=virpipe" ]]; then
     echo "Installing virgl..."
     dpkg -i ~/xow64_virgl/virglrenderer_1.1.0-11_aarch64.deb
     echo "Virpipe is installed"
+    vgl_cfg
     ~/xow64_virgl/vglx cd .
 elif [[ "$1" == "driver=default" ]]; then
     if [ -f ~/xow64_virgl/.virgl ]; then
@@ -364,6 +377,7 @@ elif [[ "$1" == "remove-all" ]]; then
 elif [[ "$1" == "s" ]]; then
     vkinfo
     if [ -f ~/xow64_virgl/.virgl ]; then
+        vgl_cfg
         ~/xow64_virgl/vglx cd . && export LD_LIBRARY_PATH=~/xow64_virgl/lib:$LD_LIBRARY_PATH && LIBGL_DRIVERS_PATH=~/xow64_virgl/lib/dri grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESKTOP_SIZE explorer
     else
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESKTOP_SIZE explorer
@@ -371,6 +385,7 @@ elif [[ "$1" == "s" ]]; then
 else
     vkinfo
     if [ -f ~/xow64_virgl/.virgl ]; then
+        vgl_cfg
         ~/xow64_virgl/vglx cd . && export LD_LIBRARY_PATH=~/xow64_virgl/lib:$LD_LIBRARY_PATH && LIBGL_DRIVERS_PATH=~/xow64_virgl/lib/dri grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
     else
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"

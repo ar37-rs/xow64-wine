@@ -175,7 +175,7 @@ Update virgl (virpipe) driver
 ~/xow64 update-virpipe
 ```
 
-Update angle-android
+Update angle-android using the newer version (for android 9+ only)
 ```
 ~/xow64 update-angle
 ```

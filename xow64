@@ -41,6 +41,20 @@ export WINEDEBUG=-all
 fi
 
 vgl_cfg() {
+    # export MESA_GLTHREAD=true
+    export MESA_GL_VERSION_OVERRIDE=4.1COMPAT
+    export MESA_GLSL_VERSION_OVERRIDE=410
+    export MESA_GLES_VERSION_OVERRIDE=3.1
+    # fix if used along side override zink
+    export MESA_LOADER_DRIVER_OVERRIDE=
+    # export LIBGL_DRI3_DISABLE=1
+    # disable dri3 alternative
+    # export LIBGL_ALWAYS_SOFTWARE=1
+    # use virpipe
+    export GALLIUM_DRIVER=virpipe
+    export MESA_NO_ERROR=1
+    export MESA_BACK_BUFFER=pixmap
+
     if [ ! -f ~/.vgl-d3d ]; then
 	export MESA_EXTENSION_OVERRIDE="+GL_ARB_compute_shader +GL_ARB_compute_variable_group_size +GL_ARB_depth_clamp +GL_ARB_blend_func_extended +GL_ARB_ES3_1_compatibility +GL_ARB_ES3_compatibility +GL_ARB_shader_atomic_counters +GL_ARB_shader_atomic_counter_ops"
     else

@@ -308,7 +308,6 @@ fi
 
 echo "extracting xow64_dxvk_proton.tar.xz..." && cd ~/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r ~/xow64_wine/.xow64_wine ~/ && rm -rf ~/xow64_wine/.xow64_wine
 if [ -f ~/.xow64_wine/user.reg ]; then
-kill -9 $(pgrep -f "wine") 2>/dev/null
 cd && cat << EOF >> ~/.xow64_wine/user.reg
 [Volatile Environment]
 "DXVK_STATE_CACHE_PATH"="C:\\.dxvk"
@@ -329,12 +328,12 @@ echo "dxvk-proton (vkd3d) are activated"
 touch ~/xow64_wine/.dxvk-proton
 fi
 echo "done."
+echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
 elif [[ "$1" == "vkd3d=false" ]]; then
 if [ ! -f ~/.xow64_wine/user.reg ]; then
     grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
 fi
 if [ -f ~/.xow64_wine/user.reg ]; then
-   kill -9 $(pgrep -f "wine") 2>/dev/null
    sed -i '/d3d8"=/d' ~/.xow64_wine/user.reg
    sed -i '/d3d9"=/d' ~/.xow64_wine/user.reg
    sed -i '/d3d10core"=/d' ~/.xow64_wine/user.reg
@@ -345,15 +344,16 @@ fi
 if [ -f ~/xow64_wine/.dxvk-proton ]; then
     rm -rf ~/xow64_wine/.dxvk-proton
 fi
+
 echo "done."
 echo "dxvk-proton (vkd3d) are deactivated."
+echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
 elif [[ "$1" == "cnc-ddraw=true" ]]; then
 if [ ! -f ~/.xow64_wine/user.reg ]; then
     grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
 fi
 
 if [ -f ~/.xow64_wine/user.reg ]; then
-kill -9 $(pgrep -f "wine") 2>/dev/null
 cd && cat << EOF >> ~/.xow64_wine/user.reg
 [Software\\\Wine\\\DllOverrides]
 "ddraw"="native,builtin"
@@ -361,6 +361,7 @@ cd && cat << EOF >> ~/.xow64_wine/user.reg
 EOF
 echo "done."
 echo "winedlloverride for cnc-ddraw is activated."
+echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
 fi
 elif [[ "$1" == "cnc-ddraw=false" ]]; then
 if [ ! -f ~/.xow64_wine/user.reg ]; then
@@ -372,6 +373,7 @@ if [ -f ~/.xow64_wine/user.reg ]; then
    sed -i '/winmm"=/d' ~/.xow64_wine/user.reg
 fi
 echo "winedlloverride for cnc-ddraw is deactivated."
+echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
 elif [[ "$1" == "remove-all" ]]; then
     echo "xow64 will be removed in 7 seconds..."
     sleep 2

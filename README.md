@@ -170,9 +170,9 @@ Update wine
 ~/xow64 update-wine
 ```
 
-Update virgl (virpipe) driver
+Update graphics drivers
 ```
-~/xow64 update-virpipe
+~/xow64 update-drivers
 ```
 
 Update angle-android using the newer version (for android 9+ only)

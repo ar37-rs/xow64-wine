@@ -204,7 +204,7 @@ Uninstall (remove) xow64-wine
     ```
     ~/xow64 s
     ```
-    and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game, then open InputBridge on android device and then start configuring control buttons as need.
+    and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game, then open InputBridge app on android device and then start configuring control buttons as need.
 
 * If experiencing any emulation issue, try using different version of box64 and drivers available above accordingly.
 

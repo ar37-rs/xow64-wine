@@ -113,6 +113,9 @@ elif [[ "$1" == "update-all" ]]; then
 elif [[ "$1" == "box64=0.3.3" || "$1" == "update-box64" ]]; then
         echo "Installing box64-0.3.3..."
         cd && rm -rf ~/xow64_box64.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf ~/xow64_box64.tar.xz && rm -rf ~/xow64_box64.tar.xz && echo "done."
+elif [[ "$1" == "box64=0.3.2" ]]; then
+        echo "Installing box64-0.3.2..."
+        cd && rm -rf ~/xow64_box64-0.3.2.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-0.3.2.tar.xz && echo "extracting xow64_box64-0.3.2.tar.xz..." && tar -xf ~/xow64_box64-0.3.2.tar.xz && rm -rf ~/xow64_box64-0.3.2.tar.xz && echo "done."
 elif [[ "$1" == "box64=0.3.1" ]]; then
         echo "Installing box64-0.3.1..."
         cd && rm -rf ~/xow64_box64-0.3.1.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-0.3.1.tar.xz && echo "extracting xow64_box64-0.3.1.tar.xz..." && tar -xf ~/xow64_box64-0.3.1.tar.xz && rm -rf ~/xow64_box64-0.3.1.tar.xz && echo "done."

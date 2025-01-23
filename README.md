@@ -150,6 +150,11 @@ Install box64 v0.3.3
 ~/xow64 box64=0.3.3
 ```
 
+Install box64 v0.3.2
+```
+~/xow64 box64=0.3.2
+```
+
 Install box64 v0.3.1
 ```
 ~/xow64 box64=0.3.1

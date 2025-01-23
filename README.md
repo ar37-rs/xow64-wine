@@ -55,6 +55,18 @@ Launch specific *.exe
 ```
 ~/xow64 app_name.exe
 ```
+
+Launch wine in windows desktop mode, configure desktop size like so
+
+(or any standard windows screen size)
+```
+~/xow64 desk-size 1024x768
+```
+and then simply start using
+```
+~/xow64 s
+```
+
 ## Additional usage:
 Using newer build of virgl (virpipe) driver
 

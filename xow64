@@ -410,13 +410,35 @@ elif [[ "$1" == "remove-all" ]]; then
     echo "removing ~/xow64_drivers..."
     rm -rf ~/xow64_drivers
     echo "done."
+elif [[ "$1" == "desk-size" ]]; then
+if [ ! -f ~/.xow64_wine/user.reg ]; then
+    grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
+fi
+
+if [ -f ~/.xow64_wine/user.reg ]; then
+cd && cat << EOF >> ~/.xow64_wine/user.reg
+[Software\\\Wine\\\Explorer\\\Desktops]
+"Default"="${2}"
+EOF
+echo "${2}" > ~/xow64_wine/.desk-size
+echo "done."
+echo "desktop size has been configured to ${2}"
+fi
 elif [[ "$1" == "s" ]]; then
+    if [ -f ~/xow64_wine/.desk-size ]; then
+        DESK_SIZE=$(cat ~/xow64_wine/.desk-size)
+        if [[ $DESK_SIZE == "" ]]; then
+            DESK_SIZE=800x600
+        fi
+    else
+        DESK_SIZE=800x600
+    fi
     vkinfo
     if [ -f ~/xow64_drivers/.virgl ]; then
         vgl_cfg
-        ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESKTOP_SIZE explorer
+        ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE explorer
     else
-        grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESKTOP_SIZE explorer
+        grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE explorer
     fi
 elif [[ "$1" == "gpucaps" ]]; then
     GPUCAPS=~/.xow64_wine/drive_c/ProgramData/GpuCaps

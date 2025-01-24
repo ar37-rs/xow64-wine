@@ -52,7 +52,7 @@ vgl_cfg() {
     # disable dri3 alternative
     # export LIBGL_ALWAYS_SOFTWARE=1
     # use virpipe
-    virpipe
+    export GALLIUM_DRIVER=virpipe
     export MESA_NO_ERROR=1
     export MESA_BACK_BUFFER=pixmap
 

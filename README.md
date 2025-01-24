@@ -123,9 +123,7 @@ Using vulkan radeon driver (for AMD based GPUs such Xclipse)
 ~/xow64 vk=radeon
 ```
 
-Using panvk
-
-(for some specific supported mali-G valhall series only with kernel 5.10+)
+Using panvk (for some specific supported mali-G valhall series only with kernel 5.10+)
 ```
 ~/xow64 vk=panfrost
 ```

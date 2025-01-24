@@ -457,7 +457,6 @@ if [ -f ~/.xow64_wine/user.reg ]; then
 
 sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' ~/.xow64_wine/user.reg
 
-
 cd && cat << EOF >> ~/.xow64_wine/user.reg
 [Software\\\Wine\\\Explorer\\\Desktops]
 "Default"="${2}"
@@ -481,6 +480,9 @@ elif [[ "$1" == "s" ]]; then
         ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE explorer
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         export GALLIUM_DRIVER=panfrost
+        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLES_VERSION_OVERRIDE=3.1
         export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE explorer
     else
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE explorer
@@ -493,6 +495,9 @@ elif [[ "$1" == "gpucaps" ]]; then
         ~/xow64_drivers/vglx cd . && cd $GPUCAPS && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine GpuCaps.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         export GALLIUM_DRIVER=panfrost
+        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLES_VERSION_OVERRIDE=3.1
         cd $GPUCAPS && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib ~/xow64_box64/box64 ~/xow64_wine/bin/wine GpuCaps.exe
     else
         cd $GPUCAPS && grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine GpuCaps.exe
@@ -504,6 +509,9 @@ elif [[ "$1" == "testd3d" ]]; then
         ~/xow64_drivers/vglx cd . && cd ~/'.xow64_wine/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine TestD3D.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         export GALLIUM_DRIVER=panfrost
+        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLES_VERSION_OVERRIDE=3.1
         cd ~/'.xow64_wine/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib ~/xow64_box64/box64 ~/xow64_wine/bin/wine TestD3D.exe
     else
         cd ~/'.xow64_wine/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine TestD3D.exe
@@ -516,6 +524,9 @@ elif [[ "$1" == "testd3d" ]]; then
         ~/xow64_drivers/vglx cd . && cd $CUBEMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine CubeMap.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         export GALLIUM_DRIVER=panfrost
+        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLES_VERSION_OVERRIDE=3.1
         cd $CUBEMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib ~/xow64_box64/box64 ~/xow64_wine/bin/wine CubeMap.exe
     else
         cd $CUBEMAP && grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine CubeMap.exe
@@ -528,6 +539,9 @@ elif [[ "$1" == "spheremap" ]]; then
         ~/xow64_drivers/vglx cd . && cd $SHEREMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine SphereMap.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         export GALLIUM_DRIVER=panfrost
+        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLES_VERSION_OVERRIDE=3.1
         cd $SHEREMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib ~/xow64_box64/box64 ~/xow64_wine/bin/wine SphereMap.exe
     else
         cd $SHEREMAP && grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine SphereMap.exe
@@ -539,6 +553,9 @@ else
         ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         export GALLIUM_DRIVER=panfrost
+        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLES_VERSION_OVERRIDE=3.1
         export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
     else
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"

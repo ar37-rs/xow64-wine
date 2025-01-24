@@ -52,7 +52,7 @@ vgl_cfg() {
     # disable dri3 alternative
     # export LIBGL_ALWAYS_SOFTWARE=1
     # use virpipe
-    export GALLIUM_DRIVER=virpipe
+    virpipe
     export MESA_NO_ERROR=1
     export MESA_BACK_BUFFER=pixmap
 
@@ -484,7 +484,7 @@ elif [[ "$1" == "s" ]]; then
         export MESA_LOADER_DRIVER_OVERRIDE=
         export GALLIUM_DRIVER=
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE explorer
     else
@@ -500,7 +500,7 @@ elif [[ "$1" == "gpucaps" ]]; then
         export MESA_LOADER_DRIVER_OVERRIDE=
         export GALLIUM_DRIVER=
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine GpuCaps.exe
     else
@@ -515,7 +515,7 @@ elif [[ "$1" == "testd3d" ]]; then
         export MESA_LOADER_DRIVER_OVERRIDE=
         export GALLIUM_DRIVER=
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine TestD3D.exe
     else
@@ -531,7 +531,7 @@ elif [[ "$1" == "testd3d" ]]; then
         export MESA_LOADER_DRIVER_OVERRIDE=
         export GALLIUM_DRIVER=
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine CubeMap.exe
     else
@@ -547,7 +547,7 @@ elif [[ "$1" == "spheremap" ]]; then
         export MESA_LOADER_DRIVER_OVERRIDE=
         export GALLIUM_DRIVER=
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine SphereMap.exe
     else
@@ -562,7 +562,7 @@ else
         export MESA_LOADER_DRIVER_OVERRIDE=
         export GALLIUM_DRIVER=
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=
+        export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
     else

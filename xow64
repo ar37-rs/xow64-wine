@@ -330,6 +330,7 @@ elif [[ "$1" == "driver=panfrost" ]]; then
     fi
     touch ~/xow64_drivers/.panfrost
     echo "using panfrost OpenGL/ES driver."
+    pan_info
 elif [[ "$1" == "debug=true" ]]; then
     if [ -f ~/xow64_wine/.no_debug ]; then
         rm -rf ~/xow64_wine/.no_debug

@@ -95,6 +95,12 @@ Configure virpipe for OpenGL/ES apps/games
 ~/xow64 vgl-cfg=gl
 ```
 
+Using panfrost driver 
+(for some specific supported mali-G valhall series only)
+```
+~/xow64 driver=panfrost
+```
+
 Switch back using default OpenGL driver
 
 (using any preconfigured termux gl driver including virgl if any)
@@ -115,6 +121,11 @@ Using vulkan adreno/turnip driver
 Using vulkan radeon driver (for AMD based GPUs such Xclipse)
 ```
 ~/xow64 vk=radeon
+```
+
+Using panvk (for some specific supported mali-G valhall series only)
+```
+~/xow64 vk=panfrost
 ```
 
 Switch back using default vulkan driver (if any)

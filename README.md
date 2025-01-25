@@ -168,24 +168,9 @@ Quit wine or terminate all wine related process
 ~/xow64 q
 ```
 
-Install box64 v0.3.3
-```
-~/xow64 box64=0.3.3
-```
-
-Install box64 v0.3.2
+Install box64 v0.3.2 (available box64 v0.3.0 to v0.3.3)
 ```
 ~/xow64 box64=0.3.2
-```
-
-Install box64 v0.3.1
-```
-~/xow64 box64=0.3.1
-```
-
-Install box64 v0.3.0
-```
-~/xow64 box64=0.3.0
 ```
 
 Update box64

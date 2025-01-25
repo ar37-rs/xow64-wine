@@ -316,6 +316,9 @@ elif [[ "$1" == "driver=panfrost" ]]; then
     if [ -f ~/xow64_drivers/.virgl ]; then
         rm -rf ~/xow64_drivers/.virgl
     fi
+    if [ -f ~/xow64_drivers/.panthor ]; then
+        rm -rf ~/xow64_drivers/.panthor
+    fi
     touch ~/xow64_drivers/.panfrost
     echo "using panfrost OpenGL/ES driver."
     pan_info

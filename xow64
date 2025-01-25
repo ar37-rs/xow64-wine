@@ -66,8 +66,13 @@ vgl_cfg() {
 
 pan_info() {
     echo "info:"
-    echo "Panfrost/Panthor is only supported on some mali devices."
-    echo "with kernel 5.10+"
+    if [ -f ~/xow64_drivers/.panthor ]; then
+        echo "Panthor is only supported on some mali devices."
+        echo "with kernel 6.10+"
+     else
+        echo "Panfrost is only supported on some mali devices."
+        echo "with kernel 5.10+"
+    fi
 }
 
 vkinfo() {
@@ -173,9 +178,6 @@ elif [[ "$1" == "vk=radeon" ]]; then
     if [ -f ~/xow64_wine/.vk-llvmpipe ]; then
         rm -rf ~/xow64_wine/.vk-llvmpipe
     fi
-    if [ -f ~/xow64_wine/.vk-panfrost ]; then
-        rm -rf ~/xow64_wine/.vk-panfrost
-    fi
     touch ~/xow64_wine/.vk-radeon
     echo "using vulkan radeon driver."
 elif [[ "$1" == "vk=turnip" ]]; then
@@ -184,9 +186,6 @@ elif [[ "$1" == "vk=turnip" ]]; then
     fi
     if [ -f ~/xow64_wine/.vk-radeon ]; then
         rm -rf ~/xow64_wine/.vk-radeon
-    fi
-    if [ -f ~/xow64_wine/.vk-panfrost ]; then
-        rm -rf ~/xow64_wine/.vk-panfrost
     fi
     touch ~/xow64_wine/.vk-turnip
     echo "using adreno/turnip driver."
@@ -197,15 +196,9 @@ elif [[ "$1" == "vk=lvp" ]]; then
     if [ -f ~/xow64_wine/.vk-turnip ]; then
         rm -rf ~/xow64_wine/.vk-turnip
     fi
-    if [ -f ~/xow64_wine/.vk-panfrost ]; then
-        rm -rf ~/xow64_wine/.vk-panfrost
-    fi
     touch ~/xow64_wine/.vk-llvmpipe
     echo "using vulkan llvmpipe driver."
 elif [[ "$1" == "vk=default" ]]; then
-    if [ -f ~/xow64_wine/.vk-panfrost ]; then
-        rm -rf ~/xow64_wine/.vk-panfrost
-    fi
     if [ -f ~/xow64_wine/.vk-turnip ]; then
         rm -rf ~/xow64_wine/.vk-turnip
     fi
@@ -219,6 +212,9 @@ elif [[ "$1" == "vk=default" ]]; then
 elif [[ "$1" == "driver=virpipe-patched" ]]; then
     if [ -f ~/xow64_drivers/.panfrost ]; then
         rm -rf ~/xow64_drivers/.panfrost
+    fi
+    if [ -f ~/xow64_drivers/.panthor ]; then
+        rm -rf ~/xow64_drivers/.panthor
     fi
     if [ -d ~/xow64_drivers ]; then
         clear
@@ -263,6 +259,9 @@ elif [[ "$1" == "driver=virpipe" ]]; then
     if [ -f ~/xow64_drivers/.panfrost ]; then
         rm -rf ~/xow64_drivers/.panfrost
     fi
+    if [ -f ~/xow64_drivers/.panthor ]; then
+        rm -rf ~/xow64_drivers/.panthor
+    fi
     if [ -d ~/xow64_drivers ]; then
         clear
     else
@@ -305,6 +304,12 @@ elif [[ "$1" == "driver=virpipe" ]]; then
 elif [[ "$1" == "driver=default" ]]; then
     if [ -f ~/xow64_drivers/.virgl ]; then
         rm -rf ~/xow64_drivers/.virgl
+    fi
+    if [ -f ~/xow64_drivers/.panfrost ]; then
+        rm -rf ~/xow64_drivers/.panfrost
+    fi
+    if [ -f ~/xow64_drivers/.panthor ]; then
+        rm -rf ~/xow64_drivers/.panthor
     fi
     echo "using default OpenGL/ES driver."
 elif [[ "$1" == "driver=panfrost" ]]; then

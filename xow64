@@ -66,8 +66,8 @@ vgl_cfg() {
 
 pan_info() {
     echo "info:"
-    echo "panfrost isn't supported on most mali devices."
-    echo "the panfrost driver may not work."
+    echo "Panfrost/Panthor is only supported on some mali devices."
+    echo "with kernel 5.10+"
 }
 
 vkinfo() {
@@ -86,11 +86,6 @@ vkinfo() {
             export LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri
             export VK_ICD_FILENAMES=~/xow64_drivers/share/vulkan/icd.d/radeon_icd.aarch64.json
         fi
-    elif [ -f ~/xow64_wine/.vk-panfrost ]; then
-        pan_info
-        echo "using panfrost vulkan driver."
-        export LIBGL_DRI3_DISABLE=0
-        export VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/panfrost_icd.aarch64.json
     elif [ -f ~/xow64_wine/.vk-turnip ]; then
         export LIBGL_DRI3_DISABLE=0
         export LIBGL_ALWAYS_SOFTWARE=0
@@ -183,18 +178,6 @@ elif [[ "$1" == "vk=radeon" ]]; then
     fi
     touch ~/xow64_wine/.vk-radeon
     echo "using vulkan radeon driver."
-elif [[ "$1" == "vk=panfrost" ]]; then
-    if [ -f ~/xow64_wine/.vk-turnip ]; then
-        rm -rf ~/xow64_wine/.vk-turnip
-    fi
-    if [ -f ~/xow64_wine/.vk-llvmpipe ]; then
-        rm -rf ~/xow64_wine/.vk-llvmpipe
-    fi
-    if [ -f ~/xow64_wine/.vk-radeon ]; then
-        rm -rf ~/xow64_wine/.vk-radeon
-    fi
-    touch ~/xow64_wine/.vk-panfrost
-    pan_info
 elif [[ "$1" == "vk=turnip" ]]; then
     if [ -f ~/xow64_wine/.vk-llvmpipe ]; then
         rm -rf ~/xow64_wine/.vk-llvmpipe
@@ -330,6 +313,14 @@ elif [[ "$1" == "driver=panfrost" ]]; then
     fi
     touch ~/xow64_drivers/.panfrost
     echo "using panfrost OpenGL/ES driver."
+    pan_info
+elif [[ "$1" == "driver=panthor" ]]; then
+    if [ -f ~/xow64_drivers/.virgl ]; then
+        rm -rf ~/xow64_drivers/.virgl
+    fi
+    touch ~/xow64_drivers/.panfrost
+    touch ~/xow64_drivers/.panthor
+    echo "using panthor OpenGL/ES driver."
     pan_info
 elif [[ "$1" == "debug=true" ]]; then
     if [ -f ~/xow64_wine/.no_debug ]; then
@@ -490,8 +481,13 @@ elif [[ "$1" == "s" ]]; then
         ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE explorer
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
+        export LIBGL_DRI3_DISABLE=1
         export MESA_LOADER_DRIVER_OVERRIDE=
-        export GALLIUM_DRIVER=panfrost
+        if [ -f ~/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
         export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
@@ -507,8 +503,13 @@ elif [[ "$1" == "gpucaps" ]]; then
         ~/xow64_drivers/vglx cd . && cd $GPUCAPS && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine GpuCaps.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
+        export LIBGL_DRI3_DISABLE=1
         export MESA_LOADER_DRIVER_OVERRIDE=
-        export GALLIUM_DRIVER=panfrost
+        if [ -f ~/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
         export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
@@ -523,8 +524,13 @@ elif [[ "$1" == "testd3d" ]]; then
         ~/xow64_drivers/vglx cd . && cd ~/'.xow64_wine/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine TestD3D.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
+        export LIBGL_DRI3_DISABLE=1
         export MESA_LOADER_DRIVER_OVERRIDE=
-        export GALLIUM_DRIVER=panfrost
+        if [ -f ~/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
         export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
@@ -540,8 +546,13 @@ elif [[ "$1" == "testd3d" ]]; then
         ~/xow64_drivers/vglx cd . && cd $CUBEMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine CubeMap.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
+        export LIBGL_DRI3_DISABLE=1
         export MESA_LOADER_DRIVER_OVERRIDE=
-        export GALLIUM_DRIVER=panfrost
+        if [ -f ~/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
         export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
@@ -557,8 +568,13 @@ elif [[ "$1" == "spheremap" ]]; then
         ~/xow64_drivers/vglx cd . && cd $SHEREMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine SphereMap.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
+        export LIBGL_DRI3_DISABLE=1
         export MESA_LOADER_DRIVER_OVERRIDE=
-        export GALLIUM_DRIVER=panfrost
+        if [ -f ~/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
         export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
@@ -573,8 +589,13 @@ else
         ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
+        export LIBGL_DRI3_DISABLE=1
         export MESA_LOADER_DRIVER_OVERRIDE=
-        export GALLIUM_DRIVER=panfrost
+        if [ -f ~/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
         export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1

@@ -173,7 +173,7 @@ Install box64 v0.3.2 (available box64 v0.3.0 to v0.3.3)
 ~/xow64 box64=0.3.2
 ```
 
-Update box64
+Update box64 to newer version (v0.3.3)
 ```
 ~/xow64 update-box64
 ```

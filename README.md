@@ -102,7 +102,7 @@ Using panfrost driver
 ```
 
 Using panthor driver 
-(for some specific supported Mali/Immortalis series only with kernel 6.1+)
+(for some specific supported Mali/Immortalis series only with kernel 6.10+)
 ```
 ~/xow64 driver=panthor
 ```

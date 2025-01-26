@@ -21,7 +21,7 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 
 and then
 ```
-~/xow64 install-deps && ~/xow64 update-all
+~/xow64 install
 ```
 # Usage (on desktop environment such xfce4 native termux-x11):
 [(Read for more info to setup xfce4 desktop for native termux-x11)](https://github.com/ar37-rs/xfce4-termux)
@@ -218,7 +218,7 @@ Uninstall (remove) xow64-wine
     ```
     ~/xow64 s
     ```
-    and then `StartInputBridge.cmd` from wine start menu (desktop mode) before launching any game, then open InputBridge app on android device and then start configuring control buttons as need.
+    and then `StartIB.cmd` from wine start menu (desktop mode) before launching any game, then open InputBridge app on android device and then start configuring control buttons as need.
 
 * If experiencing any emulation issue, try using different version of box64 and drivers available above accordingly.
 

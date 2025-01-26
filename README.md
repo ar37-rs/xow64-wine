@@ -95,12 +95,15 @@ Configure virpipe for OpenGL/ES apps/games
 ~/xow64 vgl-cfg=gl
 ```
 
-Using panfrost driver 
+Using panfrost driver install [from here](https://github.com/Saikatsaha1996/mesa-Panfrost-G610/releases/tag/mesa-23.0.0-devel-20240109_armhf_arm64)
+
 (for some specific supported Mali-G610+ series only with kernel 5.10+)
+
+and then
 ```
-~/xow64 driver=default
+~/xow64 driver=panfrost
 ```
-and then install panfrost driver [from here](https://github.com/Saikatsaha1996/mesa-Panfrost-G610/releases/tag/mesa-23.0.0-devel-20240109_armhf_arm64)
+
 
 Using panthor driver 
 (for some specific supported Mali/Immortalis series only with kernel 6.10+)

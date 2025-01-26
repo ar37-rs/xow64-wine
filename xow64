@@ -117,8 +117,12 @@ vkinfo() {
     fi
 }
 
-if [[ "$1" == "install-deps" ]]; then
-    cd && pkg update && pkg install virglrenderer angle-android glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc
+if [[ "$1" == "install" ]]; then
+    cd && pkg update && pkg install tar virglrenderer angle-android glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc && echo "Installing and updating all xow64 components..." && cd && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf ~/xow64_box64.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf ~/xow64_drivers.tar.xz && rm -rf ~/xow64_drivers.tar.xz && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && echo "done, all xow64 components are installed."
+elif [[ "$1" == "install-deps" ]]; then
+    cd && pkg update && pkg install tar virglrenderer angle-android glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc
+elif [[ "$1" == "reinstall-deps" ]]; then
+    cd && pkg update && pkg reinstall tar virglrenderer angle-android glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc
 elif [[ "$1" == "update-all" ]]; then
         echo "Installing and updating all xow64 components..."
         cd && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf ~/xow64_box64.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf ~/xow64_drivers.tar.xz && rm -rf ~/xow64_drivers.tar.xz && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && echo "done, all xow64 components are updated."
@@ -165,7 +169,7 @@ elif [[ "$1" == "update-angle" ]]; then
     ~/xow64_drivers/vglx cd .
 elif [[ "$1" == "update-vkd3d" ]]; then
     echo "Updating dxvk-proton (vkd3d) components..."
-    cd && rm -rf ~/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz ~/xow64_wine/xow64_dxvk_proton.tar.xz
+    cd && rm -rf ~/xow64_dxvk_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz ~/xow64_wine/xow64_dxvk_proton.tar.xz
     echo "done."
 elif [[ "$1" == "q" ]]; then
     echo "quiting wine..."

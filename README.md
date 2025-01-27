@@ -56,9 +56,13 @@ Launch SphereMap (test EnvMapping D3D9)
 ~/xow64 spheremap
 ```
 
-Run specific *.exe
+Run any specific *.exe
 ```
-~/xow64 r path/to/app_name.exe
+~/xow64 r app_name.exe
+```
+or rum any *.exe with any specific path
+```
+cd ~/'.to/Prog Files/app/path' && ~/xow64 r app_name.exe
 ```
 
 Launch wine in windows desktop mode, configure desktop size like so

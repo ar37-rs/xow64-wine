@@ -26,6 +26,11 @@ and then
 # Usage (on desktop environment such xfce4 native termux-x11):
 [(Read for more info to setup xfce4 desktop for native termux-x11)](https://github.com/ar37-rs/xfce4-termux)
 
+Run and check wine version
+```
+~/xow64 r --version
+```
+
 Run winecfg
 ```
 ~/xow64 r winecfg

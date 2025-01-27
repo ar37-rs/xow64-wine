@@ -462,6 +462,12 @@ elif [[ "$1" == "remove-all" ]]; then
     rm -rf ~/xow64_drivers
     echo "done."
 elif [[ "$1" == "desk-size" ]]; then
+
+if [[ ! $2 == [0-9]*[0-9]x[0-9]*[0-9] ]]; then
+    echo "incorrect desktop size it contains unmatched ${2}"
+    exit
+fi
+
 if [ ! -f ~/.xow64_wine/user.reg ]; then
     grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
 fi
@@ -594,11 +600,11 @@ elif [[ "$1" == "spheremap" ]]; then
     else
         cd $SHEREMAP && grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine SphereMap.exe
     fi
-else
+elif [[ "$1" == "r" ]]; then
     vkinfo
     if [ -f ~/xow64_drivers/.virgl ]; then
         vgl_cfg
-        ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
+        ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine "${@:2}"
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
         export LIBGL_DRI3_DISABLE=0
@@ -611,8 +617,11 @@ else
         export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
         export MESA_GLSL_VERSION_OVERRIDE=140
         export MESA_GLES_VERSION_OVERRIDE=3.1
-        grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
+        grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "${@:2}"
     else
-        grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "$@"
+        grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "${@:2}"
     fi
+else
+echo "Command not found"
+echo "Please input the correct available command."
 fi

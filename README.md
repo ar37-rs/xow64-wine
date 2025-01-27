@@ -26,9 +26,9 @@ and then
 # Usage (on desktop environment such xfce4 native termux-x11):
 [(Read for more info to setup xfce4 desktop for native termux-x11)](https://github.com/ar37-rs/xfce4-termux)
 
-Launch winecfg
+Run winecfg
 ```
-~/xow64 winecfg
+~/xow64 r winecfg
 ```
 
 Launch GPU Caps (test OpenGL and Vulkan)
@@ -51,9 +51,9 @@ Launch SphereMap (test EnvMapping D3D9)
 ~/xow64 spheremap
 ```
 
-Launch specific *.exe
+Run specific *.exe
 ```
-~/xow64 app_name.exe
+~/xow64 r app_name.exe
 ```
 
 Launch wine in windows desktop mode, configure desktop size like so

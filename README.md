@@ -70,7 +70,7 @@ and then simply start using
 ## Additional usage:
 Using newer build of virgl (virpipe) driver
 
-(For some supported GPUs and android 10+ only)
+(Universal android 10+ with vulkan 1.1+ GPU supported only)
 ```
 ~/xow64 driver=virpipe
 ```

@@ -60,7 +60,7 @@ Run any specific *.exe
 ```
 ~/xow64 r app_name.exe
 ```
-or rum any *.exe with any specific path
+or run any *.exe with any specific path
 ```
 cd ~/'.to/Prog Files/app/path' && ~/xow64 r app_name.exe
 ```

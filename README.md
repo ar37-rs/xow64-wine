@@ -58,7 +58,7 @@ Launch SphereMap (test EnvMapping D3D9)
 
 Run specific *.exe
 ```
-~/xow64 r app_name.exe
+~/xow64 r path/to/app_name.exe
 ```
 
 Launch wine in windows desktop mode, configure desktop size like so

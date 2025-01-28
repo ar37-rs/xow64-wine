@@ -523,8 +523,8 @@ elif [[ "$1" == "s" ]]; then
         else
             export GALLIUM_DRIVER=panfrost
         fi
-        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=140
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE
     else
@@ -545,8 +545,8 @@ elif [[ "$1" == "gpucaps" ]]; then
         else
             export GALLIUM_DRIVER=panfrost
         fi
-        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=140
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine GpuCaps.exe
     else
@@ -566,8 +566,8 @@ elif [[ "$1" == "testd3d" ]]; then
         else
             export GALLIUM_DRIVER=panfrost
         fi
-        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=140
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine TestD3D.exe
     else
@@ -588,8 +588,8 @@ elif [[ "$1" == "testd3d" ]]; then
         else
             export GALLIUM_DRIVER=panfrost
         fi
-        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=140
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine CubeMap.exe
     else
@@ -610,8 +610,8 @@ elif [[ "$1" == "spheremap" ]]; then
         else
             export GALLIUM_DRIVER=panfrost
         fi
-        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=140
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine SphereMap.exe
     else
@@ -631,8 +631,8 @@ elif [[ "$1" == "r" ]]; then
         else
             export GALLIUM_DRIVER=panfrost
         fi
-        export MESA_GL_VERSION_OVERRIDE=3.1COMPAT
-        export MESA_GLSL_VERSION_OVERRIDE=140
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
         export MESA_GLES_VERSION_OVERRIDE=3.1
         grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine "${@:2}"
     else

@@ -94,12 +94,12 @@ Using virpipe native android driver (less stable might using older version of vi
 ~/xow64 vgl-use=android
 ```
 
-Configure virpipe for d3d9+ (Direct X) apps/games fix and optimizations
+Fix virgl color/visual problems on d3d9+ (Direct X) apps/games
 ```
 ~/xow64 vgl-cfg=d3d
 ```
 
-Configure virpipe for OpenGL/ES apps/games
+Reconfigure virgl for OpenGL/ES apps/games
 ```
 ~/xow64 vgl-cfg=gl
 ```

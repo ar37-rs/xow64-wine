@@ -76,7 +76,12 @@ and then simply start using
 ~/xow64 s
 ```
 
-## Additional usage:
+Quit wine or terminate all wine related process
+```
+~/xow64 q
+```
+
+# OpenGL/ES drivers:
 Using newer build of virgl (virpipe) driver
 
 (Universal android 10+ with vulkan 1.1+ GPU supported only)
@@ -122,12 +127,13 @@ preconfigured termux gl drivers including virgl (if any)
 ~/xow64 driver=default
 ```
 
-Using vulkan llvmpipe (Universal CPUs)
+# Vulkan drivers:
+Using vulkan llvmpipe (fo Universal CPUs)
 ```
 ~/xow64 vk=lvp
 ```
 
-Using vulkan turnip driver (Adreno)
+Using vulkan turnip driver (for Adreno GPUs)
 ```
 ~/xow64 vk=turnip
 ```
@@ -152,6 +158,7 @@ Disable dxvk-proton (vkd3d)
 ~/xow64 vkd3d=false
 ```
 
+# Additional usage:
 Enable winedlloverride for cnc-ddraw
 ```
 ~/xow64 cnc-ddraw=true
@@ -170,11 +177,6 @@ Disable wine debugger (for stability)
 Re-enable wine debugger
 ```
 ~/xow64 debug=true
-```
-
-Quit wine or terminate all wine related process
-```
-~/xow64 q
 ```
 
 Install box64 v0.3.2 (available box64 v0.3.0 to v0.3.3)

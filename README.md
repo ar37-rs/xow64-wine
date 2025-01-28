@@ -127,12 +127,12 @@ Using vulkan llvmpipe (Universal CPUs)
 ~/xow64 vk=lvp
 ```
 
-Using vulkan adreno/turnip driver 
+Using vulkan turnip driver (Adreno)
 ```
 ~/xow64 vk=turnip
 ```
 
-Using vulkan radeon driver (for AMD based GPUs such Xclipse)
+Using vulkan radeonsi driver (for AMD based GPUs such Xclipse)
 ```
 ~/xow64 vk=radeon
 ```

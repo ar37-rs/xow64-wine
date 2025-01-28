@@ -104,9 +104,20 @@ Configure virpipe for OpenGL/ES apps/games
 ~/xow64 vgl-cfg=gl
 ```
 
-Switch back using default OpenGL driver
+Using panfrost driver for some specific supported
 
-using any default preconfigured termux gl drivers including virgl (if any)
+Mali-G310+ (G610, G710..) series with kernel 5.10+
+```
+~/xow64 driver=panfrost
+```
+make sure termux-x11 is using DRI3 and BOX64_MMAP32 is deactivated
+```
+~/xow64 mmap32=false
+```
+and then install panfrost driver [from here](https://github.com/Saikatsaha1996/mesa-Panfrost-G610/releases/tag/mesa-23.0.0-devel-20240109_armhf_arm64)
+
+Switch back using default OpenGL driver using any default
+preconfigured termux gl drivers including virgl (if any)
 ```
 ~/xow64 driver=default
 ```

@@ -253,6 +253,8 @@ Uninstall (remove) xow64-wine
     https://github.com/FunkyFr3sh/cnc-ddraw
   
 # Other links for credits (3rd parties):
+[InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)
+
 https://www.mesa3d.org
 
 https://github.com/termux
@@ -272,5 +274,3 @@ https://github.com/wine-staging/wine-staging
 https://github.com/termux-pacman/glibc-packages
 
 https://github.com/HansKristian-Work/vkd3d-proton
-
-[InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)

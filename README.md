@@ -253,25 +253,23 @@ Uninstall (remove) xow64-wine
     https://github.com/FunkyFr3sh/cnc-ddraw
   
 # Other links for credits (3rd parties):
-https://github.com/ptitSeb/box64
-
-https://www.winehq.org
-
 https://www.mesa3d.org
 
 https://github.com/termux
 
+https://github.com/ptitSeb/box64
+
+https://github.com/doitsujin/dxvk
+
 https://github.com/termux/termux-x11
-
-https://github.com/termux-pacman/glibc-packages
-
-https://github.com/airidosas252/Wine-Builds
-
-https://github.com/Kron4ek/Wine-Builds
 
 https://gitlab.com/Ph42oN/dxvk-gplasync
 
-https://github.com/doitsujin/dxvk
+https://github.com/airidosas252/Wine-Builds
+
+https://github.com/wine-staging/wine-staging
+
+https://github.com/termux-pacman/glibc-packages
 
 https://github.com/HansKristian-Work/vkd3d-proton
 

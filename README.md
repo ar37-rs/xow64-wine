@@ -158,6 +158,16 @@ Disable dxvk-proton (vkd3d)
 ~/xow64 vkd3d=false
 ```
 
+Using dxvk-glasync-proton for more pleasant experience (supported on vulkan the same as dxvk-proton)
+```
+~/xow64 vkd3d-async=true
+```
+
+Disable dxvk-glasync-proton (vkd3d)
+```
+~/xow64 vkd3d-async=false
+```
+
 # Additional usage:
 Enable winedlloverride for cnc-ddraw
 ```

@@ -179,6 +179,7 @@ elif [[ "$1" == "update-angle" ]]; then
 elif [[ "$1" == "update-vkd3d" ]]; then
     echo "Updating dxvk-proton (vkd3d) components..."
     cd && rm -rf ~/xow64_dxvk_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz ~/xow64_wine/xow64_dxvk_proton.tar.xz
+    cd && rm -rf ~/xow64_dxvk_async_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_async_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_async_proton.tar.xz && mv ~/xow64_dxvk_async_proton.tar.xz ~/xow64_wine/xow64_dxvk_async_proton.tar.xz
     echo "done."
 elif [[ "$1" == "q" ]]; then
     echo "quiting wine..."
@@ -367,17 +368,29 @@ elif [[ "$1" == "vgl-use=angle" ]]; then
     ~/xow64_drivers/vglx use-angle
 elif [[ "$1" == "vgl-use=android" ]]; then
     ~/xow64_drivers/vglx use-android
-elif [[ "$1" == "vkd3d=true" ]]; then
+elif [[ "$1" == "vkd3d=true" || "$1" == "vkd3d-async=true" ]]; then
 if [ ! -f ~/.xow64_wine/user.reg ]; then
     grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
 fi
 
+if [[ "$1" == "vkd3d-async=true" ]]; then
+if [ ! -f ~/xow64_wine/xow64_dxvk_async_proton.tar.xz ]; then
+    echo "Installing dxvk-proton (vkd3d) async components..."
+    cd && rm -rf ~/xow64_dxvk_async_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_async_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_async_proton.tar.xz && mv ~/xow64_dxvk_async_proton.tar.xz ~/xow64_wine/xow64_dxvk_async_proton.tar.xz
+fi
+else
 if [ ! -f ~/xow64_wine/xow64_dxvk_proton.tar.xz ]; then
     echo "Installing dxvk-proton (vkd3d) components..."
     cd && rm -rf ~/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz ~/xow64_wine/xow64_dxvk_proton.tar.xz
 fi
+fi
 
+if [[ "$1" == "vkd3d-async=true" ]]; then
+echo "extracting xow64_dxvk_async_proton.tar.xz..." && cd ~/xow64_wine && tar -xf xow64_dxvk_async_proton.tar.xz && cd && cp -r ~/xow64_wine/.xow64_wine ~/ && rm -rf ~/xow64_wine/.xow64_wine
+else
 echo "extracting xow64_dxvk_proton.tar.xz..." && cd ~/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r ~/xow64_wine/.xow64_wine ~/ && rm -rf ~/xow64_wine/.xow64_wine
+fi
+
 if [ -f ~/.xow64_wine/user.reg ]; then
 cd && cat << EOF >> ~/.xow64_wine/user.reg
 [Volatile Environment]
@@ -395,12 +408,18 @@ cd && cat << EOF >> ~/.xow64_wine/user.reg
 "d3d12"="native,builtin"
 "d3d12core"="native,builtin"
 EOF
-echo "dxvk-proton (vkd3d) are activated"
+
+if [[ "$1" == "vkd3d-async=true" ]]; then
+echo "dxvk-proton (vkd3d) async is activated"
+else
+echo "dxvk-proton (vkd3d) is activated"
+fi
+
 touch ~/xow64_wine/.dxvk-proton
 fi
 echo "done."
 echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
-elif [[ "$1" == "vkd3d=false" ]]; then
+elif [[ "$1" == "vkd3d=false" || "$1" == "vkd3d-async=false" ]]; then
 if [ ! -f ~/.xow64_wine/user.reg ]; then
     grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine wineboot
 fi
@@ -417,7 +436,11 @@ if [ -f ~/xow64_wine/.dxvk-proton ]; then
 fi
 
 echo "done."
-echo "dxvk-proton (vkd3d) are deactivated."
+if [[ "$1" == "vkd3d-async=false" ]]; then
+echo "dxvk-proton (vkd3d) async is deactivated"
+else
+echo "dxvk-proton (vkd3d) is deactivated"
+fi
 echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
 elif [[ "$1" == "cnc-ddraw=true" ]]; then
 if [ ! -f ~/.xow64_wine/user.reg ]; then

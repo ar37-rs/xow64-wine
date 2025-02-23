@@ -150,7 +150,7 @@ Switch back using default vulkan driver (if any)
 ~/xow64 vk=default
 ```
 
-# Dxvk and vkd3d support
+# Direct 3D support for vulkan drivers:
 
 Using dxvk-proton (supported on vulkan llvmpipe and any supported GPU driver)  
 ```

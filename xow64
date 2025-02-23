@@ -360,10 +360,16 @@ elif [[ "$1" == "debug=true" ]]; then
 elif [[ "$1" == "debug=false" ]]; then
     touch ~/xow64_wine/.no_debug
     echo "Wine debugger disabled."
-elif [[ "$1" == "vgl-compat=4.3" ]]; then
-    ~/xow64_drivers/vglx 4.3COMPAT
+elif [[ "$1" == "vgl-compat=2.1" ]]; then
+    ~/xow64_drivers/vglx 2.1COMPAT
+elif [[ "$1" == "vgl-compat=3.2" ]]; then
+    ~/xow64_drivers/vglx 3.2COMPAT
+elif [[ "$1" == "vgl-compat=3.3" ]]; then
+    ~/xow64_drivers/vglx 3.3COMPAT
 elif [[ "$1" == "vgl-compat=4.1" ]]; then
     ~/xow64_drivers/vglx 4.1COMPAT
+elif [[ "$1" == "vgl-compat=4.3" ]]; then
+    ~/xow64_drivers/vglx 4.3COMPAT
 elif [[ "$1" == "vgl-cfg=d3d" ]]; then
     ~/xow64_drivers/vglx config=d3d
 elif [[ "$1" == "vgl-cfg=gl" ]]; then

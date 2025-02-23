@@ -170,7 +170,7 @@ elif [[ "$1" == "update-drivers" ]]; then
     echo "done."
 elif [[ "$1" == "update-angle" ]]; then
     echo "Updating angle-android..."
-    cd && rm -rf ~/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv ~/angle-android_2.1.2-latest.deb ~/xow64_drivers/angle-android_2.1.2-latest.deb
+    cd && rm -rf ~/vgl && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/vgl && chmod +x ~/vgl && cp ~/vgl ~/xow64_drivers/vglx && cd && rm -rf ~/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv ~/angle-android_2.1.2-latest.deb ~/xow64_drivers/angle-android_2.1.2-latest.deb
     ~/xow64_drivers/vglx q
     dpkg -i ~/xow64_drivers/angle-android_2.1.2-latest.deb
     echo "done."

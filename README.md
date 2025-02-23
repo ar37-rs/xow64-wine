@@ -123,7 +123,7 @@ Reconfigure virgl for OpenGL/ES apps/games
 
 Using panfork/panfrost driver for some specific supported
 
-Mali-G310+ (G610, G710..) series with kernel 5.10+
+Mali-G310+ (G610, G710..) series
 ```
 ~/xow64 driver=panfrost
 ```

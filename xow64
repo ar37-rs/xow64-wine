@@ -633,7 +633,7 @@ elif [[ "$1" == "spheremap" ]]; then
     vkinfo
     if [ -f ~/xow64_drivers/.virgl ]; then
         vgl_cfg
-        cd $SHEREMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine SphereMap.exe
+        cd $SHEREMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && ~/xow64_drivers/vglx grun -s ~/xow64_box64/box64 ~/xow64_wine/bin/wine SphereMap.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
         export LIBGL_DRI3_DISABLE=0

@@ -81,7 +81,7 @@ Quit wine or terminate all wine related process
 ~/xow64 q
 ```
 
-# OpenGL/ES drivers:
+# Wine D3D for OpenGL/ES drivers:
 Using newer build of virgl (virpipe) driver
 
 (Universal android 10+ with vulkan 1.1+ GPU supported only)

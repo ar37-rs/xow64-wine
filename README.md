@@ -127,7 +127,7 @@ Mali-G310+ (G610, G710..) series
 ```
 ~/xow64 driver=panfrost
 ```
-For panfork driver only make sure termux-x11 is using DRI3 and BOX64_MMAP32 have to be deactivated in order to work
+For panfrost driver only make sure termux-x11 is using DRI3 and BOX64_MMAP32 have to be deactivated in order to work
 
 (disabling MMAP32 causes wine to run slower when running 32-bit games/apps)
 ```

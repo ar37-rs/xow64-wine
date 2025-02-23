@@ -536,7 +536,7 @@ elif [[ "$1" == "s" ]]; then
     vkinfo
     if [ -f ~/xow64_drivers/.virgl ]; then
         vgl_cfg
-        ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE
+        ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && ~/xow64_drivers/vglx grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine start explorer /desktop=shell,$DESK_SIZE
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
         export LIBGL_DRI3_DISABLE=0
@@ -558,7 +558,7 @@ elif [[ "$1" == "gpucaps" ]]; then
     vkinfo
     if [ -f ~/xow64_drivers/.virgl ]; then
         vgl_cfg
-        ~/xow64_drivers/vglx cd . && cd $GPUCAPS && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine GpuCaps.exe
+        ~/xow64_drivers/vglx cd . && cd $GPUCAPS && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && ~/xow64_drivers/vglx grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine GpuCaps.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
         export LIBGL_DRI3_DISABLE=0
@@ -579,7 +579,7 @@ elif [[ "$1" == "testd3d" ]]; then
     vkinfo
     if [ -f ~/xow64_drivers/.virgl ]; then
         vgl_cfg
-        ~/xow64_drivers/vglx cd . && cd ~/'.xow64_wine/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine TestD3D.exe
+        ~/xow64_drivers/vglx cd . && cd ~/'.xow64_wine/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && ~/xow64_drivers/vglx grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine TestD3D.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
         export LIBGL_DRI3_DISABLE=0
@@ -601,7 +601,7 @@ elif [[ "$1" == "testd3d" ]]; then
     vkinfo
     if [ -f ~/xow64_drivers/.virgl ]; then
         vgl_cfg
-        ~/xow64_drivers/vglx cd . && cd $CUBEMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine CubeMap.exe
+        ~/xow64_drivers/vglx cd . && cd $CUBEMAP && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && ~/xow64_drivers/vglx grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine CubeMap.exe
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
         export LIBGL_DRI3_DISABLE=0
@@ -644,7 +644,7 @@ elif [[ "$1" == "r" ]]; then
     vkinfo
     if [ -f ~/xow64_drivers/.virgl ]; then
         vgl_cfg
-        ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine "${@:2}"
+        ~/xow64_drivers/vglx cd . && export LD_LIBRARY_PATH=~/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=~/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && ~/xow64_drivers/vglx grun -s LIBGL_DRIVERS_PATH=~/xow64_drivers/lib/dri ~/xow64_box64/box64 ~/xow64_wine/bin/wine "${@:2}"
     elif [ -f ~/xow64_drivers/.panfrost ]; then
         pan_info
         export LIBGL_DRI3_DISABLE=0

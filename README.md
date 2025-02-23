@@ -99,6 +99,16 @@ Using virpipe native android driver (less stable might using older version of vi
 ~/xow64 vgl-use=android
 ```
 
+Using virgl 4.3COMPAT profile (default is OpenGL 4.1COMPAT)
+```
+~/xow64 vgl-compat=4.3
+```
+
+Switch back virgl to default COMPAT profile.
+```
+~/xow64 vgl-compat=4.1
+```
+
 Fix virgl color/visual problems on d3d9+ (Direct X) apps/games
 ```
 ~/xow64 vgl-cfg=d3d

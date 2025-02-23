@@ -109,13 +109,13 @@ Reconfigure virgl for OpenGL/ES apps/games
 ~/xow64 vgl-cfg=gl
 ```
 
-Using panfrost driver for some specific supported
+Using panfork/panfrost driver for some specific supported
 
 Mali-G310+ (G610, G710..) series with kernel 5.10+
 ```
 ~/xow64 driver=panfrost
 ```
-For pan frost driver only make sure termux-x11 is using DRI3 and BOX64_MMAP32 have to be deactivated in order to work
+For panfork driver only make sure termux-x11 is using DRI3 and BOX64_MMAP32 have to be deactivated in order to work
 
 (disabling MMAP32 causes wine to run slower when running 32-bit games/apps)
 ```

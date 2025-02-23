@@ -4,8 +4,7 @@
 Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 
 # Current status:
-Wine version: 10.1-252-g4bd044dd328 (staging)
-
+Wine version: 10.2-30-ge1b8e7f6ec7 (staging)
 Box64 version: 0.3.3 (dev)
 
 # Installation:
@@ -259,18 +258,20 @@ https://www.mesa3d.org
 
 https://github.com/termux
 
-https://github.com/ptitSeb/box64
-
-https://github.com/doitsujin/dxvk
-
 https://github.com/termux/termux-x11
-
-https://gitlab.com/Ph42oN/dxvk-gplasync
-
-https://github.com/airidosas252/Wine-Builds
+ 
+https://github.com/ptitSeb/box64
 
 https://github.com/wine-staging/wine-staging
 
+https://github.com/airidosas252/Wine-Builds
+
 https://github.com/termux-pacman/glibc-packages
 
+https://github.com/doitsujin/dxvk
+
+https://gitlab.com/Ph42oN/dxvk-gplasync
+
 https://github.com/HansKristian-Work/vkd3d-proton
+
+

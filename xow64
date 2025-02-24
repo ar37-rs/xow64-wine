@@ -1,6 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # https://github.com/ar37-rs/xow64-wine
-export TPH=/data/data/com.termux/files/home
 
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread relatively faster for wined3d (very intense cpu)
@@ -9,9 +8,11 @@ export WINEESYNC_TERMUX=1
 export WINEESYNC=1
 
 if [ -f $TPH/.xow64-prefix-proot ]; then
-    export WINEPREFIX=~/.xow64_wine
-    echo "info: WINEPREFIX=~/.xow64_wine"
+    export TPH=~/xow64_prefix
+    export WINEPREFIX=~/xow64_prefix/.xow64_wine
+    echo "info: WINEPREFIX=~/xow64_prefix/.xow64_wine"
 else
+    export TPH=/data/data/com.termux/files/home
     export WINEPREFIX=$TPH/.xow64_wine
     echo "info: WINEPREFIX=$TPH/.xow64_wine"
 fi
@@ -73,6 +74,9 @@ fi
 
 if [[ "$1" == "proot=true" ]]; then
     clear
+    if [ ! -d ~/xow64_prefix ]; then
+        mkdir ~/xow64_prefix
+    fi
     touch $TPH/.xow64-proot
     touch $TPH/.xow64-box64-custom
     echo "proot mode enabled."
@@ -98,6 +102,9 @@ elif [[ "$1" == "prefix=glibc" ]]; then
     exit
 elif [[ "$1" == "prefix=proot" ]]; then
     clear
+    if [ ! -d ~/xow64_prefix ]; then
+        mkdir ~/xow64_prefix
+    fi
     touch $TPH/.xow64-prefix-proot
     echo "using wineprefix proot."
     exit

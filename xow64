@@ -244,7 +244,7 @@ elif [[ "$1" == "update-patch" ]]; then
             echo "Installing box64-0.3.3..."
             cd && rm -rf $TPH/xow64_box64.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_box64.tar.xz
         fi
-        cd && rm -rf $TPH/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz
+        cd && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz
     fi    
     echo "done."
 elif [[ "$1" == "update-drivers" ]]; then

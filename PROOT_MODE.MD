@@ -1,13 +1,13 @@
 # Installation:
 
 # Insinde termux terminal
-install dependencies (for virgl/virpipe driver):
+Install dependencies (for virgl/virpipe driver):
 ```
 pkg install wget virglrenderer-android virglrenderer angle-android
 ```
 
 # Inside proot termux-desktop terminal
-install dependencies and box64
+Install dependencies and box64
 
 for debian/ubuntu based distro
 ```

@@ -56,10 +56,11 @@ fi
 
 if [ -f $TPH/.xow64-proot ]; then
     echo "xow64 on proot mode"
+    export WINE_CA_CERT_PATH=/etc/ssl/certs
     export EXEX=exec
 else
     export LD_LIBRARY_PATH=$TPH/xow64_box64/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
-    export WINE_CA_CERT_PATH=$PREFIX/glibc/etc/ca-certificates
+    export WINE_CA_CERT_PATH=$PREFIX/glibc/etc/ssl/certs
     export EXEX=grun s
 fi
 

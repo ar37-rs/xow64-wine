@@ -7,7 +7,7 @@
 export WINEESYNC_TERMUX=1
 export WINEESYNC=1
 
-if [ -f $TPH/.xow64-prefix-proot ]; then
+if [ -f ~/xow64_prefix/.xow64-prefix-proot ]; then
     export TPH=~/xow64_prefix
     export WINEPREFIX=~/xow64_prefix/.xow64_wine
     echo "info: WINEPREFIX=~/xow64_prefix/.xow64_wine"

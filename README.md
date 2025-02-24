@@ -248,6 +248,12 @@ Update dxvk-proton (vkd3d)
 ~/xow64 update-vkd3d
 ```
 
+Update dxvk-proton async (vkd3d)
+
+```
+~/xow64 update-vkd3d-async
+```
+
 Update patch
 ```
 ~/xow64 update-patch

@@ -24,7 +24,9 @@ Install xow64 components
 # Usage:
 Basic usage is the same as inside termux glibc
 
-for proot mode run commands inside proot desktop terminal
+for proot mode run commands inside proot 
+
+terminal desktop enviroment [read usage from here](https://github.com/ar37-rs/xow64-wine/blob/main/README.md)
 
 # Note:
 * Deactivate proot node

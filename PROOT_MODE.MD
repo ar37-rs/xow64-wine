@@ -33,7 +33,7 @@ Install xow64 components
 On terminal desktop enviroment [read usage from here](https://github.com/ar37-rs/xow64-wine/blob/main/README.md)
 
 # Note:
-* Deactivate proot node
+* Deactivate proot mode
    ```
    ~/xow64 proot=false
    ```

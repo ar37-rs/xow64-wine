@@ -129,13 +129,15 @@ Mali-G310+ (G610, G710..) series
 ```
 ~/xow64 driver=panfrost
 ```
-For panfrost driver only make sure termux-x11 is using DRI3 and BOX64_MMAP32 have to be deactivated in order to work
+For panfrost driver only make sure termux-x11 is using DRI3
 
-(disabling MMAP32 causes wine to run slower when running 32-bit games/apps)
+if experiencing driver error using panfrost driver, try disable BOX64_MMAP32
+
+(disabling MMAP32 causes wine to run slightly slower when running 32-bit games/apps)
 ```
 ~/xow64 mmap32=false
 ```
-and then install panfrost driver [from here](https://github.com/Saikatsaha1996/mesa-Panfrost-G610/releases/tag/mesa-23.0.0-devel-20240109_armhf_arm64)
+and then install panfrost driver [from here](https://github.com/Saikatsaha1996/mesa-Panfrost-G610/releases/tag/mesa-23.0.0-devel-20240109_armhf_arm64) (for glibc only, not required for proot mode)
 
 Switch back using default OpenGL driver using any default
 preconfigured termux gl drivers including virgl (if any)
@@ -207,12 +209,12 @@ Re-enable wine debugger
 ~/xow64 debug=true
 ```
 
-Install box64 v0.3.2 (available box64 v0.3.0 to v0.3.3)
+Install box64 v0.3.2 (available box64 v0.3.0 to v0.3.3 glibc only)
 ```
 ~/xow64 box64=0.3.2
 ```
 
-Update box64 to newer version (v0.3.3)
+Update box64 to newer version (v0.3.3 glibc only)
 ```
 ~/xow64 update-box64
 ```
@@ -222,12 +224,12 @@ Update wine
 ~/xow64 update-wine
 ```
 
-Update graphics drivers
+Update graphics drivers (glibc only)
 ```
 ~/xow64 update-drivers
 ```
 
-Update angle-android using the newer version (for android 9+ only)
+Update angle-android using the newer version (for glibc and android 9+ only)
 ```
 ~/xow64 update-angle
 ```

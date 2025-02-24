@@ -21,9 +21,9 @@ Install xow64 (the same as for termux glibc)
 cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/xow64 && chmod +x ~/xow64
 ```
 
-Activate proot node
+Activate proot mode
 ```
-~/xow64 proot=true
+~/xow64 proot=true && ~/xow64 prefix=proot
 ```
 
 Install xow64 components
@@ -36,7 +36,7 @@ On terminal desktop enviroment [read usage from here](https://github.com/ar37-rs
 # Note:
 * Deactivate proot mode
    ```
-   ~/xow64 proot=false
+   ~/xow64 proot=false && ~/xow64 prefix=glibc
    ```
 * Fix virgl-angle vulkan support for some devices
 

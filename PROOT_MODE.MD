@@ -7,7 +7,7 @@ sudo apt update && sudo apt install wget openssl gnu-which gpg && sudo wget http
 sudo apt install box64
 ```
 
-Install xow64
+Install xow64 (the same as for termux glibc)
 ```
 cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/xow64 && chmod +x ~/xow64
 ```

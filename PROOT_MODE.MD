@@ -21,12 +21,12 @@ Install xow64 components
 ```
 ~/xow64 install
 ```
-# Usage
+# Usage:
 Basic usage is the same as inside termux glibc
 
 for proot mode run commands inside proot desktop terminal
 
-# Note
+# Note:
 * Deactivate proot node
    ```
    ~/xow64 proot=false

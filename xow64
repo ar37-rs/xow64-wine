@@ -7,8 +7,15 @@ export TPH=/data/data/com.termux/files/home
 # export MESA_GLTHREAD=true
 export WINEESYNC_TERMUX=1
 export WINEESYNC=1
-export WINEPREFIX=$TPH/.xow64_wine
-echo "info: WINEPREFIX=$TPH/.xow64_wine"
+
+if [ -f $TPH/.xow64-prefix-proot ]; then
+    export WINEPREFIX=~/.xow64_wine
+    echo "info: WINEPREFIX=~/.xow64_wine"
+else
+    export WINEPREFIX=$TPH/.xow64_wine
+    echo "info: WINEPREFIX=$TPH/.xow64_wine"
+fi
+
 export BOX64_PATH=$TPH/xow64_wine/bin:$BOX64_PATH
 
 if [ -f $TPH/.xow64-proot ]; then
@@ -65,11 +72,13 @@ else
 fi
 
 if [[ "$1" == "proot=true" ]]; then
+    clear
     touch $TPH/.xow64-proot
     touch $TPH/.xow64-box64-custom
     echo "proot mode enabled."
     exit
 elif [[ "$1" == "proot=false" ]]; then
+    clear
     rm -rf $TPH/.xow64-proot
     rm -rf $TPH/.xow64-box64-custom
     echo "proot mode disabled."
@@ -81,6 +90,16 @@ elif [[ "$1" == "box64-custom=true" ]]; then
 elif [[ "$1" == "box64-custom=false" ]]; then
     rm -rf $TPH/.xow64-box64-custom
     echo "using default builtin box64."
+    exit
+elif [[ "$1" == "prefix=glibc" ]]; then
+    clear
+    rm -rf $TPH/.xow64-prefix-proot
+    echo "using wineprefix glibc."
+    exit
+elif [[ "$1" == "prefix=proot" ]]; then
+    clear
+    touch $TPH/.xow64-prefix-proot
+    echo "using wineprefix proot."
     exit
 else
 

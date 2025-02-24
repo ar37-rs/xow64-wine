@@ -77,8 +77,8 @@ if [[ "$1" == "proot=true" ]]; then
     if [ ! -d ~/xow64_prefix ]; then
         mkdir ~/xow64_prefix
     fi
-    touch $TPH/.xow64-proot
-    touch $TPH/.xow64-box64-custom
+    touch ~/xow64_prefix/.xow64-proot
+    touch ~/xow64_prefix/.xow64-box64-custom
     echo "proot mode enabled."
     exit
 elif [[ "$1" == "proot=false" ]]; then
@@ -105,7 +105,7 @@ elif [[ "$1" == "prefix=proot" ]]; then
     if [ ! -d ~/xow64_prefix ]; then
         mkdir ~/xow64_prefix
     fi
-    touch $TPH/.xow64-prefix-proot
+    touch ~/xow64_prefix/.xow64-prefix-proot
     echo "using wineprefix proot."
     exit
 else

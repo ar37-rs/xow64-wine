@@ -190,6 +190,12 @@ vkinfo() {
     fi
 }
 
+wine_q() {
+    kill -9 $(pgrep -f ".exe") 2>/dev/null
+    kill -9 $(pgrep -f ".cmd") 2>/dev/null
+    kill -9 $(pgrep -f ".bat") 2>/dev/null
+}
+
 if [[ "$1" == "install" || "$1" == "update-all" ]]; then
     if [ -f $TPH/.xow64-proot ]; then
        echo "Installing and updating all xow64 components..." && cd && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_drivers.tar.xz && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz ~/xow64_wine/wined3d.tar.xz
@@ -228,6 +234,7 @@ elif [[ "$1" == "box64=0.3.0" ]]; then
     proot_info
     echo "Installing box64-0.3.0..." && cd && rm -rf $TPH/xow64_box64-0.3.0.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-0.3.0.tar.xz && echo "extracting xow64_box64-0.3.0.tar.xz..." && tar -xf $TPH/xow64_box64-0.3.0.tar.xz && rm -rf $TPH/xow64_box64-0.3.0.tar.xz && echo "done."        
 elif [[ "$1" == "update-wine" ]]; then
+    wine_q
     echo "Updating wine..."
     if [ -f $TPH/.xow64-proot ]; then
         cd && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && cp -r xow64_wine $TPH/ && rm -rf ~/xow64_wine.tar.xz && echo " " && echo "Updating wined3d components..." && cd && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz ~/xow64_wine/wined3d.tar.xz && rm -rf ~/xow64_wine/share && rm -rf ~/xow64_wine/bin && rm -rf ~/xow64_wine/lib
@@ -236,6 +243,7 @@ elif [[ "$1" == "update-wine" ]]; then
     fi
     echo "done."
 elif [[ "$1" == "update-patch" ]]; then
+    wine_q
     echo "Updating patch..."
     if [ -f $TPH/.xow64-proot ]; then
         cd && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cp -r .xow64_wine $TPH/ && rm -rf .xow64_wine && rm -rf ~/xow64_box64
@@ -275,6 +283,7 @@ elif [[ "$1" == "update-angle" ]]; then
     vgl_cfg
     $TPH/xow64_drivers/vglx cd .
 elif [[ "$1" == "update-vkd3d" || "$1" == "update-vkd3d-async" ]]; then
+    wine_q
     echo "Updating dxvk-proton (vkd3d) components..."
     if [ -f $TPH/.xow64-proot ]; then
         if [ ! -d ~/xow64_wine ]; then
@@ -302,7 +311,7 @@ elif [[ "$1" == "update-vkd3d" || "$1" == "update-vkd3d-async" ]]; then
     echo "done."
 elif [[ "$1" == "q" ]]; then
     echo "quiting wine..."
-    kill -9 $(pgrep -f "wine") 2>/dev/null
+    wine_q
     sleep 1
 elif [[ "$1" == "vk=radeon" ]]; then
     if [ -f $TPH/.xow64-proot ]; then
@@ -539,6 +548,8 @@ if [ ! -f $TPH/.xow64_wine/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/bin/wine wineboot
 fi
 
+wine_q
+
 if [ ! -d ~/xow64_wine ]; then
      mkdir ~/xow64_wine
 fi
@@ -609,8 +620,9 @@ fi
 touch $TPH/xow64_wine/.dxvk-proton
 fi
 echo "done."
-echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
 elif [[ "$1" == "vkd3d=false" || "$1" == "vkd3d-async=false" ]]; then
+
+wine_q
 
 if [ ! -d ~/xow64_wine ]; then
      mkdir ~/xow64_wine
@@ -633,6 +645,7 @@ fi
 
 if [ ! -f $TPH/.xow64_wine/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/bin/wine wineboot
+    wine_q
 fi
 if [ -f $TPH/.xow64_wine/user.reg ]; then
    sed -i '/d3d8"=/d' $TPH/.xow64_wine/user.reg
@@ -652,11 +665,13 @@ echo "dxvk-proton (vkd3d) async is deactivated"
 else
 echo "dxvk-proton (vkd3d) is deactivated"
 fi
-echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
+
 elif [[ "$1" == "cnc-ddraw=true" ]]; then
 if [ ! -f $TPH/.xow64_wine/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/bin/wine wineboot
 fi
+
+wine_q
 
 if [ -f $TPH/.xow64_wine/user.reg ]; then
 cd && cat << EOF >> $TPH/.xow64_wine/user.reg
@@ -666,20 +681,19 @@ cd && cat << EOF >> $TPH/.xow64_wine/user.reg
 EOF
 echo "done."
 echo "winedlloverride for cnc-ddraw is activated."
-echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
 fi
 elif [[ "$1" == "cnc-ddraw=false" ]]; then
 if [ ! -f $TPH/.xow64_wine/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/bin/wine wineboot
 fi
 if [ -f $TPH/.xow64_wine/user.reg ]; then
-   kill -9 $(pgrep -f "wine") 2>/dev/null
+   wine_q
    sed -i '/ddraw"=/d' $TPH/.xow64_wine/user.reg
    sed -i '/winmm"=/d' $TPH/.xow64_wine/user.reg
 fi
 echo "winedlloverride for cnc-ddraw is deactivated."
-echo "wine process:" && kill -9 $(pgrep -f "wine") 2>/dev/null
 elif [[ "$1" == "remove-all" ]]; then
+    wine_q
     echo "xow64 will be removed in 7 seconds..."
     sleep 2
     echo "xow64 will be removed in 6 seconds..."
@@ -716,28 +730,28 @@ elif [[ "$1" == "remove-all" ]]; then
     rm -rf $TPH/xow64_drivers
     echo "done."
 elif [[ "$1" == "desk-size" ]]; then
+    wine_q
+    if [[ ! $2 == [0-9]*[0-9]x[0-9]*[0-9] ]]; then
+        echo "incorrect desktop size it contains unmatched ${2}"
+        exit
+    fi
 
-if [[ ! $2 == [0-9]*[0-9]x[0-9]*[0-9] ]]; then
-    echo "incorrect desktop size it contains unmatched ${2}"
-    exit
-fi
+    if [ ! -f $TPH/.xow64_wine/user.reg ]; then
+        $EXEX $BOX64X $TPH/xow64_wine/bin/wine wineboot
+    fi
 
-if [ ! -f $TPH/.xow64_wine/user.reg ]; then
-    $EXEX $BOX64X $TPH/xow64_wine/bin/wine wineboot
-fi
+    if [ -f $TPH/.xow64_wine/user.reg ]; then
 
-if [ -f $TPH/.xow64_wine/user.reg ]; then
-
-sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/.xow64_wine/user.reg
+        sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/.xow64_wine/user.reg
 
 cd && cat << EOF >> $TPH/.xow64_wine/user.reg
 [Software\\\Wine\\\Explorer\\\Desktops]
 "Default"="${2}"
 EOF
-echo "${2}" > $TPH/xow64_wine/.desk-size
-echo "done."
-echo "desktop size has been configured to ${2}"
-fi
+    echo "${2}" > $TPH/xow64_wine/.desk-size
+    echo "done."
+    echo "desktop size has been configured to ${2}"
+    fi
 elif [[ "$1" == "s" ]]; then
     if [ -f $TPH/xow64_wine/.desk-size ]; then
         DESK_SIZE=$(cat $TPH/xow64_wine/.desk-size)

@@ -26,7 +26,11 @@ and then
 ~/xow64 install
 ```
 # Usage (on desktop environment):
-[(Read for more info to setup xfce4 desktop for native termux-x11)](https://github.com/ar37-rs/xfce4-termux)
+[(Read for more info to setup xfce4 desktop for termux native)](https://github.com/ar37-rs/xfce4-termux)
+
+or
+
+[(setup termux desktop for termux proot from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
 
 Run and check wine version
 ```

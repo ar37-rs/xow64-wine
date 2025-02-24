@@ -9,7 +9,7 @@ Wine version: 10.2-30-ge1b8e7f6ec7 (staging)
 Box64 version: 0.3.3 (dev)
 
 # Installation:
-[(Using xow64 on proot read the guide from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
+[(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
 
 Make sure if wget is installed
 ```

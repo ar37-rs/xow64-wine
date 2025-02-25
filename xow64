@@ -98,7 +98,7 @@ if [ -f $TPH/.xow64-proot ]; then
 else
     export LD_LIBRARY_PATH=$TPH/xow64_box64/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
     export WINE_CA_CERT_PATH=$PREFIX/glibc/etc/ssl/certs
-    export EXEX=grun -s
+    export EXEX="grun -s"
 fi
 
 if [ -f $TPH/.xow64-box64-custom ]; then

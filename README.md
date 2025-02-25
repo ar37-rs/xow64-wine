@@ -10,6 +10,12 @@ Box64 version: 0.3.3 (dev)
 
 # Installation:
 [(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
+# Install desktop on native termux
+[(Read for more info to setup termux xfce4-desktop)](https://github.com/ar37-rs/xfce4-termux)
+
+or
+
+[(setup termux-desktop from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
 
 Make sure if wget is installed
 ```
@@ -25,13 +31,8 @@ and then
 ```
 ~/xow64 install
 ```
-# Usage (on desktop environment):
-[(Read for more info to setup xfce4 desktop for termux native)](https://github.com/ar37-rs/xfce4-termux)
 
-or
-
-[(setup termux-desktop from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
-
+# Usage (on desktop environment native termux):
 Run and check wine version
 ```
 ~/xow64 r --version

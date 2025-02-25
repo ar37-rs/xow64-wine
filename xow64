@@ -232,6 +232,10 @@ if [[ "$1" == "install" || "$1" == "update-all" ]]; then
     else
         echo "done, all essential xow64 components are updated."
     fi
+    if [ -d /data/data/com.termux/files/usr/glibc/share/wine ]; then
+        rm -rf /data/data/com.termux/files/usr/glibc/share/wine
+    fi
+    cp -r $TPH/xow64_wine/share/wine /data/data/com.termux/files/usr/glibc/share
 elif [[ "$1" == "install-deps" ]]; then
     proot_info
     cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc
@@ -259,6 +263,10 @@ elif [[ "$1" == "update-wine" ]]; then
         cd && rm -rf $TPH/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf $TPH/xow64_wine.tar.xz && rm -rf $TPH/xow64_wine.tar.xz && echo " " && echo "Updating wined3d components..." && cd && rm -rf $TPH/wined3d.tar.xz && rm -rf $TPH/xow64_wine/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv $TPH/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
     fi
     echo "done."
+    if [ -d /data/data/com.termux/files/usr/glibc/share/wine ]; then
+        rm -rf /data/data/com.termux/files/usr/glibc/share/wine
+    fi
+    cp -r $TPH/xow64_wine/share/wine /data/data/com.termux/files/usr/glibc/share
 elif [[ "$1" == "update-patch" ]]; then
     wine_q
     echo "Updating patch..."

@@ -36,7 +36,7 @@ Install xow64 components
 # Usage:
 Basic usage is the same as inside desktop environment native termux.
 
-[for more info read the usage from here](https://github.com/ar37-rs/xow64-wine/blob/main/README.md)
+[for more info read the usage from here](https://github.com/ar37-rs/xow64-wine)
 
 # Note:
 * Deactivate proot mode

@@ -1,13 +1,16 @@
 # Installation:
 
-# Inside termux terminal
+# Run inside termux terminal
 Install dependencies (for virgl/virpipe driver):
 ```
 pkg install wget openssl which virglrenderer-android virglrenderer angle-android
 ```
 [or here for latest virgl-angle setup](https://github.com/ar37-rs/virgl-angle-termux)
 
-# Inside proot termux-desktop terminal
+# Install desktop on proot
+[Read for more info how to setup termux-desktops on ubuntu-proot](https://github.com/LinuxDroidMaster/Termux-Desktops/blob/main/Documentation/proot/ubuntu_proot.md)
+
+# Run inside desktop terminal proot
 Install dependencies and box64
 
 for debian/ubuntu based distro
@@ -31,7 +34,7 @@ Install xow64 components
 ~/xow64 install
 ```
 # Usage:
-On terminal desktop enviroment [read usage from here](https://github.com/ar37-rs/xow64-wine/blob/main/README.md)
+Basic usage is the same as on desktop environment native termux [read usage from here](https://github.com/ar37-rs/xow64-wine/blob/main/README.md)
 
 # Note:
 * Deactivate proot mode

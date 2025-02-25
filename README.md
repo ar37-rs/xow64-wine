@@ -30,7 +30,7 @@ and then
 
 or
 
-[(setup termux-desktop for termux proot from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
+[(setup termux-desktop from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
 
 Run and check wine version
 ```

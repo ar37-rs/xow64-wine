@@ -7,7 +7,36 @@
 export WINEESYNC_TERMUX=1
 export WINEESYNC=1
 
-if [ -f ~/xow64_prefix/.xow64-prefix-proot ]; then
+if [[ "$1" == "proot=true" ]]; then
+    if [ ! -d ~/xow64_prefix ]; then
+        mkdir ~/xow64_prefix
+    fi
+    touch ~/xow64_prefix/.xow64-proot
+    touch ~/xow64_prefix/.xow64-box64-custom
+    echo "proot mode enabled."
+    exit
+elif [[ "$1" == "proot=false" ]]; then
+    rm -rf ~/xow64_prefix/.xow64-proot
+    rm -rf ~/xow64_prefix/.xow64-box64-custom
+    echo "proot mode disabled."
+    exit
+elif [[ "$1" == "box64-custom=true" ]]; then
+    if [ ! -d ~/xow64_prefix ]; then
+        mkdir ~/xow64_prefix
+    fi
+    touch ~/xow64_prefix/.xow64-box64-custom
+    echo "using custom box64."
+    exit
+elif [[ "$1" == "box64-custom=false" ]]; then
+    if [ ! -d ~/xow64_prefix ]; then
+        mkdir ~/xow64_prefix
+    fi
+    rm -rf ~/xow64_prefix/.xow64-box64-custom
+    echo "using default builtin box64."
+    exit
+else
+
+if [ -f ~/xow64_prefix/.xow64-proot ]; then
     export TPH=~/xow64_prefix
     export WINEPREFIX=~/xow64_prefix/.xow64_wine
     echo "info: WINEPREFIX=~/xow64_prefix/.xow64_wine"
@@ -72,48 +101,13 @@ else
     export EXEX=grun s
 fi
 
-if [[ "$1" == "proot=true" ]]; then
-    clear
-    if [ ! -d ~/xow64_prefix ]; then
-        mkdir ~/xow64_prefix
-    fi
-    touch ~/xow64_prefix/.xow64-proot
-    touch ~/xow64_prefix/.xow64-box64-custom
-    echo "proot mode enabled."
-    exit
-elif [[ "$1" == "proot=false" ]]; then
-    clear
-    rm -rf $TPH/.xow64-proot
-    rm -rf $TPH/.xow64-box64-custom
-    echo "proot mode disabled."
-    exit
-elif [[ "$1" == "box64-custom=true" ]]; then
-    touch $TPH/.xow64-box64-custom
-    echo "using custom box64."
-    exit
-elif [[ "$1" == "box64-custom=false" ]]; then
-    rm -rf $TPH/.xow64-box64-custom
-    echo "using default builtin box64."
-    exit
-elif [[ "$1" == "prefix=glibc" ]]; then
-    clear
-    rm -rf $TPH/.xow64-prefix-proot
-    echo "using wineprefix glibc."
-    exit
-elif [[ "$1" == "prefix=proot" ]]; then
-    clear
-    if [ ! -d ~/xow64_prefix ]; then
-        mkdir ~/xow64_prefix
-    fi
-    touch ~/xow64_prefix/.xow64-prefix-proot
-    echo "using wineprefix proot."
-    exit
-else
-
 if [ -f $TPH/.xow64-box64-custom ]; then
     BOX64D=$(which box64)
     if [[ $BOX64D == "" ]]; then
         echo "box64 not found, make sure box64 is installed."
+        if [ -f $TPH/.xow64-proot ]; then
+            echo "xow64 on proot mode."
+        fi
         exit
     fi
     export BOX64X=$BOX64D

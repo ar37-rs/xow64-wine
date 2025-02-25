@@ -633,7 +633,7 @@ if [ ! -f $TPH/.xow64-proot ]; then
 else
     if [ ! -f $TPH/xow64_wine/wined3d.tar.xz ]; then
         echo "Reinstalling wined3d components..."
-        cd && rm -rf ~/wined3d.tar.xz && rm -rf $TPH/xow64_wine/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
+        cd && rm -rf ~/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
     fi
 fi
 

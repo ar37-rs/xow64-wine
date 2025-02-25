@@ -8,7 +8,7 @@ pkg install wget openssl which virglrenderer-android virglrenderer angle-android
 [or here for latest virgl-angle setup](https://github.com/ar37-rs/virgl-angle-termux)
 
 # Install desktop for proot termux
-[Read for more info how to setup termux-desktops with ubuntu-proot](https://github.com/LinuxDroidMaster/Termux-Desktops/blob/main/Documentation/proot/ubuntu_proot.md)
+[Read for more info on how to setup termux-desktops with ubuntu-proot](https://github.com/LinuxDroidMaster/Termux-Desktops/blob/main/Documentation/proot/ubuntu_proot.md)
 
 # Run inside proot desktop terminal
 Install dependencies and box64

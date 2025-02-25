@@ -225,22 +225,18 @@ wine_q() {
 if [[ "$1" == "install" || "$1" == "update-all" ]]; then
     wine_q
     if [ -f $TPH/.xow64-proot ]; then
-       echo "Installing and updating all xow64 components..." && cd && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_drivers.tar.xz && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz ~/xow64_wine/wined3d.tar.xz
-       cd && cp -r xow64_wine $TPH/ && cp -r .xow64_wine $TPH/ && rm -rf ~/xow64_box64 && rm -rf ~/xow64_wine/share && rm -rf ~/xow64_wine/bin && rm -rf ~/xow64_wine/lib && rm -rf ~/.xow64_wine
+       echo "Installing and updating all xow64 components..." && cd && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_drivers.tar.xz && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz && cd && cp -r xow64_wine $TPH/ && cp -r .xow64_wine $TPH/ && rm -rf ~/xow64_box64 && rm -rf ~/xow64_wine && rm -rf ~/.xow64_wine
        if [ ! -d $TPH/xow64_drivers ]; then
             mkdir $TPH/xow64_drivers
-       fi
-       if [ ! -d ~/xow64_wine ]; then
-            mkdir ~/xow64_wine
        fi
     else
        cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc && echo "Installing and updating all xow64 components..." && cd && rm -rf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_wine.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/wined3d.tar.xz && rm -rf $TPH/xow64_wine/wined3d.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_box64.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf $TPH/xow64_wine.tar.xz && rm -rf $TPH/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv $TPH/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
     fi
     
     if [[ "$1" == "install" ]]; then
-        echo "done, all xow64 components are installed."
+        echo "done, all essential xow64 components are installed."
     else
-        echo "done, all xow64 components are updated."
+        echo "done, all essential xow64 components are updated."
     fi
 elif [[ "$1" == "install-deps" ]]; then
     proot_info
@@ -264,7 +260,7 @@ elif [[ "$1" == "update-wine" ]]; then
     wine_q
     echo "Updating wine..."
     if [ -f $TPH/.xow64-proot ]; then
-        cd && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && cp -r xow64_wine $TPH/ && rm -rf ~/xow64_wine.tar.xz && echo " " && echo "Updating wined3d components..." && cd && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz ~/xow64_wine/wined3d.tar.xz && rm -rf ~/xow64_wine/share && rm -rf ~/xow64_wine/bin && rm -rf ~/xow64_wine/lib
+        cd && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && cp -r xow64_wine $TPH/ && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine && echo " " && echo "Updating wined3d components..." && cd && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
     else
         cd && rm -rf $TPH/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf $TPH/xow64_wine.tar.xz && rm -rf $TPH/xow64_wine.tar.xz && echo " " && echo "Updating wined3d components..." && cd && rm -rf $TPH/wined3d.tar.xz && rm -rf $TPH/xow64_wine/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv $TPH/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
     fi
@@ -313,27 +309,16 @@ elif [[ "$1" == "update-vkd3d" || "$1" == "update-vkd3d-async" ]]; then
     wine_q
     echo "Updating dxvk-proton (vkd3d) components..."
     if [ -f $TPH/.xow64-proot ]; then
-        if [ ! -d ~/xow64_wine ]; then
-            mkdir ~/xow64_wine
-        fi
-        cd && rm -rf ~/xow64_dxvk_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz ~/xow64_wine/xow64_dxvk_proton.tar.xz
-        cd && rm -rf ~/xow64_dxvk_async_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_async_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_async_proton.tar.xz && mv ~/xow64_dxvk_async_proton.tar.xz ~/xow64_wine/xow64_dxvk_async_proton.tar.xz
+        cd && rm -rf ~/xow64_dxvk_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_proton.tar.xz
+        cd && rm -rf ~/xow64_dxvk_async_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_async_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_async_proton.tar.xz && mv ~/xow64_dxvk_async_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_async_proton.tar.xz
     else
         cd && rm -rf $TPH/xow64_dxvk_proton.tar.xz && rm -rf $TPH/xow64_wine/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv $TPH/xow64_dxvk_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_proton.tar.xz
         cd && rm -rf $TPH/xow64_dxvk_async_proton.tar.xz && rm -rf $TPH/xow64_wine/xow64_dxvk_async_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_async_proton.tar.xz && mv $TPH/xow64_dxvk_async_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_async_proton.tar.xz
     fi
     if [[ "$1" == "update-vkd3d-async" ]]; then
-        if [ ! -f $TPH/.xow64-proot ]; then
-            echo "extracting xow64_dxvk_async_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_async_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
-        else
-            echo "extracting xow64_dxvk_async_proton.tar.xz..." && cd ~/xow64_wine && tar -xf xow64_dxvk_async_proton.tar.xz && cd && cp -r ~/xow64_wine/.xow64_wine $TPH/ && rm -rf ~/xow64_wine/.xow64_wine
-        fi
+        echo "extracting xow64_dxvk_async_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_async_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
     else
-        if [ ! -f $TPH/.xow64-proot ]; then
-            echo "extracting xow64_dxvk_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
-        else
-            echo "extracting xow64_dxvk_proton.tar.xz..." && cd ~/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r ~/xow64_wine/.xow64_wine $TPH/ && rm -rf ~/xow64_wine/.xow64_wine
-        fi
+        echo "extracting xow64_dxvk_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine  
     fi
     echo "done."
 elif [[ "$1" == "q" ]]; then
@@ -589,7 +574,7 @@ if [[ "$1" == "vkd3d-async=true" ]]; then
         fi
     else
         if [ ! -f ~/xow64_wine/xow64_dxvk_async_proton.tar.xz ]; then
-            cd && rm -rf ~/xow64_dxvk_async_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_async_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_async_proton.tar.xz && mv ~/xow64_dxvk_async_proton.tar.xz ~/xow64_wine/xow64_dxvk_async_proton.tar.xz
+            cd && rm -rf ~/xow64_dxvk_async_proton.tar.xz && rm -rf ~/xow64_wine/xow64_dxvk_async_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_async_proton.tar.xz && mv ~/xow64_dxvk_async_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_async_proton.tar.xz
         fi
     fi
 else
@@ -601,23 +586,16 @@ else
     else
         if [ ! -f ~/xow64_wine/xow64_dxvk_proton.tar.xz ]; then
             echo "Installing dxvk-proton (vkd3d) components..."
-            cd && rm -rf ~/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz ~/xow64_wine/xow64_dxvk_proton.tar.xz
+            cd && rm -rf ~/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_proton.tar.xz
         fi
     fi
 fi
 
 if [[ "$1" == "vkd3d-async=true" ]]; then
-    if [ ! -f $TPH/.xow64-proot ]; then
-        echo "extracting xow64_dxvk_async_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_async_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
-    else
-        echo "extracting xow64_dxvk_async_proton.tar.xz..." && cd ~/xow64_wine && tar -xf xow64_dxvk_async_proton.tar.xz && cd && cp -r ~/xow64_wine/.xow64_wine $TPH/ && rm -rf ~/xow64_wine/.xow64_wine
-    fi
+    echo "extracting xow64_dxvk_async_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_async_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+    
 else
-    if [ ! -f $TPH/.xow64-proot ]; then
-        echo "extracting xow64_dxvk_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
-    else
-        echo "extracting xow64_dxvk_proton.tar.xz..." && cd ~/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r ~/xow64_wine/.xow64_wine $TPH/ && rm -rf ~/xow64_wine/.xow64_wine
-    fi
+    echo "extracting xow64_dxvk_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
 fi
 
 if [ -f $TPH/.xow64_wine/user.reg ]; then
@@ -660,15 +638,14 @@ if [ ! -f $TPH/.xow64-proot ]; then
         echo "Reinstalling wined3d components..."
         cd && rm -rf $TPH/wined3d.tar.xz && rm -rf $TPH/xow64_wine/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv $TPH/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
     fi
-
-    echo "extracting wined3d.tar.xz..." && cd $TPH/xow64_wine && tar -xf wined3d.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
 else
     if [ ! -f ~/xow64_wine/wined3d.tar.xz ]; then
         echo "Reinstalling wined3d components..."
-        cd && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz ~/xow64_wine/wined3d.tar.xz
+        cd && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
     fi
-    echo "extracting wined3d.tar.xz..." && cd ~/xow64_wine && tar -xf wined3d.tar.xz && cd && cp -r ~/xow64_wine/.xow64_wine $TPH/ && rm -rf ~/xow64_wine/.xow64_wine
 fi
+
+    echo "extracting wined3d.tar.xz..." && cd $TPH/xow64_wine && tar -xf wined3d.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
 
 if [ ! -f $TPH/.xow64_wine/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/bin/wine wineboot
@@ -755,6 +732,8 @@ elif [[ "$1" == "remove-all" ]]; then
     rm -rf ~/xow64_box64
     echo "removing xow64_drivers..."
     rm -rf $TPH/xow64_drivers
+    echo "removing xow64_prefix..."
+    rm -rf ~/xow64_prefix
     echo "done."
 elif [[ "$1" == "desk-size" ]]; then
     wine_q

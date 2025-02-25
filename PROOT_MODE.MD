@@ -1,6 +1,6 @@
 # Installation:
 
-# Insinde termux terminal
+# Inside termux terminal
 Install dependencies (for virgl/virpipe driver):
 ```
 pkg install wget virglrenderer-android virglrenderer angle-android

@@ -92,6 +92,8 @@ Quit wine or terminate all wine related process
 Using newer build of virgl (virpipe) driver
 
 (Universal android 10+ with vulkan 1.1+ GPU supported only)
+
+[(Read more for virgl-angle additional usage from here)](https://github.com/ar37-rs/virgl-angle-termux)
 ```
 ~/xow64 driver=virpipe
 ```

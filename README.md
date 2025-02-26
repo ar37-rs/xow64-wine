@@ -283,18 +283,31 @@ Uninstall (remove) xow64-wine
 * If there's problem when installing xow64, make sure the latest correct termux app version is installed [from here](https://github.com/termux/termux-app/releases)
 
   (tested using termux app v0.119.0-beta.1)
+
+# Addtional guide:
+* Using cnc-ddraw:
+
+    [read more from here](https://github.com/FunkyFr3sh/cnc-ddraw)
+
+# Additional troubleshoot
 * Fix virgl-angle vulkan support for some devices
 
    [such encountered on this issue](https://github.com/ar37-rs/virgl-angle-termux/issues/1)
    ```
    pkg remove *icd-swrast && pkg install vulkan-loader-generic wget openssl && cd && rm -rf ~/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb && dpkg -i ~/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb
    ```
+   
+* Fix for android 12+ devices with [Process completed (signal 9) - ...] issue using adb:
+   ```
+   adb shell "settings put global settings_enable_monitor_phantom_procs false"
+   ```
+   and set max_phantom_processes as well
+   ```
+   adb shell "/system/bin/device_config set_sync_disabled_for_tests persistent"
+   adb shell "/system/bin/device_config put activity_manager max_phantom_processes 2147483647"
+   ```
+   and then restart/reboot device.
 
-# Addtional guide:
-* Using cnc-ddraw:
-
-    [read more from here](https://github.com/FunkyFr3sh/cnc-ddraw)
-  
 # Other links for credits (3rd parties):
 [InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)
 

@@ -60,7 +60,6 @@ Basic usage is the same as inside desktop environment native termux.
    ```
    adb shell "settings put global settings_enable_monitor_phantom_procs false"
    ```
-
    ```
    adb shell "/system/bin/device_config
 set_sync_disabled_for_tests persistent"

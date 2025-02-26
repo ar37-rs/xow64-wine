@@ -56,15 +56,15 @@ Basic usage is the same as inside desktop environment native termux.
 
 * Tested using termux app v0.119.0-beta.1
 
-* Fix for android 12+ devices with [Process completed (signal 9) - ...] issue (using adb):
+* Fix for android 12+ devices with [Process completed (signal 9) - ...] issue using adb:
    ```
    adb shell "settings put global settings_enable_monitor_phantom_procs false"
    ```
-   and
+   and set max_phantom_processes as well
    ```
    adb shell "/system/bin/device_config set_sync_disabled_for_tests persistent"
+   adb shell "/system/bin/device_config put activity_manager max_phantom_processes 2147483647"
    ```
-
    and then restart/reboot device.
 
    [Read more from here](https://ivonblog.com/en-us/posts/fix-termux-signal9-error/) or [here](https://github.com/termux/termux-app/issues/2366)

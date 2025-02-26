@@ -292,9 +292,9 @@ Uninstall (remove) xow64-wine
    ```
 
 # Addtional guide:
-* Using cnc-ddraw (visit link below)
-  
-    https://github.com/FunkyFr3sh/cnc-ddraw
+* Using cnc-ddraw:
+
+    [read more from here](https://github.com/FunkyFr3sh/cnc-ddraw)
   
 # Other links for credits (3rd parties):
 [InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)

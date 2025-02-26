@@ -4,7 +4,7 @@
 Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 
 # Current status:
-Wine version: 10.2-30-ge1b8e7f6ec7 (staging)
+Wine version: 10.2-59-g4c06d354b80 (staging)
 
 Box64 version: 0.3.3 (dev)
 

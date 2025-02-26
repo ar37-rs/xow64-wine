@@ -299,6 +299,8 @@ Uninstall (remove) xow64-wine
 # Other links for credits (3rd parties):
 [InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)
 
+[XinputBridge Wiki](https://github.com/Ilan12346-maya/XinputBridge)
+
 https://www.mesa3d.org
 
 https://github.com/termux

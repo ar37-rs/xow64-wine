@@ -19,6 +19,14 @@ sudo apt update && sudo apt install wget tar openssl gnu-which gpg && sudo wget 
 sudo apt install box64
 ```
 
+for arch/manjaro based distro
+```
+sudo pacman -S wget tar openssl which && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+
+# Install box64-git on arch using yay
+yay -S box64-git
+```
+
 Install xow64 (the same as for termux glibc)
 ```
 cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/xow64 && chmod +x ~/xow64
@@ -56,7 +64,7 @@ Basic usage is the same as inside desktop environment native termux.
 
 * Tested using termux app v0.119.0-beta.1
 
-* Fix for android 12+ devices with [Process completed (signal 9) - ...] issue using adb:
+* Fix for some android 12+ devices with [Process completed (signal 9) - ...] issue using adb:
    ```
    adb shell "settings put global settings_enable_monitor_phantom_procs false"
    ```
@@ -68,3 +76,8 @@ Basic usage is the same as inside desktop environment native termux.
    and then restart/reboot device.
 
    [Read more from here](https://ivonblog.com/en-us/posts/fix-termux-signal9-error/) or [here](https://github.com/termux/termux-app/issues/2366)
+
+* Uninstall box64-git on arch using yay
+   ```
+   yay -Rns box64-git
+   ```

@@ -21,7 +21,7 @@ sudo apt install box64
 
 for arch/manjaro based distro
 ```
-sudo pacman -S wget tar openssl which && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+sudo pacman -S wget tar openssl which && cd $HOME && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 
 # Install box64-git on arch using yay
 yay -S box64-git

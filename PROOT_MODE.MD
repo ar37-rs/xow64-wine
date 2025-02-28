@@ -25,6 +25,12 @@ sudo pacman -S wget tar openssl which && cd $HOME && sudo pacman -S --needed git
 yay -S box64-git
 ```
 
+for RHEL/fedora based distro
+```
+sudo dnf install wget tar openssl which
+sudo dnf install box64 box64-data
+```
+
 Install xow64 (the same as for termux glibc)
 ```
 cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/xow64 && chmod +x ~/xow64

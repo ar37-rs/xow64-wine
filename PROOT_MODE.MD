@@ -22,8 +22,6 @@ sudo apt install box64
 for arch/manjaro based distro
 ```
 sudo pacman -S wget tar openssl which && cd $HOME && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
-
-# Install box64-git on arch using yay
 yay -S box64-git
 ```
 
@@ -77,7 +75,7 @@ Basic usage is the same as inside desktop environment native termux.
 
    [Read more from here](https://ivonblog.com/en-us/posts/fix-termux-signal9-error/) or [here](https://github.com/termux/termux-app/issues/2366)
 
-* Uninstall box64-git on arch linux based distro using yay
+* Uninstall box64-git on arch linux based distro
    ```
    yay -Rns box64-git
    ```

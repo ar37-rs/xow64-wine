@@ -77,7 +77,7 @@ Basic usage is the same as inside desktop environment native termux.
 
    [Read more from here](https://ivonblog.com/en-us/posts/fix-termux-signal9-error/) or [here](https://github.com/termux/termux-app/issues/2366)
 
-* Uninstall box64-git on arch using yay
+* Uninstall box64-git on arch linux based distro using yay
    ```
    yay -Rns box64-git
    ```

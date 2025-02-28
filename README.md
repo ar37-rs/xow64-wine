@@ -307,6 +307,7 @@ Uninstall (remove) xow64-wine
    adb shell "/system/bin/device_config put activity_manager max_phantom_processes 2147483647"
    ```
    and then restart/reboot device.
+  [read more for more info from here](https://ivonblog.com/en-us/posts/fix-termux-signal9-error/) or [here](https://github.com/termux/termux-app/issues/2366)
 
 # Other links for credits (3rd parties):
 [InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)

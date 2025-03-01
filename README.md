@@ -280,7 +280,7 @@ Uninstall (remove) xow64-wine
 
 * If experiencing any emulation issue, try using different version of box64 and drivers available above accordingly.
 
-* If there's problem when installing xow64, make sure the latest correct termux app version is installed. [from here](https://github.com/termux/termux-app/releases)
+* If there's problem when installing xow64, make sure the latest correct termux app version is installed.
 
   (tested using [termux-app-v0.119.0-beta.1](https://github.com/termux/termux-app/releases))
 

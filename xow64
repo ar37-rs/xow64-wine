@@ -1,6 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # https://github.com/ar37-rs/xow64-wine
-# version 01-03-2025
 
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread relatively faster for wined3d (very intense cpu)
@@ -260,10 +259,10 @@ if [[ "$1" == "install" || "$1" == "update-all" ]]; then
     fi
 elif [[ "$1" == "install-deps" ]]; then
     proot_info
-    cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc
+    cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc
 elif [[ "$1" == "reinstall-deps" ]]; then
     proot_info
-    cd && pkg update && pkg reinstall tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg reinstall glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc
+    cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc
 elif [[ "$1" == "box64=0.3.3" || "$1" == "update-box64" ]]; then
     proot_info
     echo "Installing box64-0.3.3..." && cd && rm -rf $TPH/xow64_box64.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_box64.tar.xz && echo "done."

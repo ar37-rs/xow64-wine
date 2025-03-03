@@ -297,7 +297,14 @@ elif [[ "$1" == "update-drivers" ]]; then
         fi
     fi
     
-    if [ ! -f $TPH/xow64_wine/.vk-radeon ] || [ ! -f $TPH/xow64_drivers/.virgl ]; then
+    DRIVERS_UPDATE_AVAIL=no
+    if [ -f $TPH/xow64_wine/.vk-radeon ]; then
+       DRIVERS_UPDATE_AVAIL=yes
+    fi
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+       DRIVERS_UPDATE_AVAIL=yes
+    fi
+    if [[ $DRIVERS_UPDATE_AVAIL == "no" ]]; then
         echo "update-drivers currently available"
         echo "for virpipe driver and vulkan radeon/xclipse GPUs only"
         echo "for other GPUs use the available drivers on the system."

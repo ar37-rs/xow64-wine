@@ -3,6 +3,8 @@
 # Xow64-Wine
 Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 
+with minimal dependencies as needed (install only what's needed)
+
 # Current status:
 Wine version: 10.2-156-gd17225a89cf (staging)
 

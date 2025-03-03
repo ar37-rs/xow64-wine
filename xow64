@@ -115,29 +115,6 @@ else
     export BOX64X=$TPH/xow64_box64/box64
 fi
 
-vgl_cfg() {
-    # export MESA_GLTHREAD=true
-    export MESA_GL_VERSION_OVERRIDE=4.1COMPAT
-    export MESA_GLSL_VERSION_OVERRIDE=410
-    export MESA_GLES_VERSION_OVERRIDE=3.1
-    # fix if used along side override zink
-    export MESA_LOADER_DRIVER_OVERRIDE=
-    # export LIBGL_DRI3_DISABLE=1
-    # disable dri3 alternative
-    # export LIBGL_ALWAYS_SOFTWARE=1
-    # use virpipe
-    export GALLIUM_DRIVER=virpipe
-    export MESA_NO_ERROR=1
-    export MESA_BACK_BUFFER=pixmap
-
-    if [ ! -f $TPH/.vgl-d3d ]; then
-	export MESA_EXTENSION_OVERRIDE="+GL_ARB_compute_shader +GL_ARB_compute_variable_group_size +GL_ARB_depth_clamp +GL_ARB_blend_func_extended +GL_ARB_ES3_1_compatibility +GL_ARB_ES3_compatibility +GL_ARB_shader_atomic_counters +GL_ARB_shader_atomic_counter_ops"
-    else
-	export MESA_EXTENSION_OVERRIDE="+GL_ARB_compute_shader +GL_ARB_compute_variable_group_size +GL_ARB_depth_clamp +GL_ARB_blend_func_extended +GL_ARB_ES3_1_compatibility +GL_ARB_ES3_compatibility -GL_EXT_texture_sRGB -GL_EXT_texture_sRGB_R8 -GL_EXT_texture_sRGB_RG8 +GL_ARB_shader_atomic_counters +GL_ARB_shader_atomic_counter_ops"
-    	# export VREND_TWEAK=bgra-dest-swz
-    fi
-}
-
 pan_info() {
     echo "info:"
     if [ -f $TPH/xow64_drivers/.panthor ]; then
@@ -317,7 +294,6 @@ elif [[ "$1" == "update-drivers" ]]; then
         $TPH/xow64_drivers/vglx q
         dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
         dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb
-        vgl_cfg
         $TPH/xow64_drivers/vglx cd .
     fi
     echo "done."
@@ -334,7 +310,6 @@ elif [[ "$1" == "update-angle" ]]; then
     $TPH/xow64_drivers/vglx q
     dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
     echo "done."
-    vgl_cfg
     $TPH/xow64_drivers/vglx cd .
 elif [[ "$1" == "update-vkd3d" || "$1" == "update-vkd3d-async" ]]; then
     wine_q
@@ -464,7 +439,6 @@ elif [[ "$1" == "driver=virpipe" ]]; then
         dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
         echo "Installing virgl..."
         dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb
-        vgl_cfg
         $TPH/xow64_drivers/vglx cd .
     fi
     echo "Virpipe is installed"
@@ -748,7 +722,6 @@ elif [[ "$1" == "s" ]]; then
     fi
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
-        vgl_cfg
         if [ ! -f $TPH/.xow64-proot ]; then
             export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
         fi
@@ -774,7 +747,6 @@ elif [[ "$1" == "gpucaps" ]]; then
     GPUCAPS=$TPH/.xow64_wine/drive_c/ProgramData/GpuCaps
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
-        vgl_cfg
         cd $GPUCAPS
         if [ ! -f $TPH/.xow64-proot ]; then
             export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
@@ -799,7 +771,6 @@ elif [[ "$1" == "gpucaps" ]]; then
 elif [[ "$1" == "testd3d" ]]; then
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
-        vgl_cfg
         cd $TPH/'.xow64_wine/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs'
         if [ ! -f $TPH/.xow64-proot ]; then
             export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
@@ -825,7 +796,6 @@ elif [[ "$1" == "testd3d" ]]; then
     CUBEMAP=$TPH/.xow64_wine/drive_c/ProgramData/EnvMapping
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
-        vgl_cfg
         cd $CUBEMAP
         if [ ! -f $TPH/.xow64-proot ]; then
             export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
@@ -851,7 +821,6 @@ elif [[ "$1" == "spheremap" ]]; then
     SHEREMAP=$TPH/.xow64_wine/drive_c/ProgramData/EnvMapping
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
-        vgl_cfg
         cd $SHEREMAP
         if [ ! -f $TPH/.xow64-proot ]; then
             export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
@@ -876,7 +845,6 @@ elif [[ "$1" == "spheremap" ]]; then
 elif [[ "$1" == "r" ]]; then
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
-        vgl_cfg
         if [ ! -f $TPH/.xow64-proot ]; then
             export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
         fi

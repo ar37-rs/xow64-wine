@@ -13,7 +13,7 @@ Box64 version: 0.3.3 (dev)
 ### Install desktop for native termux
 [(Read for more info on how to setup xfce4)](https://github.com/ar37-rs/xfce4-termux)
 
-## or
+or
 
 [(using termux-desktop from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
 

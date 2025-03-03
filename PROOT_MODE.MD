@@ -1,7 +1,8 @@
 # Installation:
 
-### Run inside termux terminal
-Install dependencies (for virgl/virpipe driver):
+### Install dependencies (for virgl/virpipe driver):
+
+(Run inside termux terminal)
 ```
 pkg install wget openssl which virglrenderer-android virglrenderer angle-android
 ```
@@ -11,7 +12,8 @@ pkg install wget openssl which virglrenderer-android virglrenderer angle-android
 [Read for more info on how to setup termux-desktops with ubuntu-proot](https://github.com/LinuxDroidMaster/Termux-Desktops/blob/main/Documentation/proot/ubuntu_proot.md)
 
 ### Run inside proot desktop terminal
-Install dependencies and box64
+
+(Run inside proot desktop terminal)
 
 for debian/ubuntu based distro
 ```

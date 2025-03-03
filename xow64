@@ -8,6 +8,10 @@ export WINEESYNC_TERMUX=1
 export WINEESYNC=1
 
 if [[ "$1" == "proot=true" ]]; then
+    if [[ $(echo $PREFIX) == "/data/data/com.termux/files/usr" ]]; then
+        echo "Proot Mode is only available on proot."
+        exit
+    fi
     if [ ! -d ~/xow64_prefix ]; then
         mkdir ~/xow64_prefix
     fi

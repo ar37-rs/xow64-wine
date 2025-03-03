@@ -239,12 +239,12 @@ fi
 if [[ "$1" == "install" || "$1" == "update-all" ]]; then
     wine_q
     if [ -f $TPH/.xow64-proot ]; then
-       echo "Installing and updating all xow64 components..." && cd && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_drivers.tar.xz && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cp -r xow64_wine $TPH/ && cp -r .xow64_wine $TPH/ && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz && rm -rf ~/xow64_box64 && rm -rf ~/xow64_wine && rm -rf ~/.xow64_wine
+       echo "Installing and updating all xow64 components..." && cd && rm -rf ~/xow64_box64.tar.xz && rm -rf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && rm -rf ~/wined3d.tar.xz && rm -rf ~/xow64_wine/wined3d.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf ~/xow64_wine.tar.xz && rm -rf ~/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cp -r xow64_wine $TPH/ && cp -r .xow64_wine $TPH/ && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv ~/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz && rm -rf ~/xow64_box64 && rm -rf ~/xow64_wine && rm -rf ~/.xow64_wine
        if [ ! -d $TPH/xow64_drivers ]; then
             mkdir $TPH/xow64_drivers
        fi
     else
-       cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && cd && rm -rf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_wine.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/wined3d.tar.xz && rm -rf $TPH/xow64_wine/wined3d.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_box64.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf $TPH/xow64_wine.tar.xz && rm -rf $TPH/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv $TPH/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
+       cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && cd && rm -rf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_wine.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/wined3d.tar.xz && rm -rf $TPH/xow64_wine/wined3d.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_box64.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine.tar.xz && echo "extracting xow64_wine.tar.xz..." && tar -xf $TPH/xow64_wine.tar.xz && rm -rf $TPH/xow64_wine.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d.tar.xz && mv $TPH/wined3d.tar.xz $TPH/xow64_wine/wined3d.tar.xz
     fi
     
     cp -r $TPH/xow64_wine/share/wine /data/data/com.termux/files/usr/glibc/share
@@ -305,6 +305,12 @@ elif [[ "$1" == "update-patch" ]]; then
     echo "done."
 elif [[ "$1" == "update-drivers" ]]; then
     proot_info
+    if [[ ! $TPH/xow64_wine/.vk-radeon || ! -f $TPH/xow64_drivers/.virgl ]]; then
+        echo "update-drivers currently available"
+        echo "for virpipe driver and vulkan radeon/xclipse GPUs only"
+        echo "for other GPUs use the available drivers on the system."
+        exit
+    fi
     echo "Updating graphics drivers..."
     cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb && rm -rf $TPH/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/virglrenderer_1.1.0-11_aarch64.deb && mv $TPH/virglrenderer_1.1.0-11_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/virglrenderer_1.1.0-11_aarch64-patched.deb && mv $TPH/virglrenderer_1.1.0-11_aarch64-patched.deb $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64-patched.deb && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx
     if [ -f $TPH/xow64_drivers/.virgl ]; then
@@ -355,6 +361,10 @@ elif [[ "$1" == "vk=radeon" ]]; then
         if [ ! -d $TPH/xow64_wine ]; then
             mkdir $TPH/xow64_wine
         fi
+    else
+        if [ ! -d $TPH/xow64_drivers ]; then
+            cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
+        fi
     fi
     if [ -f $TPH/xow64_wine/.vk-turnip ]; then
         rm -rf $TPH/xow64_wine/.vk-turnip
@@ -403,58 +413,6 @@ elif [[ "$1" == "vk=default" ]]; then
         rm -rf $TPH/xow64_wine/.vk-llvmpipe
     fi
     echo "using vulkan default driver."
-elif [[ "$1" == "driver=virpipe-patched" ]]; then
-    if [ -f $TPH/xow64_drivers/.panfrost ]; then
-        rm -rf $TPH/xow64_drivers/.panfrost
-    fi
-    if [ -f $TPH/xow64_drivers/.panthor ]; then
-        rm -rf $TPH/xow64_drivers/.panthor
-    fi
-    if [ ! -d $TPH/xow64_drivers ]; then
-        if [ -f $TPH/.xow64-proot ]; then
-            mkdir $TPH/xow64_drivers
-        else
-            echo "Installing virgl patched components..." && cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
-        fi
-    fi
-
-    if [ ! -f $TPH/.xow64-proot ]; then
-        if [ ! -f $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64-patched.deb ]; then
-             cd && rm -rf $TPH/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/virglrenderer_1.1.0-11_aarch64-patched.deb && mv $TPH/virglrenderer_1.1.0-11_aarch64-patched.deb $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64-patched.deb
-        fi
-
-        if [ ! -f $TPH/xow64_drivers/angle-android_2.1.2-latest.deb ]; then
-             cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
-        fi
-    fi
-    
-    if [ -f $TPH/.xow64-proot ]; then
-        if [ ! -d $TPH/xow64_drivers ]; then
-            mkdir $TPH/xow64_drivers
-        fi
-        if [ ! -f $TPH/xow64_drivers/vglx ]; then
-            cd && rm -rf ~/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x ~/vglx && mv ~/vglx $TPH/xow64_drivers/vglx
-        fi
-    else
-        if [ ! -f $TPH/xow64_drivers/vglx ]; then
-            cd && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx
-        fi
-    fi
-
-    if [ ! -f $TPH/xow64_drivers/.virgl ]; then
-        touch $TPH/xow64_drivers/.virgl
-    fi
-    
-    if [ ! -f $TPH/.xow64-proot ]; then
-        $TPH/xow64_drivers/vglx q
-        echo "Installing angle-android with vulkan validation layer..."
-        dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
-        echo "Installing virgl direct connection..."
-        dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64-patched.deb
-        vgl_cfg
-        $TPH/xow64_drivers/vglx cd .
-    fi
-    echo "Virpipe with patched direct xcb connection is installed."
 elif [[ "$1" == "driver=virpipe" ]]; then
     if [ -f $TPH/xow64_drivers/.panfrost ]; then
         rm -rf $TPH/xow64_drivers/.panfrost
@@ -471,6 +429,9 @@ elif [[ "$1" == "driver=virpipe" ]]; then
     fi
 
     if [ ! -f $TPH/.xow64-proot ]; then
+        if [ ! -d $TPH/xow64_drivers ]; then
+            cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
+        fi
         if [ ! -f $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb ]; then
             cd && rm -rf $TPH/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/virglrenderer_1.1.0-11_aarch64.deb && mv $TPH/virglrenderer_1.1.0-11_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb
         fi

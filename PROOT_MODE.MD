@@ -11,8 +11,6 @@ pkg install wget openssl which virglrenderer-android virglrenderer angle-android
 ### Install desktop for proot termux
 [Read for more info on how to setup termux-desktops with ubuntu-proot](https://github.com/LinuxDroidMaster/Termux-Desktops/blob/main/Documentation/proot/ubuntu_proot.md)
 
-### Run inside proot desktop terminal
-
 (Run inside proot desktop terminal)
 
 for debian/ubuntu based distro

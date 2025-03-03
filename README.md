@@ -238,7 +238,7 @@ Update wine
 ~/xow64 update-wine
 ```
 
-Update graphics drivers (glibc only)
+Update graphics drivers
 ```
 ~/xow64 update-drivers
 ```

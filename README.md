@@ -278,12 +278,12 @@ Update patch
 
 Remove specific installed version of wine (9.18-staging for exmaple)
 ```
-~/xow64 remove-wine=9.18
+~/xow64 wine-remove=9.18
 ```
 
 Remove specific installed version of box64 (0.3.2 for exmaple)
 ```
-~/xow64 remove-box64=0.3.2
+~/xow64 box64-remove=0.3.2
 ```
 
 Uninstall (remove) xow64-wine completely

@@ -2,6 +2,7 @@
 # https://github.com/ar37-rs/xow64-wine
 
 WINE_LATEST=10.2-staging
+BOX64_LATEST=0.3.3
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread relatively faster for wined3d (very intense cpu)
 # export MESA_GLTHREAD=true
@@ -69,8 +70,19 @@ if [ -f $TPH/.xow64-proot ]; then
     export BOX64_RCFILE=/etc/box64.box64rc
     export BOX64_LD_LIBRARY_PATH=$TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-unix:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-unix:$BOX64_LD_LIBRARY_PATH
 else
-    export BOX64_RCFILE=$TPH/xow64_box64/etc/box64.box64rc
-    export BOX64_LD_LIBRARY_PATH=$TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-unix:$TPH/xow64_box64/lib/x86_64-linux-gnu:$TPH/xow64_box64/lib/i386-linux-gnu
+    if [ ! -d $TPH/xow64_box64 ]; then
+        mkdir $TPH/xow64_box64
+    fi
+    if [ -f $TPH/xow64_box64/.box64-version ]; then
+        XOW64_BOXV=$(cat $TPH/xow64_box64/.box64-version)
+        if [[ $XOW64_BOXV == "" ]]; then
+            XOW64_BOXV=$BOX64_LATEST
+        fi
+    else
+        XOW64_BOXV=$BOX64_LATEST
+    fi
+    export BOX64_RCFILE=$TPH/xow64_box64/${XOW64_BOXV}/etc/box64.box64rc
+    export BOX64_LD_LIBRARY_PATH=$TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-unix:$TPH/xow64_box64/${XOW64_BOXV}/lib/x86_64-linux-gnu:$TPH/xow64_box64/${XOW64_BOXV}/lib/i386-linux-gnu
 fi
 
 # BOX64 options
@@ -129,7 +141,7 @@ if [ -f $TPH/.xow64-box64-custom ]; then
     fi
     export BOX64X=$BOX64D
 else
-    export BOX64X=$TPH/xow64_box64/box64
+    export BOX64X=$TPH/xow64_box64/${XOW64_BOXV}/box64
 fi
 
 pan_info() {
@@ -284,7 +296,7 @@ elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
             mkdir $TPH/xow64_drivers
        fi
     else
-       cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && cd && rm -rf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_box64.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz
+       cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && cd && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz
     fi
 
     echo "done."
@@ -294,18 +306,29 @@ elif [[ "$1" == "install-deps" ]]; then
 elif [[ "$1" == "reinstall-deps" ]]; then
     proot_info
     cd && pkg update && pkg reinstall tar openssl wget which glibc-repo && pkg update && pkg reinstall glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
-elif [[ "$1" == "box64=0.3.3" || "$1" == "update-box64" ]]; then
-    proot_info
-    echo "Installing box64-0.3.3..." && cd && rm -rf $TPH/xow64_box64.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_box64.tar.xz && echo "done."
-elif [[ "$1" == "box64=0.3.2" ]]; then
-    proot_info
-    echo "Installing box64-0.3.2..." && cd && rm -rf $TPH/xow64_box64-0.3.2.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-0.3.2.tar.xz && echo "extracting xow64_box64-0.3.2.tar.xz..." && tar -xf $TPH/xow64_box64-0.3.2.tar.xz && rm -rf $TPH/xow64_box64-0.3.2.tar.xz && echo "done."
-elif [[ "$1" == "box64=0.3.1" ]]; then
-    proot_info
-    echo "Installing box64-0.3.1..." && cd && rm -rf $TPH/xow64_box64-0.3.1.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-0.3.1.tar.xz && echo "extracting xow64_box64-0.3.1.tar.xz..." && tar -xf $TPH/xow64_box64-0.3.1.tar.xz && rm -rf $TPH/xow64_box64-0.3.1.tar.xz && echo "done."
-elif [[ "$1" == "box64=0.3.0" ]]; then
-    proot_info
-    echo "Installing box64-0.3.0..." && cd && rm -rf $TPH/xow64_box64-0.3.0.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-0.3.0.tar.xz && echo "extracting xow64_box64-0.3.0.tar.xz..." && tar -xf $TPH/xow64_box64-0.3.0.tar.xz && rm -rf $TPH/xow64_box64-0.3.0.tar.xz && echo "done."        
+elif [[ $1 == $(echo $1 | grep box64=) || "$1" == "update-box64" ]]; then
+    proot_info   
+    if [[ "$1" == "box64=0.3.0" ]]; then
+        echo "0.3.0" > $TPH/xow64_box64/.box64-version
+        XOW64_BOXV=0.3.0
+    elif [[ "$1" == "box64=0.3.1" ]]; then
+        echo "0.3.1" > $TPH/xow64_box64/.box64-version
+        XOW64_BOXV=0.3.1
+    elif [[ "$1" == "box64=0.3.2" ]]; then
+        echo "0.3.2" > $TPH/xow64_box64/.box64-version
+        XOW64_BOXV=0.3.2
+    elif [[ "$1" == "box64=0.3.3" || "$1" == "update-box64" ]]; then
+        echo "0.3.3" > $TPH/xow64_box64/.box64-version
+        XOW64_BOXV=0.3.3
+    else
+        echo "box64 version ${1} is currently unavailable."
+        exit
+    fi
+    
+    if [ ! -f $TPH/xow64_box64/${XOW64_BOXV}/box64 ]; then
+        echo "Downloading box64-${XOW64_BOXV}..." && cd && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz
+    fi
+    echo "done."       
 elif [[ "$1" == "update-wine" || "$1" == "install-wine" ]]; then
     wine_q
     install_wine
@@ -318,7 +341,7 @@ elif [[ "$1" == "update-patch" ]]; then
     else
         if [ ! -d $TPH/xow64_box64 ]; then
             echo "Installing box64-0.3.3..."
-            cd && rm -rf $TPH/xow64_box64.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64.tar.xz && echo "extracting xow64_box64.tar.xz..." && tar -xf $TPH/xow64_box64.tar.xz && rm -rf $TPH/xow64_box64.tar.xz
+            cd && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz
         fi
         cd && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz
     fi
@@ -714,19 +737,52 @@ if [ -f $TPH/.xow64_wine/user.reg ]; then
    sed -i '/winmm"=/d' $TPH/.xow64_wine/user.reg
 fi
 echo "winedlloverride for cnc-ddraw is deactivated."
-elif [[ "$1" == "remove-wine=9.18" ]]; then
+elif [[ "$1" == "wine-remove=9.18" ]]; then
     if [ -d $TPH/xow64_wine/9.18-staging ]; then
         rm -rf $TPH/xow64_wine/9.18-staging
         echo "wine 9.18-staging has been removed."
     else
         echo "wine 9.18-staging is not installed"
     fi
-elif [[ "$1" == "remove-wine=10.2" ]]; then
+elif [[ "$1" == "wine-remove=10.2" ]]; then
     if [ -d $TPH/xow64_wine/10.2-staging ]; then
         rm -rf $TPH/xow64_wine/10.2-staging
         echo "wine 10.2-staging has been removed."
     else
         echo "wine 10.2-staging is not installed"
+    fi
+elif [[ $1 == $(echo $1 | grep box64-remove=) ]]; then
+    proot_info   
+    if [[ "$1" == "remove-box64=0.3.0" ]]; then
+        if [ -d $TPH/xow64_box64/0.3.0 ]; then
+            rm -rf $TPH/xow64_box64/0.3.0
+            echo "box64 0.3.0 has been removed."
+        else
+            echo "box64 0.3.0 is not installed"
+        fi
+    elif [[ "$1" == "remove-box64=0.3.1" ]]; then
+        if [ -d $TPH/xow64_box64/0.3.1 ]; then
+            rm -rf $TPH/xow64_box64/0.3.1
+            echo "box64 0.3.1 has been removed."
+        else
+            echo "box64 0.3.1 is not installed"
+        fi
+    elif [[ "$1" == "remove-box64=0.3.2" ]]; then
+        if [ -d $TPH/xow64_box64/0.3.2 ]; then
+            rm -rf $TPH/xow64_box64/0.3.2
+            echo "box64 0.3.2 has been removed."
+        else
+            echo "box64 0.3.2 is not installed"
+        fi
+    elif [[ "$1" == "remove-box64=0.3.3" ]]; then
+        if [ -d $TPH/xow64_box64/0.3.3 ]; then
+            rm -rf $TPH/xow64_box64/0.3.3
+            echo "box64 0.3.3 has been removed."
+        else
+            echo "box64 0.3.3 is not installed"
+        fi
+    else
+        echo "box64 ${1} is not installed"
     fi
 elif [[ "$1" == "remove-all" ]]; then
     wine_q

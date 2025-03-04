@@ -95,7 +95,7 @@ Using newer build of virgl (virpipe) driver
 
 (Universal android 9+ with vulkan 1.1+ GPU supported only)
 
-[(Read more for virgl-angle additional usage from here)](https://github.com/ar37-rs/virgl-angle-termux)
+[(Read more for virgl-angle additional usage from here)](https://github.com/ar37-rs/virgl-angle)
 ```
 ~/xow64 driver=virpipe
 ```

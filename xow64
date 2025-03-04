@@ -312,11 +312,12 @@ elif [[ "$1" == "update-drivers" ]]; then
     fi
     
     echo "Updating graphics drivers..."
-    cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb && rm -rf $TPH/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/virglrenderer_1.1.0-11_aarch64.deb && mv $TPH/virglrenderer_1.1.0-11_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/virglrenderer_1.1.0-11_aarch64-patched.deb && mv $TPH/virglrenderer_1.1.0-11_aarch64-patched.deb $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64-patched.deb && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx
+    cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
     if [ -f $TPH/xow64_drivers/.virgl ]; then
+        cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb && rm -rf $TPH/virglrenderer_1.1.0-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.0-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.0-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx
         $TPH/xow64_drivers/vglx q
         dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
-        dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb
+        dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
         $TPH/xow64_drivers/vglx cd .
     fi
     echo "done."
@@ -329,7 +330,7 @@ elif [[ "$1" == "update-angle" ]]; then
        fi
     fi
     
-    cd && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx && cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
+    cd && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx && cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
     $TPH/xow64_drivers/vglx q
     dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
     echo "done."
@@ -430,12 +431,12 @@ elif [[ "$1" == "driver=virpipe" ]]; then
         if [ ! -d $TPH/xow64_drivers ]; then
             cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
         fi
-        if [ ! -f $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb ]; then
-            cd && rm -rf $TPH/virglrenderer_1.1.0-11_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/virglrenderer_1.1.0-11_aarch64.deb && mv $TPH/virglrenderer_1.1.0-11_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb
+        if [ ! -f $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb ]; then
+            cd && rm -rf $TPH/virglrenderer_1.1.0-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.0-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.0-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
         fi
 
         if [ ! -f $TPH/xow64_drivers/angle-android_2.1.2-latest.deb ]; then
-             cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle-termux/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
+             cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
         fi
     fi
 
@@ -461,7 +462,7 @@ elif [[ "$1" == "driver=virpipe" ]]; then
         echo "Installing angle-android with vulkan validation layer..."
         dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
         echo "Installing virgl..."
-        dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-11_aarch64.deb
+        dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
         $TPH/xow64_drivers/vglx cd .
     fi
     echo "Virpipe is installed"

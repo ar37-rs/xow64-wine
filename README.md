@@ -35,6 +35,18 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 ```
 
 # Usage (inside desktop environment native termux):
+Install different version of wine (default is on the current status above)
+
+(currently wine 9.18 and 10.2 staging are available) 
+```
+~/xow64 wine=9.18
+```
+
+Switch back to default or specific wine version
+```
+~/xow64 wine=default
+```
+
 Run and check wine version
 ```
 ~/xow64 r --version
@@ -262,6 +274,11 @@ Update dxvk-proton async (vkd3d)
 Update patch
 ```
 ~/xow64 update-patch
+```
+
+Remove specific installed version of (9.18-staging for exmaple)
+```
+~/xow64 remove-wine=9.18
 ```
 
 Uninstall (remove) xow64-wine

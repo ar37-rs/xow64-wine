@@ -269,6 +269,21 @@ install_wine() {
     dllsoverride
 }
 
+install_box64() {
+    if [ -f $TPH/xow64_box64/.box64-version ]; then
+        XOW64_BOXV=$(cat $TPH/xow64_box64/.box64-version)
+        if [[ $XOW64_BOXV == "" ]]; then
+            XOW64_BOXV=$BOX64_LATEST
+        fi
+    else
+        XOW64_BOXV=$BOX64_LATEST
+    fi
+    if [ ! -f $TPH/xow64_box64/${XOW64_BOXV}/box64 ]; then
+        echo "Downloading box64-${XOW64_BOXV}..." && cd && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz
+    fi
+    echo "using box64 version ${XOW64_BOXV}"
+}
+
 if [[ "$1" == "wine=10.2" || "$1" == "wine=default" ]]; then
     echo "10.2-staging" > $TPH/xow64_wine/.wine-version
     if [ ! -d $TPH/xow64_wine/10.2-staging ]; then
@@ -306,29 +321,22 @@ elif [[ "$1" == "install-deps" ]]; then
 elif [[ "$1" == "reinstall-deps" ]]; then
     proot_info
     cd && pkg update && pkg reinstall tar openssl wget which glibc-repo && pkg update && pkg reinstall glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
-elif [[ $1 == $(echo $1 | grep box64=) || "$1" == "update-box64" ]]; then
+elif [[ "$1" == "box64=0.3.0" ]]; then
+    proot_info
+    echo "0.3.0" > $TPH/xow64_box64/.box64-version
+    install_box64
+elif [[ "$1" == "box64=0.3.1" ]]; then
     proot_info   
-    if [[ "$1" == "box64=0.3.0" ]]; then
-        echo "0.3.0" > $TPH/xow64_box64/.box64-version
-        XOW64_BOXV=0.3.0
-    elif [[ "$1" == "box64=0.3.1" ]]; then
-        echo "0.3.1" > $TPH/xow64_box64/.box64-version
-        XOW64_BOXV=0.3.1
-    elif [[ "$1" == "box64=0.3.2" ]]; then
-        echo "0.3.2" > $TPH/xow64_box64/.box64-version
-        XOW64_BOXV=0.3.2
-    elif [[ "$1" == "box64=0.3.3" || "$1" == "update-box64" ]]; then
-        echo "0.3.3" > $TPH/xow64_box64/.box64-version
-        XOW64_BOXV=0.3.3
-    else
-        echo "box64 version ${1} is currently unavailable."
-        exit
-    fi
-    
-    if [ ! -f $TPH/xow64_box64/${XOW64_BOXV}/box64 ]; then
-        echo "Downloading box64-${XOW64_BOXV}..." && cd && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz
-    fi
-    echo "done."       
+    echo "0.3.1" > $TPH/xow64_box64/.box64-version
+    install_box64
+elif [[ "$1" == "box64=0.3.2" ]]; then
+    proot_info   
+    echo "0.3.2" > $TPH/xow64_box64/.box64-version
+    install_box64
+elif [[ "$1" == "box64=0.3.3" || "$1" == "update-box64" ]]; then
+    proot_info   
+    echo "0.3.3" > $TPH/xow64_box64/.box64-version
+    install_box64    
 elif [[ "$1" == "update-wine" || "$1" == "install-wine" ]]; then
     wine_q
     install_wine
@@ -751,38 +759,37 @@ elif [[ "$1" == "wine-remove=10.2" ]]; then
     else
         echo "wine 10.2-staging is not installed"
     fi
-elif [[ $1 == $(echo $1 | grep box64-remove=) ]]; then
-    proot_info   
-    if [[ "$1" == "box64-remove=0.3.0" ]]; then
-        if [ -d $TPH/xow64_box64/0.3.0 ]; then
-            rm -rf $TPH/xow64_box64/0.3.0
-            echo "box64 0.3.0 has been removed."
-        else
-            echo "box64 0.3.0 is not installed"
-        fi
-    elif [[ "$1" == "box64-remove=0.3.1" ]]; then
-        if [ -d $TPH/xow64_box64/0.3.1 ]; then
-            rm -rf $TPH/xow64_box64/0.3.1
-            echo "box64 0.3.1 has been removed."
-        else
-            echo "box64 0.3.1 is not installed"
-        fi
-    elif [[ "$1" == "box64-remove=0.3.2" ]]; then
-        if [ -d $TPH/xow64_box64/0.3.2 ]; then
-            rm -rf $TPH/xow64_box64/0.3.2
-            echo "box64 0.3.2 has been removed."
-        else
-            echo "box64 0.3.2 is not installed"
-        fi
-    elif [[ "$1" == "box64-remove=0.3.3" ]]; then
-        if [ -d $TPH/xow64_box64/0.3.3 ]; then
-            rm -rf $TPH/xow64_box64/0.3.3
-            echo "box64 0.3.3 has been removed."
-        else
-            echo "box64 0.3.3 is not installed"
-        fi
+elif [[ "$1" == "box64-remove=0.3.0" ]]; then
+    proot_info
+    if [ -d $TPH/xow64_box64/0.3.0 ]; then
+        rm -rf $TPH/xow64_box64/0.3.0
+        echo "box64 0.3.0 has been removed."
     else
-        echo "the related box64 version is not installed"
+        echo "box64 0.3.0 is not installed"
+    fi
+elif [[ "$1" == "box64-remove=0.3.1" ]]; then
+    proot_info
+    if [ -d $TPH/xow64_box64/0.3.1 ]; then
+        rm -rf $TPH/xow64_box64/0.3.1
+        echo "box64 0.3.1 has been removed."
+    else
+        echo "box64 0.3.1 is not installed"
+    fi
+elif [[ "$1" == "box64-remove=0.3.2" ]]; then
+    proot_info
+    if [ -d $TPH/xow64_box64/0.3.2 ]; then
+        rm -rf $TPH/xow64_box64/0.3.2
+        echo "box64 0.3.2 has been removed."
+    else
+        echo "box64 0.3.2 is not installed"
+    fi
+elif [[ "$1" == "box64-remove=0.3.3" ]]; then
+    proot_info
+    if [ -d $TPH/xow64_box64/0.3.3 ]; then
+        rm -rf $TPH/xow64_box64/0.3.3
+        echo "box64 0.3.3 has been removed."
+    else
+        echo "box64 0.3.3 is not installed"
     fi
 elif [[ "$1" == "remove-all" ]]; then
     wine_q

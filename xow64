@@ -753,28 +753,28 @@ elif [[ "$1" == "wine-remove=10.2" ]]; then
     fi
 elif [[ $1 == $(echo $1 | grep box64-remove=) ]]; then
     proot_info   
-    if [[ "$1" == "remove-box64=0.3.0" ]]; then
+    if [[ "$1" == "box64-remove=0.3.0" ]]; then
         if [ -d $TPH/xow64_box64/0.3.0 ]; then
             rm -rf $TPH/xow64_box64/0.3.0
             echo "box64 0.3.0 has been removed."
         else
             echo "box64 0.3.0 is not installed"
         fi
-    elif [[ "$1" == "remove-box64=0.3.1" ]]; then
+    elif [[ "$1" == "box64-remove=0.3.1" ]]; then
         if [ -d $TPH/xow64_box64/0.3.1 ]; then
             rm -rf $TPH/xow64_box64/0.3.1
             echo "box64 0.3.1 has been removed."
         else
             echo "box64 0.3.1 is not installed"
         fi
-    elif [[ "$1" == "remove-box64=0.3.2" ]]; then
+    elif [[ "$1" == "box64-remove=0.3.2" ]]; then
         if [ -d $TPH/xow64_box64/0.3.2 ]; then
             rm -rf $TPH/xow64_box64/0.3.2
             echo "box64 0.3.2 has been removed."
         else
             echo "box64 0.3.2 is not installed"
         fi
-    elif [[ "$1" == "remove-box64=0.3.3" ]]; then
+    elif [[ "$1" == "box64-remove=0.3.3" ]]; then
         if [ -d $TPH/xow64_box64/0.3.3 ]; then
             rm -rf $TPH/xow64_box64/0.3.3
             echo "box64 0.3.3 has been removed."
@@ -782,7 +782,7 @@ elif [[ $1 == $(echo $1 | grep box64-remove=) ]]; then
             echo "box64 0.3.3 is not installed"
         fi
     else
-        echo "box64 ${1} is not installed"
+        echo "the related box64 version is not installed"
     fi
 elif [[ "$1" == "remove-all" ]]; then
     wine_q

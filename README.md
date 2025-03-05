@@ -37,7 +37,9 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 # Usage (inside desktop environment native termux):
 Install different version of wine (default is 10.2)
 
-(currently wine 9.18 and 10.2 staging are available) 
+currently wine 9.18 and 10.2 staging are available
+
+(wine 9.18 fix crash when running iexplore)
 ```
 ~/xow64 wine=9.18
 ```

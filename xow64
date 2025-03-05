@@ -191,14 +191,14 @@ vkinfo() {
 	export MESA_GLES_VERSION_OVERRIDE=3.2
 	export MESA_LOADER_DRIVER_OVERRIDE=zink
 	export TU_DEBUG=noconform
-        if [ -f $TPH/.xow64-proot ]; then 
+        if [ -f $TPH/.xow64-proot ]; then
             export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/freedreno_icd.aarch64.json
-        else    
+        else
             export VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/freedreno_icd.aarch64.json
         fi
     elif [ -f $TPH/xow64_wine/.vk-llvmpipe ]; then
         echo "using llvmpipe vulkan driver."
-        if [ -f $TPH/.xow64-proot ]; then 
+        if [ -f $TPH/.xow64-proot ]; then
             export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/lvp_icd.aarch64.json
         else
             if [ -f $TPH/xow64_drivers/share/vulkan/icd.d/lvp_icd.aarch64.json ]; then
@@ -264,7 +264,7 @@ install_wine() {
     else
         cd && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64-wine-${WINE_VERSION}.tar.xz && echo "extracting xow64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && echo " " && echo "Downloading wined3d components..." && cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
     fi
-    
+
     wine_inf
     dllsoverride
 }
@@ -303,7 +303,7 @@ elif [[ "$1" == "wine=10.2-staging" || "$1" == "wine=default" ]]; then
         wine_inf
         echo "using wine 10.2 staging"
     fi
-elif [[ "$1" == "wine=9.18" ]]; then
+elif [[ "$1" == "wine=9.18-staging" ]]; then
     echo "9.18-staging" > $TPH/xow64_wine/.wine-version
     if [ ! -d $TPH/xow64_wine/9.18-staging ]; then
         install_wine

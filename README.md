@@ -8,7 +8,7 @@ with minimal dependencies as possible and install only what needed.
 ### Current state:
 Wine 10.2-193-g6e6334d4293 (Staging)
 
-Box64 0.3.3 1bf4851 (Dev)
+Box64 v0.3.3 1bf4851 (Dev)
 
 # Installation:
 [(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
@@ -276,12 +276,12 @@ Update patch
 ~/xow64 update-patch
 ```
 
-Remove specific installed version of wine (9.18-staging for exmaple)
+Remove specific installed version of wine (e.g: 9.18 )
 ```
 ~/xow64 wine-remove=9.18
 ```
 
-Remove specific installed version of box64 (0.3.2 for exmaple)
+Remove specific installed version of box64 (e.g: 0.3.2)
 ```
 ~/xow64 box64-remove=0.3.2
 ```

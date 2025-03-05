@@ -8,10 +8,10 @@ with minimal dependencies as possible and install only what needed.
 ### Current state:
 #### Staging:
 Wine 10.2-193-g6e6334d4293 (Staging)
-#### Git official
+#### Devel
 Wine 10.2-193-g6e6334d4293
 
-#### Dev
+#### Devel
 Box64 with Dynarec v0.3.3
 
 # Installation:
@@ -53,7 +53,7 @@ install wine 9.18 staging
 ~/xow64 wine=9.18-staging
 ```
 
-install wine 10.2 (git-dev)
+install wine 10.2 devel
 ```
 ~/xow64 wine=10.2
 ```

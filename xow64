@@ -125,7 +125,7 @@ if [ -f $TPH/.xow64-proot ]; then
     export WINE_CA_CERT_PATH=/etc/ssl/certs
     export EXEX=exec
 else
-    export LD_LIBRARY_PATH=$TPH/xow64_box64/lib/aarch64-linux-gnu:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=$TPH/xow64_box64/lib/aarch64-linux-gnu:$TPH/xow64_box64/lib/aarch64-linux-gnu/gstreamer-1.0:$TPH/xow64_box64/lib/aarch64-linux-gnu/pulseaudio:$TPH/xow64_box64/lib/aarch64-linux-gnu/mpg123:$LD_LIBRARY_PATH
     export WINE_CA_CERT_PATH=$PREFIX/glibc/etc/ssl/certs
     export EXEX="grun -s"
 fi
@@ -279,9 +279,10 @@ install_box64() {
         XOW64_BOXV=$BOX64_LATEST
     fi
     if [ ! -f $TPH/xow64_box64/${XOW64_BOXV}/box64 ]; then
-        echo "Downloading box64-${XOW64_BOXV}..." && cd && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz
+        echo "Downloading box64-${XOW64_BOXV}..." && cd && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && echo "done."
+    else
+        echo "using box64 version ${XOW64_BOXV}"
     fi
-    echo "using box64 version ${XOW64_BOXV}"
 }
 
 if [[ "$1" == "wine=10.2" || "$1" == "wine=default" ]]; then

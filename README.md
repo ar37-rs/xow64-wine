@@ -6,9 +6,9 @@ Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 with minimal dependencies as possible and install only what needed.
 
 ### Current state:
-Wine-10.2 (193-g6e6334d4293 Staging)
+Wine 10.2-193-g6e6334d4293 (Staging)
 
-Box64 v0.3.3 1bf4851 (Dev)
+Box64 0.3.3 1bf4851 (Dev)
 
 # Installation:
 [(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
@@ -35,7 +35,7 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 ```
 
 # Usage (inside desktop environment native termux):
-Install different version of wine (default is on the current state above)
+Install different version of wine (default is 10.2)
 
 (currently wine 9.18 and 10.2 staging are available) 
 ```

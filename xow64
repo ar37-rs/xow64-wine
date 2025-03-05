@@ -1007,9 +1007,13 @@ elif [[ "$1" == "r" ]]; then
         $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine "${@:2}"
     fi
 else
+echo
 echo "Command not found"
-echo "Please input the correct available command."
-echo "or try:"
+echo "Please input the correct available command"
+echo "Read for more info from here:"
+echo "https://github.com/ar37-rs/xow64-wine"
+echo "Or try running simple program:"
 echo "wine r app_name.exe"
+echo
 fi
 fi

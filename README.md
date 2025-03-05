@@ -8,7 +8,7 @@ with minimal dependencies as possible and install only what needed.
 ### Current state:
 Wine 10.2-193-g6e6334d4293 (Staging)
 
-Box64 v0.3.3 1bf4851 (Dev)
+Box64 with Dynarec v0.3.3 ad70feb (Dev)
 
 # Installation:
 [(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)

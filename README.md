@@ -39,7 +39,7 @@ Install different version of wine (default is 10.2)
 
 currently wine 9.18 and 10.2 staging are available
 
-(wine 9.18 fix crash when running iexplore)
+(wine 9.18 fix crash when running gecko browser)
 ```
 ~/xow64 wine=9.18
 ```

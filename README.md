@@ -128,7 +128,7 @@ Using virgl 4.3COMPAT profile (default is OpenGL 4.1COMPAT)
 
 support OpenGL 2.1, 3.2, 3.3, 4.1 and 4.3 with COMPAT
 ```
-~/xow64 vgl-compat=3.3
+~/xow64 vgl-compat=4.3
 ```
 
 Switch back virgl to default COMPAT profile.

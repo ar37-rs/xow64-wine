@@ -44,17 +44,29 @@ else
 
 if [ -f ~/xow64_prefix/.xow64-proot ]; then
     export TPH=~/xow64_prefix
-    export WINEPREFIX=~/xow64_prefix/.xow64_wine
-    echo "info: WINEPREFIX=~/xow64_prefix/.xow64_wine"
+    
 else
     export TPH=/data/data/com.termux/files/home
-    export WINEPREFIX=$TPH/.xow64_wine
-    echo "info: WINEPREFIX=$TPH/.xow64_wine"
 fi
 
 if [ ! -d $TPH/xow64_wine ]; then
     mkdir $TPH/xow64_wine
 fi
+
+if [ -f $TPH/xow64_wine/.wine-prefix ]; then
+    WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+    if [[ $WPREFIX == "" ]]; then
+        export WINEPREFIX=$TPH/.xow64_wine
+        echo "info: WINEPREFIX=${TPH}/.xow64_wine"
+    else
+        export WINEPREFIX=$TPH/$WPREFIX
+        echo "info: WINEPREFIX=${TPH}/${WPREFIX}"
+    fi
+else
+    export WINEPREFIX=$TPH/.xow64_wine
+    echo "info: WINEPREFIX=${TPH}/.xow64_wine"
+fi
+
 if [ -f $TPH/xow64_wine/.wine-version ]; then
     WINE_VERSION=$(cat $TPH/xow64_wine/.wine-version)
     if [[ $WINE_VERSION == "" ]]; then
@@ -285,7 +297,14 @@ install_box64() {
     fi
 }
 
-if [[ "$1" == "wine=10.2" ]]; then
+if [[ "$1" == "WINEPREFIX" ]]; then
+    if [ ! -d $TPH/xow64_wine ]; then
+        mkdir $TPH/xow64_wine
+    fi
+    echo "${2}" > $TPH/xow64_wine/.wine-prefix
+    echo
+    echo "using new WINEPREFIX=${TPH}/${2}"
+elif [[ "$1" == "wine=10.2" ]]; then
     echo "10.2" > $TPH/xow64_wine/.wine-version
     if [ ! -d $TPH/xow64_wine/10.2 ]; then
         install_wine
@@ -425,9 +444,23 @@ elif [[ "$1" == "update-angle" ]]; then
     
     cd && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx && cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
     $TPH/xow64_drivers/vglx q
+    echo "Installing angle-android..."
     dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
     echo "done."
     $TPH/xow64_drivers/vglx cd .
+elif [[ "$1" == "update-virgl" ]]; then
+    proot_info
+    echo "Updating virglrenderer..."
+    if [ -f $TPH/.xow64-proot ]; then
+       if [ ! -d $TPH/xow64_drivers ]; then
+           mkdir $TPH/xow64_drivers
+       fi
+    fi
+    cd && rm -rf $TPH/virglrenderer_1.1.0-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.0-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.0-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb && cd && rm -rf ~/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x ~/vglx && mv ~/vglx $TPH/xow64_drivers/vglx
+    echo "Installing virglrenderer..."
+    dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+    echo "done."
+    $TPH/xow64_drivers/vglx q && $TPH/xow64_drivers/vglx cd .
 elif [[ "$1" == "update-vkd3d" || "$1" == "update-vkd3d-async" ]]; then
     wine_q
     echo "Updating dxvk-proton (vkd3d) components..."
@@ -552,13 +585,19 @@ elif [[ "$1" == "driver=virpipe" ]]; then
 
     if [ ! -f $TPH/.xow64-proot ]; then
         $TPH/xow64_drivers/vglx q
-        echo "Installing angle-android with vulkan validation layer..."
-        dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
-        echo "Installing virgl..."
-        dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+        if [ ! -f $PREFIX/opt/angle-android/vulkan/libEGL_angle.so ]; then 
+            echo "Installing angle-android with vulkan validation layer..."
+            dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
+            echo "angle-android is installed"
+        fi
+        if [ ! -f $PREFIX/bin/virgl_test_server ]; then
+           echo "Installing virgl..."
+           dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+           echo "virglrenderer is installed"
+        fi
         $TPH/xow64_drivers/vglx cd .
     fi
-    echo "Virpipe is installed"
+    echo "using virpipe driver"
 elif [[ "$1" == "driver=default" ]]; then
     if [ -f $TPH/xow64_drivers/.virgl ]; then
         rm -rf $TPH/xow64_drivers/.virgl

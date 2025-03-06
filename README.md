@@ -167,11 +167,11 @@ Mali-G310+ (G610, G710..) series
 ```
 install panfrost driver for glibc [from here](https://github.com/Saikatsaha1996/mesa-Panfrost-G610/releases/tag/mesa-23.0.0-devel-20240109_armhf_arm64) (not required for proot mode)
 
-Make sure termux-x11 is using DRI3
+make sure termux-x11 is using DRI3 and if experiencing driver error when using panfrost driver
 
-if experiencing driver error when using panfrost driver, try disable BOX64_MMAP32
+try disable BOX64_MMAP32 (if not error, just skip)
 
-(disabling MMAP32 causes wine to run slightly slower when running 32-bit games/apps)
+disabling MMAP32 causes wine to run slightly slower (when running 32-bit games/apps)
 ```
 ~/xow64 mmap32=false
 ```

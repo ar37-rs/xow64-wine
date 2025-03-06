@@ -460,7 +460,6 @@ elif [[ "$1" == "update-virgl" ]]; then
     echo "Installing virglrenderer..."
     dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
     echo "done."
-    $TPH/xow64_drivers/vglx q && $TPH/xow64_drivers/vglx cd .
 elif [[ "$1" == "update-vkd3d" || "$1" == "update-vkd3d-async" ]]; then
     wine_q
     echo "Updating dxvk-proton (vkd3d) components..."

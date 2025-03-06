@@ -228,9 +228,9 @@ Disable dxvk-glasync-proton (vkd3d)
 ```
 
 # Additional usage:
-Change WINEPREFIX to the new specific path (default is ```.xow64_wine```)
+Change ```WINEPREFIX``` to the new specific path (default is ```.xow64_wine```)
 
-(after changing WINEPREFIX make sure to reconfigure most of things such update-patch, renabling vkd3d and .etc if previously being enabled)
+(after changing ```WINEPREFIX``` make sure to reconfigure most of things such update-patch, renabling vkd3d and .etc if previously being enabled)
 
 e.g: change to ```.wine``` 
 ```

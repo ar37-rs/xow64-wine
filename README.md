@@ -6,9 +6,7 @@ Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 with minimal dependencies as possible and install only what needed.
 
 ### Current state:
-#### Wine staging:
-10.2-193-g6e6334d4293 (Staging)
-#### Wine devel
+#### Wine staging and devel
 10.2-193-g6e6334d4293
 #### Box64 devel
 v0.3.3 1bf4851
@@ -270,9 +268,14 @@ Update graphics drivers
 ~/xow64 update-drivers
 ```
 
-Update angle-android using the newer version (for glibc and android 9+ only)
+Update angle-android (android 9+ only)
 ```
 ~/xow64 update-angle
+```
+
+Update virglrenderer (android 9+ only)
+```
+~/xow64 update-virgl
 ```
 
 Update dxvk-proton (vkd3d)

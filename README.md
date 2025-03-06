@@ -227,7 +227,7 @@ Disable dxvk-glasync-proton (vkd3d)
 ~/xow64 vkd3d-async=false
 ```
 
-If experiencing error on some specific vulkan drivers use modified dxvk version [from here](https://github.com/pythonlover02/DXVK-Sarek)
+If experiencing error on some specific vulkan drivers use the older supported version [from here](https://github.com/doitsujin/dxvk) or use modified dxvk version [from here](https://github.com/pythonlover02/DXVK-Sarek)
 
 # Additional usage:
 Change ```WINEPREFIX``` to the new specific path (default is ```.xow64_wine```)

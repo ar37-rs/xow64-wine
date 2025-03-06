@@ -1,9 +1,11 @@
-![alt_test](components/wine.png)
-
 # Xow64-Wine
 Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 
 with minimal dependencies as possible and install only what needed.
+
+<img align="left" src="components/wine.png">
+
+<img align="right" src="components/PES2013.png">
 
 ### Current state:
 #### Wine staging and devel

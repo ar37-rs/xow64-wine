@@ -36,6 +36,15 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 ```
 
 # Usage (inside desktop environment native termux):
+Change WINEPREFIX to the new specific path (default is ```.xow64_wine```)
+
+(after changing WINEPREFIX make sure to reconfigure most of things such update-patch, renabling vkd3d and .etc if previously being enabled)
+
+e.g: change to ```.wine``` 
+```
+~/xow64_wine WINEPREFIX .wine
+```
+
 Install different version of wine (default is 10.2-staging)
 
 available version of wine:

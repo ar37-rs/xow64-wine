@@ -42,7 +42,7 @@ Install different version of wine (default is 10.2-staging)
 
 available version of wine:
 ```
-9.18-staging (fix crash when running gecko browser)
+9.18-staging (fix crash gecko iexplore)
 10.2
 10.2-staging
 ```

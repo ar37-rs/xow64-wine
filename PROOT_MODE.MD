@@ -2,7 +2,7 @@
 
 ### Install dependencies (for virgl/virpipe driver):
 
-(Run inside termux terminal)
+#### (Run inside termux terminal)
 ```
 pkg install wget openssl which virglrenderer-android virglrenderer angle-android
 ```
@@ -11,15 +11,23 @@ pkg install wget openssl which virglrenderer-android virglrenderer angle-android
 ### Install desktop for proot termux
 [Read for more info on how to setup termux-desktops with ubuntu-proot](https://github.com/LinuxDroidMaster/Termux-Desktops/blob/main/Documentation/proot/ubuntu_proot.md)
 
-(Run inside proot desktop terminal)
+#### (Run inside proot desktop terminal)
 
 for debian/ubuntu based distro
+```
+sudo apt install box64 wget tar openssl gnu-which
+```
+or install devel version
 ```
 sudo apt update && sudo apt install wget tar openssl gnu-which gpg && sudo wget https://ryanfortner.github.io/box86-debs/box86.list -O /etc/apt/sources.list.d/box86.list && sudo wget -qO- https://ryanfortner.github.io/box86-debs/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/box86-debs-archive-keyring.gpg && sudo apt update
 sudo apt install box64
 ```
 
 for arch/manjaro based distro
+```
+sudo pacman -S box64 wget tar openssl which
+```
+or install devel version
 ```
 sudo pacman -S wget tar openssl which && cd $HOME && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 yay -S box64-git
@@ -33,7 +41,7 @@ sudo dnf install box64 box64-data
 
 ### Install xow64 (the same as for termux glibc)
 
-(Run inside proot desktop terminal)
+#### (Run inside proot desktop terminal)
 ```
 cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/xow64 && chmod +x ~/xow64
 ```

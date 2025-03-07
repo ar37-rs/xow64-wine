@@ -259,7 +259,7 @@ Check list of the added custom environment variables
 ~/xow64 env-info
 ```
 
-Remove the custom environemnt variable
+Remove the added custom environemnt variable
 ```
 ~/xow64 env-remove BOX64_MMAP32=0
 ```

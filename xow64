@@ -108,38 +108,16 @@ else
 fi
 
 # BOX64 options
+export BOX64_MMAP32=1
 export BOX64_X11THREADS=1
 export BOX64_DYNAREC_SAFEFLAGS=2
 export BOX64_DYNAREC_STRONGMEM=1
-# export BOX64_MAXCPU=8
-# export BOX64_DYNAREC_BIGBLOCK=0
-# export BOX64_DYNAREC_WEAKBARRIER=1
-# export BOX64_DYNAREC_X87DOUBLE=1
-# export BOX64_DYNAREC_PAUSE=1
-# export BOX64_DYNAREC_WAIT=1
-# export BOX64_DYNAREC_CALLRET=1
-# export BOX64_DYNAREC_FASTNAN=0
-# export BOX64_DYNAREC_FASTROUND=0
-# export BOX64_DYNAREC_FORWARD=256
-# export BOX64_UNITYPLAYER=1
-# export BOX64_PREFER_WRAPPED=0
-# export BOX64_PREFER_EMULATED=1
-# export BOX64_WRAP_EGL=$PREFIX/lib/libGL.so.1
-# export BOX64_NOSIGILL=0
-# export BOX64_NOBANNER=1
-# no sandbox and inprocess gpu
 # currently is only working for box64 < 0.3.3
 # export BOX64_INPROCESSGPU=1
 # export BOX64_NOSANDBOX=1
 
 if [ -f $TPH/xow64_wine/.no_debug ]; then
     export WINEDEBUG=-all
-fi
-
-if [ -f $TPH/xow64_wine/.no_mmap32 ]; then
-    export BOX64_MMAP32=0
-else
-    export BOX64_MMAP32=1
 fi
 
 if [ -f $TPH/.xow64-proot ]; then
@@ -324,7 +302,80 @@ install_box64() {
     fi
 }
 
-if [[ $1 =~ WINEPREFIX=.[AZ-aZ-ab]* ]]; then
+if [ -f $TPH/xow64_wine/.envirs ]; then
+    ENVIR=$(cat $TPH/xow64_wine/.envirs)
+    for i in $ENVIR
+    do
+    RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+    export $RIVNE
+    done
+fi
+
+if [[ "$1" == "env-add" ]]; then
+    if [[ $2 =~ [a-zA=-Z0-9]+$ ]] then
+        ENVIR=
+        if [[ -f $TPH/xow64_wine/.envirs ]]; then
+            ENVIR=$(cat $TPH/xow64_wine/.envirs)
+            rm -rf $TPH/xow64_wine/.envirs
+        fi
+
+        for i in $ENVIR
+        do
+            RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+            if [[ $2 != $RIVNE ]]; then
+            
+cd && cat << EOF >> $TPH/xow64_wine/.envirs
+[${RIVNE}]
+EOF
+            fi
+        done
+        cd && cat << EOF >> $TPH/xow64_wine/.envirs
+[${2}]
+EOF
+        echo "env:"
+        echo "${2} added."
+    else
+        echo "invalid environment variable: ${2}."
+    fi
+elif [[ "$1" == "env-remove" ]]; then
+    if [[ $2 =~ [a-zA=-Z0-9]+$ && -f $TPH/xow64_wine/.envirs ]] then
+        ENVIR=$(cat $TPH/xow64_wine/.envirs)
+        rm -rf $TPH/xow64_wine/.envirs
+        for i in $ENVIR
+        do
+            RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+            if [[ $2 != $RIVNE ]]; then
+            
+cd && cat << EOF >> $TPH/xow64_wine/.envirs
+[${RIVNE}]
+EOF
+            fi
+        done
+        echo "env:"
+        echo "${2} removed." 
+    
+    else
+        echo "the specific environment variable not found."
+    fi
+elif [[ "$1" == "env-info" ]]; then
+    if [ -f $TPH/xow64_wine/.envirs ]; then
+        echo "list of environment variable/s added:"
+        ENVIR=$(cat $TPH/xow64_wine/.envirs)
+        for i in $ENVIR
+        do
+        RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+        echo $RIVNE
+        done
+        echo " "
+    else
+        echo "no environment variables added yet."
+    fi   
+elif [[ "$1" == "env-default" ]]; then
+    if [ -f $TPH/xow64_wine/.envirs ]; then
+        rm -rf $TPH/xow64_wine/.envirs
+    fi
+    echo "environment variables changed to default."
+elif [[ $1 =~ WINEPREFIX=.[AZ-aZ-ab]* ]]; then
     if [[ $1 == WINEPREFIX=. ]]; then
         echo "invalid ${1}"
         echo "make sure enter to valid name for the prefix"
@@ -698,14 +749,6 @@ elif [[ "$1" == "driver=panthor" ]]; then
     touch $TPH/xow64_drivers/.panthor
     echo "using panthor OpenGL/ES driver."
     pan_info
-elif [[ "$1" == "mmap32=true" ]]; then
-    if [ -f $TPH/xow64_wine/.no_mmap32 ]; then
-        rm -rf $TPH/xow64_wine/.no_mmap32
-    fi
-    echo "BOX64_MMAP32 is activated."
-elif [[ "$1" == "mmap32=false" ]]; then
-    touch $TPH/xow64_wine/.no_mmap32
-    echo "BOX64_MMAP32 is deactivated."
 elif [[ "$1" == "debug=true" ]]; then
     if [ -f $TPH/xow64_wine/.no_debug ]; then
         rm -rf $TPH/xow64_wine/.no_debug

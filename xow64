@@ -1163,7 +1163,6 @@ elif [[ "$1" == "r" ]]; then
         $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine "${@:2}"
     fi
 else
-echo
 echo "Command not found"
 echo "Please input the correct available command"
 echo "Read for more info from here:"

@@ -108,7 +108,7 @@ Launch wine in windows desktop mode, configure desktop size like so
 
 (or any standard windows screen size)
 ```
-~/xow64 desk-size 1024x768
+~/xow64 desk-size=1024x768
 ```
 and then simply start using
 ```
@@ -241,7 +241,7 @@ Change ```WINEPREFIX``` to the new specific path (default is ```.xow64_wine```)
 
 e.g: change to ```.wine``` 
 ```
-~/xow64_wine WINEPREFIX .wine
+~/xow64_wine WINEPREFIX=.wine
 ```
 
 Enable winedlloverride for cnc-ddraw

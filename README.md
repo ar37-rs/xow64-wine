@@ -172,22 +172,27 @@ install panfrost driver for glibc [from here](https://github.com/Saikatsaha1996/
 
 make sure termux-x11 is using DRI3 and if experiencing driver error when using panfrost driver
 
-try disable BOX64_MMAP32 (if not error, just skip)
+try disable ```BOX64_MMAP32``` environment (if not error, just skip)
 
-disabling MMAP32 causes wine to run slightly slower (when running 32-bit games/apps)
+disabling ```MMAP32``` causes wine to run slightly slower (when running 32-bit games/apps)
 ```
-~/xow64 mmap32=false
+~/xow64 env-add BOX64_MMAP32=0
+```
+
+Check the environment variable
+```
+~/xow64 env-info
+```
+
+Re-enable BOX64_MMAP
+```
+~/xow64 env-remove BOX64_MMAP32=0
 ```
 
 Switch back using default OpenGL driver using any default
 preconfigured termux gl drivers including virgl (if any)
 ```
 ~/xow64 driver=default
-```
-
-Re-enable BOX64_MMAP
-```
-~/xow64 mmap32=true
 ```
 # Vulkan drivers:
 Using vulkan llvmpipe (fo Universal CPUs)
@@ -242,6 +247,26 @@ Change ```WINEPREFIX``` to the new specific path (default is ```.xow64_wine```)
 e.g: change to ```.wine``` 
 ```
 ~/xow64 WINEPREFIX=.wine
+```
+
+Adding any custom environment variable (e.g: disabling ```MMAP32```)
+```
+~/xow64 env-add BOX64_MMAP32=0
+```
+
+Check list of the added custom environment variables
+```
+~/xow64 env-info
+```
+
+Remove the custom environemnt variable
+```
+~/xow64 env-remove BOX64_MMAP32=0
+```
+
+Reset custom environment variables to default
+```
+~/xow64 env-default
 ```
 
 Enable winedlloverride for cnc-ddraw

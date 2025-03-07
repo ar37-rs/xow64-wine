@@ -7,12 +7,13 @@ Wine-wow64-staging + box64 presetuped for termux-glibc (aarch64)
 
 with minimal dependencies as possible and install only what needed.
 
-#### Wine
+# Current state
+## Wine
 Version: 10.2-291-g1f947b1c62c (Staging)
 
 Version: 10.2-193-g6e6334d4293 (Devel)
 
-#### Box64
+## Box64
 Version: 0.3.3 (Devel)
 
 # Installation:

@@ -241,7 +241,7 @@ Change ```WINEPREFIX``` to the new specific path (default is ```.xow64_wine```)
 
 e.g: change to ```.wine``` 
 ```
-~/xow64_wine WINEPREFIX=.wine
+~/xow64 WINEPREFIX=.wine
 ```
 
 Enable winedlloverride for cnc-ddraw

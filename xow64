@@ -162,9 +162,11 @@ fi
 
 IS_EQUAL=1
 check_wineprefix() {
-    CHECKED_PREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
-    if [[ $CHECKED_PREFIX != $XOW64_WINEPREFIX ]]; then
-        IS_EQUAL=0
+    if [ -f $TPH/xow64_wine/.wine-prefix ]; then
+        CHECKED_PREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+        if [[ $CHECKED_PREFIX != $XOW64_WINEPREFIX ]]; then
+            IS_EQUAL=0
+        fi
     fi
 }
 
@@ -285,7 +287,7 @@ install_wine() {
     fi
     echo "Downloading wine..."
     if [ -f $TPH/.xow64-proot ]; then
-        cd && rm -rf ~/xow64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64-wine-${WINE_VERSION}.tar.xz && echo "extracting xow64-wine-${WINE_VERSION}.tar.xz..." && tar -xf ~/xow64-wine-${WINE_VERSION}.tar.xz && cp -r xow64_wine $TPH/ && rm -rf ~/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf ~/xow64_wine && echo " " && echo "Downloading wined3d components..." && cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && rm -rf ~/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+        cd && rm -rf ~/xow64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64-wine-${WINE_VERSION}.tar.xz && mv ~/xow64-wine-${WINE_VERSION}.tar.xz $TPH/xow64-wine-${WINE_VERSION}.tar.xz && cd $TPH && echo "extracting xow64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf ~/xow64_wine && echo " " && echo "Downloading wined3d components..." && cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && rm -rf ~/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
     else
         cd && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64-wine-${WINE_VERSION}.tar.xz && echo "extracting xow64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && echo " " && echo "Downloading wined3d components..." && cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
     fi
@@ -353,7 +355,7 @@ elif [[ "$1" == "wine=9.18-staging" ]]; then
 elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
     wine_q
     if [ -f $TPH/.xow64-proot ]; then
-       echo "Installing and updating all xow64 components..." && cd && rm -rf ~/xow64_wine_patch.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz
+       echo "Installing and updating all xow64 components..." && cd && install_wine && rm -rf ~/xow64_wine_patch.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && mv ~/xow64_wine_patch.tar.xz $TPH/xow64_wine_patch.tar.xz && cd $TPH && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_box64
        if [ ! -d $TPH/xow64_drivers ]; then
             mkdir $TPH/xow64_drivers
        fi
@@ -403,10 +405,10 @@ elif [[ "$1" == "update-patch" || "$1" == "update-patch-exp" ]]; then
     if [ -f $TPH/.xow64-proot ]; then
         if [[ "$1" == "update-patch-exp" ]]; then
             echo "Updating patch experimental..."
-            cd && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch_experimental.tar.xz && echo "extracting xow64_wine_patch_experimental.tar.xz..." && tar -xf ~/xow64_wine_patch_experimental.tar.xz && rm -rf ~/xow64_wine_patch_experimental.tar.xz && cp -r .xow64_wine $TPH/ && rm -rf .xow64_wine && rm -rf ~/xow64_box64
+            cd && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch_experimental.tar.xz && mv ~/xow64_wine_patch.tar.xz $TPH/xow64_wine_patch_experimental.tar.xz && cd $TPH && echo "extracting xow64_wine_patch_experimental.tar.xz..." && tar -xf xow64_wine_patch_experimental.tar.xz && rm -rf $TPH/xow64_wine_patch_experimental.tar.xz && rm -rf $TPH/xow64_box64
         else
             echo "Updating patch..."
-            cd && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf ~/xow64_wine_patch.tar.xz && rm -rf ~/xow64_wine_patch.tar.xz && cp -r .xow64_wine $TPH/ && rm -rf .xow64_wine && rm -rf ~/xow64_box64
+            cd && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && mv ~/xow64_wine_patch.tar.xz $TPH/xow64_wine_patch.tar.xz && cd $TPH && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_box64
         fi
     else
         if [ ! -d $TPH/xow64_box64 ]; then

@@ -60,15 +60,21 @@ if [ -f $TPH/xow64_wine/.wine-prefix ]; then
     CHECKED_PREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
     if [[ $CHECKED_PREFIX == "" ]]; then
         export WINEPREFIX=$TPH/.xow64_wine
-        echo "info: WINEPREFIX=${TPH}/.xow64_wine"
+        echo "info:"
+        echo "WINEPREFIX=${TPH}/.xow64_wine"
+        echo " "
     else
         WPREFIX=$CHECKED_PREFIX
         export WINEPREFIX=$TPH/$CHECKED_PREFIX
-        echo "info: WINEPREFIX=${TPH}/${CHECKED_PREFIX}"
+        echo "info:"
+        echo "WINEPREFIX=${TPH}/${CHECKED_PREFIX}"
+        echo " "
     fi
 else
     export WINEPREFIX=$TPH/.xow64_wine
-    echo "info: WINEPREFIX=${TPH}/.xow64_wine"
+    echo "info:"
+    echo "WINEPREFIX=${TPH}/.xow64_wine"
+    echo " "
 fi
 
 if [ -f $TPH/xow64_wine/.wine-version ]; then
@@ -318,13 +324,26 @@ install_box64() {
     fi
 }
 
-if [[ "$1" == "WINEPREFIX" ]]; then
-    if [ ! -d $TPH/xow64_wine ]; then
-        mkdir $TPH/xow64_wine
+if [[ $1 =~ WINEPREFIX=.[AZ-aZ-ab]* ]]; then
+    if [[ $1 == WINEPREFIX=. ]]; then
+        echo "invalid ${1}"
+        echo "make sure enter to valid name for the prefix"
+        exit
     fi
-    echo "${2}" > $TPH/xow64_wine/.wine-prefix
-    echo
-    echo "using new WINEPREFIX=${TPH}/${2}"
+    if [[ $1 =~ WINEPREFIX=[.a-zA-Z0-9_]+$ ]]; then
+       if [ ! -d $TPH/xow64_wine ]; then
+            mkdir $TPH/xow64_wine
+       fi
+        NEW_WINEPREFIX=${1#WINEPREFIX=}
+    
+        echo "${NEW_WINEPREFIX}" > $TPH/xow64_wine/.wine-prefix
+        echo "using new:"
+        echo "WINEPREFIX=${TPH}/${NEW_WINEPREFIX}"
+    else
+        echo "invalid ${1}"
+        echo "make sure enter to valid name for the prefix"
+        exit
+    fi
 elif [[ "$1" == "wine=10.2" ]]; then
     echo "10.2" > $TPH/xow64_wine/.wine-version
     if [ ! -d $TPH/xow64_wine/10.2 ]; then
@@ -922,12 +941,14 @@ elif [[ "$1" == "remove-all" ]]; then
     echo "removing xow64_prefix..."
     rm -rf ~/xow64_prefix
     echo "done."
-elif [[ "$1" == "desk-size" ]]; then
+elif [[ $1 == desk-size=[A-Za-z0-9]* ]]; then
     wine_q
-    if [[ ! $2 == [0-9]*[0-9]x[0-9]*[0-9] ]]; then
-        echo "incorrect desktop size it contains unmatched ${2}"
+    if [[ ! $1 == desk-size=[0-9]*[0-9]x[0-9]*[0-9] ]]; then
+        echo "incorrect desktop size it contains unmatched ${1}"
         exit
     fi
+    
+    DSK_SIZE=${1#desk-size=}
 
     if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
         $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
@@ -939,11 +960,10 @@ elif [[ "$1" == "desk-size" ]]; then
 
 cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
 [Software\\\Wine\\\Explorer\\\Desktops]
-"Default"="${2}"
+"Default"="${DSK_SIZE}"
 EOF
-    echo "${2}" > $TPH/xow64_wine/.desk-size
-    echo "done."
-    echo "desktop size has been configured to ${2}"
+    echo "${DSK_SIZE}" > $TPH/xow64_wine/.desk-size
+    echo "desktop size has been configured to ${DSK_SIZE}"
     fi
 elif [[ "$1" == "s" ]]; then
     if [ -f $TPH/xow64_wine/.desk-size ]; then

@@ -287,7 +287,7 @@ install_wine() {
     fi
     echo "Downloading wine..."
     if [ -f $TPH/.xow64-proot ]; then
-        cd && rm -rf ~/xow64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64-wine-${WINE_VERSION}.tar.xz && mv ~/xow64-wine-${WINE_VERSION}.tar.xz $TPH/xow64-wine-${WINE_VERSION}.tar.xz && cd $TPH && echo "extracting xow64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf ~/xow64_wine && echo " " && echo "Downloading wined3d components..." && cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && rm -rf ~/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+        cd && rm -rf ~/xow64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64-wine-${WINE_VERSION}.tar.xz && mv ~/xow64-wine-${WINE_VERSION}.tar.xz $TPH/xow64-wine-${WINE_VERSION}.tar.xz && cd $TPH && echo "extracting xow64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && echo "Downloading wined3d components..." && cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && rm -rf ~/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
     else
         cd && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64-wine-${WINE_VERSION}.tar.xz && echo "extracting xow64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && echo " " && echo "Downloading wined3d components..." && cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
     fi
@@ -355,12 +355,12 @@ elif [[ "$1" == "wine=9.18-staging" ]]; then
 elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
     wine_q
     if [ -f $TPH/.xow64-proot ]; then
-       echo "Installing and updating all xow64 components..." && cd && install_wine && rm -rf ~/xow64_wine_patch.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && mv ~/xow64_wine_patch.tar.xz $TPH/xow64_wine_patch.tar.xz && cd $TPH && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_box64
+       echo "Installing and updating all xow64 components..." && rm -rf ~/xow64_wine_patch.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && mv ~/xow64_wine_patch.tar.xz $TPH/xow64_wine_patch.tar.xz && cd $TPH && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_box64 && cd && install_wine
        if [ ! -d $TPH/xow64_drivers ]; then
             mkdir $TPH/xow64_drivers
        fi
     else
-       cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && cd && install_wine && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz
+       cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && install_wine
     fi
     
     check_wineprefix
@@ -767,6 +767,7 @@ cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
 "DXVK_GPLASYNCCACHE"="1"
 
 [Software\\\Wine\\\DllOverrides]
+"di"="native,builtin"
 "dxgi"="native,builtin"
 "d3d8"="native,builtin"
 "d3d9"="native,builtin"
@@ -1021,9 +1022,9 @@ elif [[ "$1" == "testd3d" ]]; then
         export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
         export MESA_GLSL_VERSION_OVERRIDE=150
         export MESA_GLES_VERSION_OVERRIDE=3.1
-        cd $TPH/'${WPREFIX}/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
+        cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
     else
-        cd $TPH/'${WPREFIX}/drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
+        cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
     fi
  elif [[ "$1" == "cubemap" ]]; then
     CUBEMAP=$TPH/${WPREFIX}/drive_c/ProgramData/EnvMapping

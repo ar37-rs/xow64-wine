@@ -333,9 +333,9 @@ Update patch
 ~/xow64 update-patch
 ```
 
-Remove specific installed version of wine (e.g: 9.18 )
+Remove specific installed version of wine (e.g: 10.2-staging)
 ```
-~/xow64 wine-remove=9.18
+~/xow64 wine-remove=10.2-staging
 ```
 
 Remove specific installed version of box64 (e.g: 0.3.2)

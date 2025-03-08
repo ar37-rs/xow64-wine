@@ -39,26 +39,25 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 ```
 
 # Usage (inside desktop environment native termux):
-Install different version of wine (default is 10.3-staging)
+Switch to different version of wine (default is 10.3-staging)
 
-available version of wine:
+Other available versions:
 ```
-9.18-staging (fix crash gecko iexplore)
 10.2-staging
-10.3-staging
+9.18-staging (fix crash gecko iexplore)
 ```
 
-Switch to wine 9.18 staging
-```
-~/xow64 wine=9.18-staging
-```
-
-Switch to wine 10.2 staging
+Wine 10.2 staging
 ```
 ~/xow64 wine=10.2-staging
 ```
 
-Switch back to default version
+Wine 9.18 staging
+```
+~/xow64 wine=9.18-staging
+```
+
+Switch back to default version (10.3-staging)
 ```
 ~/xow64 wine=default
 ```

@@ -111,7 +111,6 @@ fi
 export BOX64_MMAP32=1
 export BOX64_X11THREADS=1
 export BOX64_DYNAREC_SAFEFLAGS=2
-export BOX64_DYNAREC_STRONGMEM=1
 # currently is only working for box64 < 0.3.3
 # export BOX64_INPROCESSGPU=1
 # export BOX64_NOSANDBOX=1

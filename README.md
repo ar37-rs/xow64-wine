@@ -75,6 +75,15 @@ Run winecfg
 ~/xow64 r winecfg
 ```
 
+Run any specific *.exe
+```
+~/xow64 r app_name.exe
+```
+or run any *.exe with any specific path
+```
+cd ~/'.to/Prog Files/app/path' && ~/xow64 r app_name.exe
+```
+
 Launch GPU Caps (test OpenGL and Vulkan)
 ```
 ~/xow64 gpucaps
@@ -93,15 +102,6 @@ Launch CubeMap (test EnvMapping D3D9)
 Launch SphereMap (test EnvMapping D3D9)
 ```
 ~/xow64 spheremap
-```
-
-Run any specific *.exe
-```
-~/xow64 r app_name.exe
-```
-or run any *.exe with any specific path
-```
-cd ~/'.to/Prog Files/app/path' && ~/xow64 r app_name.exe
 ```
 
 Launch wine in windows desktop mode, configure desktop size like so

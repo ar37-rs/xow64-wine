@@ -301,14 +301,18 @@ install_box64() {
     fi
 }
 
-if [ -f $TPH/xow64_wine/.envirs ]; then
-    ENVIR=$(cat $TPH/xow64_wine/.envirs)
-    for i in $ENVIR
-    do
-    RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
-    export $RIVNE
-    done
-fi
+init_envirs() {
+    if [ -f $TPH/xow64_wine/.envirs ]; then
+        ENVIR=$(cat $TPH/xow64_wine/.envirs)
+        for i in $ENVIR
+        do
+        RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+        export $RIVNE
+        done
+    fi
+}
+
+init_envirs
 
 if [[ "$1" == "env-add" ]]; then
     if [[ $2 =~ [a-zA-zA@-Z0-9]+$ ]] then

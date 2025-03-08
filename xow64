@@ -1,4 +1,3 @@
-#!/data/data/com.termux/files/usr/bin/bash
 # https://github.com/ar37-rs/xow64-wine
 
 WINE_LATEST=10.3-staging

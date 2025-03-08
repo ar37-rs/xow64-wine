@@ -48,17 +48,17 @@ available version of wine:
 10.3-staging
 ```
 
-install wine 9.18 (Staging)
+Switch to wine 9.18 staging
 ```
 ~/xow64 wine=9.18-staging
 ```
 
-install wine 10.2 (Staging)
+Switch to wine 10.2 staging
 ```
 ~/xow64 wine=10.2-staging
 ```
 
-Switch back to default
+Switch back to default version
 ```
 ~/xow64 wine=default
 ```

@@ -359,7 +359,9 @@ Uninstall (remove) xow64-wine completely
     ```
     and then `StartIB.cmd` from wine start menu (desktop mode) before launching any game, then open InputBridge app on android device and then start configuring control buttons as need.
 
-* If experiencing any emulation issue, try using different version of box64 and drivers available above accordingly.
+* If experiencing any emulation issue for specific app/game
+  
+    try using different version of box64, wine, configuration (especially box64 environment variables) and drivers available above accordingly.
 
 * If there's problem when installing xow64, make sure the latest correct termux app version is installed.
 

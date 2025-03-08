@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # https://github.com/ar37-rs/xow64-wine
 
-WINE_LATEST=10.2-staging
+WINE_LATEST=10.3-staging
 BOX64_LATEST=0.3.3
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread relatively faster for wined3d (very intense cpu)
@@ -395,14 +395,14 @@ elif [[ $1 =~ WINEPREFIX=.[AZ-aZ-ab]* ]]; then
         echo "make sure enter to valid name for the prefix"
         exit
     fi
-elif [[ "$1" == "wine=10.2" ]]; then
-    echo "10.2" > $TPH/xow64_wine/.wine-version
-    if [ ! -d $TPH/xow64_wine/10.2 ]; then
+elif [[ "$1" == "wine=10.3-staging" ]]; then
+    echo "10.3-staging" > $TPH/xow64_wine/.wine-version
+    if [ ! -d $TPH/xow64_wine/10.3-staging ]; then
         install_wine
         echo "done."
     else
         wine_inf
-        echo "using wine 10.2 devel"
+        echo "using wine 10.3 staging"
     fi
 elif [[ "$1" == "wine=10.2-staging" || "$1" == "wine=default" ]]; then
     echo "10.2-staging" > $TPH/xow64_wine/.wine-version

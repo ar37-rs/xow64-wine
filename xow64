@@ -940,19 +940,33 @@ if [ -f $TPH/${WPREFIX}/user.reg ]; then
    sed -i '/winmm"=/d' $TPH/${WPREFIX}/user.reg
 fi
 echo "winedlloverride for cnc-ddraw is deactivated."
-elif [[ "$1" == "wine-remove=9.18" ]]; then
+elif [[ "$1" == "wine-remove=9.18-staging" ]]; then
     if [ -d $TPH/xow64_wine/9.18-staging ]; then
         rm -rf $TPH/xow64_wine/9.18-staging
         echo "wine 9.18-staging has been removed."
     else
         echo "wine 9.18-staging is not installed"
     fi
-elif [[ "$1" == "wine-remove=10.2" ]]; then
+elif [[ "$1" == "wine-remove=10.2-staging" ]]; then
     if [ -d $TPH/xow64_wine/10.2-staging ]; then
         rm -rf $TPH/xow64_wine/10.2-staging
         echo "wine 10.2-staging has been removed."
     else
         echo "wine 10.2-staging is not installed"
+    fi
+elif [[ "$1" == "wine-remove=10.3-staging" ]]; then
+    if [ -d $TPH/xow64_wine/10.3-staging ]; then
+        rm -rf $TPH/xow64_wine/10.3-staging
+        echo "wine 10.3-staging has been removed."
+    else
+        echo "wine 10.3-staging is not installed"
+    fi
+elif [[ "$1" == "wine-remove=10.3-stable" ]]; then
+    if [ -d $TPH/xow64_wine/10.3-stable ]; then
+        rm -rf $TPH/xow64_wine/10.3-stable
+        echo "wine 10.3-stable has been removed."
+    else
+        echo "wine 10.3-stable is not installed"
     fi
 elif [[ "$1" == "box64-remove=0.3.0" ]]; then
     proot_info

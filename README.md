@@ -311,7 +311,7 @@ Update angle-android (android 9+ only)
 ~/xow64 update-angle
 ```
 
-Update virglrenderer (android 9+ only)
+Update virglrenderer (android 10+ only)
 ```
 ~/xow64 update-virgl
 ```

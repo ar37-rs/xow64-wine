@@ -312,7 +312,7 @@ if [ -f $TPH/xow64_wine/.envirs ]; then
 fi
 
 if [[ "$1" == "env-add" ]]; then
-    if [[ $2 =~ [a-zA=-Z0-9]+$ ]] then
+    if [[ $2 =~ [a-zA-zA@-Z0-9]+$ ]] then
         ENVIR=
         if [[ -f $TPH/xow64_wine/.envirs ]]; then
             ENVIR=$(cat $TPH/xow64_wine/.envirs)
@@ -332,13 +332,16 @@ EOF
         cd && cat << EOF >> $TPH/xow64_wine/.envirs
 [${2}]
 EOF
-        echo "env:"
-        echo "${2} added."
+        echo "the new specific environment variable:"
+        echo
+        echo "${2}"
+        echo
+        echo "has been added."
     else
         echo "invalid environment variable: ${2}."
     fi
 elif [[ "$1" == "env-remove" ]]; then
-    if [[ $2 =~ [a-zA=-Z0-9]+$ && -f $TPH/xow64_wine/.envirs ]] then
+    if [[ $2 =~ [a-zA-zA@-Z0-9]+$ && -f $TPH/xow64_wine/.envirs ]] then
         ENVIR=$(cat $TPH/xow64_wine/.envirs)
         rm -rf $TPH/xow64_wine/.envirs
         for i in $ENVIR
@@ -351,8 +354,11 @@ cd && cat << EOF >> $TPH/xow64_wine/.envirs
 EOF
             fi
         done
-        echo "env:"
-        echo "${2} removed." 
+        echo "the specific environment variable:"
+        echo
+        echo "${2}"
+        echo
+        echo "${2} has been removed." 
     
     else
         echo "the specific environment variable not found."
@@ -360,6 +366,7 @@ EOF
 elif [[ "$1" == "env-info" ]]; then
     if [ -f $TPH/xow64_wine/.envirs ]; then
         echo "list of environment variable/s added:"
+        echo
         ENVIR=$(cat $TPH/xow64_wine/.envirs)
         for i in $ENVIR
         do

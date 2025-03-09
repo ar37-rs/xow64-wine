@@ -191,9 +191,9 @@ vkinfo() {
             fi
         fi
     elif [ -f $TPH/xow64_wine/.vk-turnip ]; then
+        echo "using adreno/turnip vulkan driver."
         export LIBGL_DRI3_DISABLE=0
         export LIBGL_ALWAYS_SOFTWARE=0
-        echo "using adreno/turnip vulkan driver."
         export MESA_GL_VERSION_OVERRIDE=4.6COMPAT
 	export MESA_GLSL_VERSION_OVERRIDE=460
 	export MESA_GLES_VERSION_OVERRIDE=3.2
@@ -215,14 +215,11 @@ vkinfo() {
                 export VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/lvp_icd.aarch64.json
             fi
         fi
-    else
-	echo "using default vulkan driver."
     fi
 
     if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
         echo "with dxvk-proton (vkd3d) enabled."
-    fi
-    
+    fi    
 }
 
 wine_q() {
@@ -313,6 +310,12 @@ init_envirs() {
 
 init_envirs
 
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    echo "using wined3d version 3.21"
+elif [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    echo "using wined3d version 4.21"
+fi
+    
 if [[ "$1" == "env-add" ]]; then
     if [[ $2 =~ [a-zA-zA@-Z0-9]+$ ]] then
         ENVIR=
@@ -831,7 +834,12 @@ if [[ "$1" == "vkd3d-async=true" ]]; then
 else
     echo "extracting xow64_dxvk_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
 fi
-
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
 check_wineprefix
 if [[ $IS_EQUAL == "0" ]]; then
    WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
@@ -901,6 +909,12 @@ fi
 if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
     rm -rf $TPH/xow64_wine/.dxvk-proton
 fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
 check_wineprefix
 if [[ $IS_EQUAL == "0" ]]; then
    WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
@@ -912,7 +926,156 @@ echo "dxvk-proton (vkd3d) async is deactivated"
 else
 echo "dxvk-proton (vkd3d) is deactivated"
 fi
+elif [[ "$1" == "wined3d=3.21" ]]; then
 
+wine_q
+WINE_VERSION=3.21
+if [ ! -f $TPH/.xow64-proot ]; then
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"ddraw"="native,builtin"
+"dxgi"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d10_1"="native,builtin"
+"d3d11"="native,builtin"
+"libwine"="native,builtin"
+"wined3d"="native,builtin"
+EOF
+fi
+if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xow64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/xow64_wine/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX}
+else
+   cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+fi
+touch $TPH/xow64_wine/.wined3d-3.21
+echo
+echo "using wined3d version 3.21"
+elif [[ "$1" == "wined3d=4.21" ]]; then
+
+wine_q
+WINE_VERSION=4.21
+if [ ! -f $TPH/.xow64-proot ]; then
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"dxgi"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d10_1"="native,builtin"
+"d3d11"="native,builtin"
+"wined3d"="native,builtin"
+"ddraw"="native,builtin"
+EOF
+fi
+if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xow64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/xow64_wine/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX}
+else
+   cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+fi
+touch $TPH/xow64_wine/.wined3d-4.21
+echo
+echo "using wined3d version 4.21"
+elif [[ "$1" == "wined3d=default" ]]; then
+
+wine_q
+
+if [ ! -f $TPH/.xow64-proot ]; then
+    if [ ! -f $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    fi
+fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine/${WINE_VERSION} && tar -xf wined3d-${WINE_VERSION}.tar.xz && cd && cp -r $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/dxgi"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d8"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d9"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d10core"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/ddraw"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d10_1"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d11"=/d' $TPH/${WPREFIX}/user.reg
+fi
+if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xow64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX} && rm -rf $TPH/.xow64_wine
+fi
+echo
+echo "using default wined3d."
 elif [[ "$1" == "cnc-ddraw=true" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot

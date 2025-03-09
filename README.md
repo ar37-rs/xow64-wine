@@ -118,7 +118,7 @@ Quit wine or terminate all wine related process
 ~/xow64 q
 ```
 
-# Wine D3D for OpenGL/ES drivers:
+# OpenGL/ES drivers:
 Using newer build of virgl (virpipe) driver
 
 (Universal android 9+ with vulkan 1.1+ GPU supported only)
@@ -192,6 +192,29 @@ preconfigured termux gl drivers including virgl (if any)
 ```
 ~/xow64 driver=default
 ```
+
+# Direct 3D support for OpenGL drivers
+Using WineD3D version 3.21
+
+(faster for some older games and also contains fix for some apps/games which unable detect the GPU name)
+```
+~/xow64 wined3d=3.21
+```
+
+Using WineD3D version 4.21
+
+(relatively faster for some games)
+```
+~/xow64 wined3d=4.21
+```
+
+Switch back using default builtin WineD3D version, the newer the better compatibility
+
+(stable, however run relatively slower when combined with virpipe OpenGL driver)
+```
+~/xow64 wined3d=default
+```
+
 # Vulkan drivers:
 Using vulkan llvmpipe, extremely slow for testing only (Universal CPUs)
 ```
@@ -214,7 +237,6 @@ Switch back using default vulkan driver (if any)
 ```
 
 # Direct 3D support for vulkan drivers:
-
 Using dxvk-proton (supported on vulkan llvmpipe and any supported GPU driver)  
 ```
 ~/xow64 vkd3d=true

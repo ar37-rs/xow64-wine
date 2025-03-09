@@ -208,9 +208,7 @@ Using WineD3D version 4.21
 ~/xow64 wined3d=4.21
 ```
 
-Switch back using default builtin WineD3D version, the newer the better compatibility
-
-(stable, however run relatively slower when combined with virpipe OpenGL driver)
+Switch back using default builtin WineD3D version, the newer the better compatibility and stability
 ```
 ~/xow64 wined3d=default
 ```

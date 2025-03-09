@@ -413,7 +413,7 @@ elif [[ "$1" == "wine=10.3-staging" ]]; then
         wine_inf
         echo "using wine 10.3 staging"
     fi
-elif [[ "$1" == "wine=10.3-stable" || "wine=default" ]]; then
+elif [[ "$1" == "wine=10.3-stable" || "$1" == "wine=default" ]]; then
     echo "10.3-stable" > $TPH/xow64_wine/.wine-version
     if [ ! -d $TPH/xow64_wine/10.3-stable ]; then
         install_wine

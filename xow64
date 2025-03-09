@@ -1,6 +1,6 @@
 # https://github.com/ar37-rs/xow64-wine
 
-WINE_LATEST=10.3-staging
+WINE_LATEST=10.3-stable
 BOX64_LATEST=0.3.3
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread relatively faster for wined3d (very intense cpu)
@@ -404,7 +404,7 @@ elif [[ $1 =~ WINEPREFIX=.[AZ-aZ-ab]* ]]; then
         echo "make sure enter to valid name for the prefix"
         exit
     fi
-elif [[ "$1" == "wine=10.3-staging" || "$1" == "wine=default" ]]; then
+elif [[ "$1" == "wine=10.3-staging" ]]; then
     echo "10.3-staging" > $TPH/xow64_wine/.wine-version
     if [ ! -d $TPH/xow64_wine/10.3-staging ]; then
         install_wine
@@ -413,7 +413,7 @@ elif [[ "$1" == "wine=10.3-staging" || "$1" == "wine=default" ]]; then
         wine_inf
         echo "using wine 10.3 staging"
     fi
-elif [[ "$1" == "wine=10.3-stable" ]]; then
+elif [[ "$1" == "wine=10.3-stable" || "wine=default" ]]; then
     echo "10.3-stable" > $TPH/xow64_wine/.wine-version
     if [ ! -d $TPH/xow64_wine/10.3-stable ]; then
         install_wine

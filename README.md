@@ -193,7 +193,7 @@ preconfigured termux gl drivers including virgl (if any)
 ~/xow64 driver=default
 ```
 # Vulkan drivers:
-Using vulkan llvmpipe (fo Universal CPUs)
+Using vulkan llvmpipe, extremely slow for testing only (Universal CPUs)
 ```
 ~/xow64 vk=lvp
 ```

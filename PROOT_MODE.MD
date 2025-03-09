@@ -29,7 +29,7 @@ sudo pacman -S box64 wget tar which
 ```
 or install devel version
 ```
-sudo pacman -S wget tar openssl which && cd $HOME && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+sudo pacman -S wget tar which && cd $HOME && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 yay -S box64-git
 ```
 

@@ -4,7 +4,7 @@
 
 #### (Run inside termux terminal)
 ```
-pkg install wget openssl which virglrenderer-android virglrenderer angle-android
+pkg install wget which virglrenderer-android virglrenderer angle-android
 ```
 [or here for latest virgl-angle setup](https://github.com/ar37-rs/virgl-angle)
 
@@ -15,11 +15,11 @@ pkg install wget openssl which virglrenderer-android virglrenderer angle-android
 
 for debian/ubuntu based distro
 ```
-sudo apt install box64 wget tar openssl gnu-which
+sudo apt install box64 wget tar gnu-which
 ```
 or install devel version
 ```
-sudo apt update && sudo apt install wget tar openssl gnu-which gpg && sudo wget https://ryanfortner.github.io/box86-debs/box86.list -O /etc/apt/sources.list.d/box86.list && sudo wget -qO- https://ryanfortner.github.io/box86-debs/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/box86-debs-archive-keyring.gpg && sudo apt update
+sudo apt update && sudo apt install wget tar gnu-which gpg && sudo wget https://ryanfortner.github.io/box86-debs/box86.list -O /etc/apt/sources.list.d/box86.list && sudo wget -qO- https://ryanfortner.github.io/box86-debs/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/box86-debs-archive-keyring.gpg && sudo apt update
 sudo apt install box64
 ```
 

@@ -25,7 +25,7 @@ or
 
 ### Make sure if wget is installed
 ```
-pkg install wget openssl
+pkg install wget
 ```
 
 ### Install xow64

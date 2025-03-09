@@ -25,7 +25,7 @@ sudo apt install box64
 
 for arch/manjaro based distro
 ```
-sudo pacman -S box64 wget tar openssl which
+sudo pacman -S box64 wget tar which
 ```
 or install devel version
 ```
@@ -35,7 +35,7 @@ yay -S box64-git
 
 for RHEL/fedora based distro
 ```
-sudo dnf install wget tar openssl which
+sudo dnf install wget tar which
 sudo dnf install box64 box64-data
 ```
 

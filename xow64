@@ -317,7 +317,7 @@ elif [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
 fi
     
 if [[ "$1" == "env-add" ]]; then
-    if [[ $2 =~ [a-zA-zA@-Z0-9]+$ ]] then
+    if [[ $2 =~ [a-zA-Z0-9]+$ ]] then
         ENVIR=
         if [[ -f $TPH/xow64_wine/.envirs ]]; then
             ENVIR=$(cat $TPH/xow64_wine/.envirs)
@@ -346,7 +346,7 @@ EOF
         echo "invalid environment variable: ${2}."
     fi
 elif [[ "$1" == "env-remove" ]]; then
-    if [[ $2 =~ [a-zA-zA@-Z0-9]+$ && -f $TPH/xow64_wine/.envirs ]] then
+    if [[ $2 =~ [a-zA-Z0-9]+$ && -f $TPH/xow64_wine/.envirs ]] then
         ENVIR=$(cat $TPH/xow64_wine/.envirs)
         rm -rf $TPH/xow64_wine/.envirs
         for i in $ENVIR
@@ -387,7 +387,7 @@ elif [[ "$1" == "env-default" ]]; then
         rm -rf $TPH/xow64_wine/.envirs
     fi
     echo "environment variables changed to default."
-elif [[ $1 =~ WINEPREFIX=.[AZ-aZ-ab]* ]]; then
+elif [[ $1 =~ WINEPREFIX=[.a-zA-Z0-9_]+$ ]]; then
     if [[ $1 == WINEPREFIX=. ]]; then
         echo "invalid ${1}"
         echo "make sure enter to valid name for the prefix"

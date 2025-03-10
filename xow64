@@ -1076,6 +1076,35 @@ if [[ $IS_EQUAL == "0" ]]; then
 fi
 echo
 echo "using default wined3d."
+elif [[ "$1" == "device=gtx760" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+[Software\\Wine\\Direct3D]
+"VideoPciDeviceID"=dword:00001187
+"VideoPciVendorID"=dword:000010DE
+EOF
+echo "using custom (GeForce GTX 760) device id"
+fi
+elif [[ "$1" == "device=default" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   wine_q
+   sed -i '/VideoPciDeviceID"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/VideoPciVendorID"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "using default device id"
 elif [[ "$1" == "cnc-ddraw=true" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot

@@ -1076,7 +1076,7 @@ if [[ $IS_EQUAL == "0" ]]; then
 fi
 echo
 echo "using default wined3d."
-elif [[ "$1" == "device=gtx760" ]]; then
+elif [[ "$1" == "device=gtx950m" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
 fi
@@ -1085,12 +1085,41 @@ wine_q
 
 if [ -f $TPH/${WPREFIX}/user.reg ]; then
 cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
-[Software\\\Wine\\\DllOverrides]
-[Software\\Wine\\Direct3D]
-"VideoPciDeviceID"=dword:00001187
+[Software\\\Wine\\\Direct3D]
+"VideoPciDeviceID"=dword:0000139A
 "VideoPciVendorID"=dword:000010DE
 EOF
-echo "using custom (GeForce GTX 760) device id"
+echo "using custom (GeForce GTX 950M) device id"
+fi
+elif [[ "$1" == "device=gtx980" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"VideoPciDeviceID"=dword:000013C0
+"VideoPciVendorID"=dword:000010DE
+EOF
+echo "using custom (GeForce GTX 980) device id"
+fi
+elif [[ "$1" == "device=uhd630" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"VideoPciDeviceID"=dword:00003E91
+"VideoPciVendorID"=dword:00008086
+EOF
+echo "using custom (UHD Graphics 630) device id"
 fi
 elif [[ "$1" == "device=default" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then

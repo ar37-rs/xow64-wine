@@ -198,6 +198,10 @@ Using WineD3D version 3.21 (faster for some older games)
 ```
 ~/xow64 wined3d=3.21
 ```
+and then (for wined3d 3.21 only: changing ```deviceId``` back to default is required if previously changed to something else)
+```
+~xow64 device=default
+```
 
 Using WineD3D version 4.21 (relatively faster for some specific games)
 ```

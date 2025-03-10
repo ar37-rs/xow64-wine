@@ -194,16 +194,12 @@ preconfigured termux gl drivers including virgl (if any)
 ```
 
 # Direct 3D support for OpenGL drivers
-Using WineD3D version 3.21
-
-(faster for some older games and also contains fix for some apps/games which unable detect the GPU name)
+Using WineD3D version 3.21 (faster for some older games)
 ```
 ~/xow64 wined3d=3.21
 ```
 
-Using WineD3D version 4.21
-
-(relatively faster for some games)
+Using WineD3D version 4.21 (relatively faster for some specific games)
 ```
 ~/xow64 wined3d=4.21
 ```
@@ -258,27 +254,6 @@ Disable dxvk-glasync-proton (vkd3d)
 If experiencing error on some specific vulkan drivers use the older supported version [from here](https://github.com/doitsujin/dxvk) or use modified dxvk version [from here](https://github.com/pythonlover02/DXVK-Sarek)
 
 # Additional usage:
-Change ```WINEPREFIX``` to the new specific path (default is ```.xow64_wine```)
-
-(after changing ```WINEPREFIX``` make sure to reconfigure most of things such update-patch, renabling vkd3d and .etc if previously being enabled)
-
-e.g: change to ```.wine``` 
-```
-~/xow64 WINEPREFIX=.wine
-```
-
-Using custom graphic card deviceId and vendorId, some games require the ```deviceId``` to be available on the system
-
-use custom GPU code name (GeFoce GTX 760)
-```
-~/xow64 device=gtx760
-```
-
-Swich back to default ```deviceId```
-```
-~/xow64 device=default
-```
-
 Adding any custom environment variable (e.g: disabling ```MMAP32```)
 ```
 ~/xow64 env-add BOX64_MMAP32=0
@@ -299,6 +274,18 @@ Reset custom environment variables to default
 ~/xow64 env-default
 ```
 
+Using custom graphic card deviceId and vendorId, some games require the ```deviceId``` to be available on the system
+
+use custom GPU code name (GeForce GTX 760)
+```
+~/xow64 device=gtx760
+```
+
+Swich back to default ```deviceId```
+```
+~/xow64 device=default
+```
+
 Enable winedlloverride for cnc-ddraw
 ```
 ~/xow64 cnc-ddraw=true
@@ -317,6 +304,15 @@ Disable wine debugger (for stability)
 Re-enable wine debugger
 ```
 ~/xow64 debug=true
+```
+
+Using custom ```WINEPREFIX``` to the new specific path (default is ```.xow64_wine```)
+
+(after changing ```WINEPREFIX``` make sure to reconfigure most of things such update-patch, renabling vkd3d and .etc if previously being enabled)
+
+e.g: change to ```.wine``` 
+```
+~/xow64 WINEPREFIX=.wine
 ```
 
 Install box64 v0.3.2 (available box64 v0.3.0 to v0.3.3 glibc only)

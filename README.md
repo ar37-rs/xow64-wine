@@ -267,6 +267,18 @@ e.g: change to ```.wine```
 ~/xow64 WINEPREFIX=.wine
 ```
 
+Using custom graphic card deviceId and vendorId, some games require the ```deviceId``` to be available on the system
+
+use custom GPU code name (GeFoce GTX 760)
+```
+~/xow64 device=gtx760
+```
+
+Swich back to default ```deviceId```
+```
+~/xow64 device=default
+```
+
 Adding any custom environment variable (e.g: disabling ```MMAP32```)
 ```
 ~/xow64 env-add BOX64_MMAP32=0

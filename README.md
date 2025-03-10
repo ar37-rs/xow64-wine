@@ -276,11 +276,18 @@ Reset custom environment variables to default
 
 Using custom graphic card deviceId and vendorId, some games require the ```deviceId``` to be available on the system
 
-use custom GPU code name (GeForce GTX 760)
+use custom GPU code name (GeForce GTX 950M)
 ```
-~/xow64 device=gtx760
+~/xow64 device=gtx950m
 ```
-
+or (GeForce GTX 980)
+```
+~/xow64 device=gtx980
+```
+or (UHD Graphics 630)
+```
+~/xow64 device=uhd630
+```
 Swich back to default ```deviceId```
 ```
 ~/xow64 device=default

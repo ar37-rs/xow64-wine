@@ -1,4 +1,4 @@
-# Xow64-Wine
+# XoW64-Wine
 Wine-WoW64 + Box64 presetuped for termux glibc/proot (aarch64)
 
 <img align="left" src="components/wine.png">

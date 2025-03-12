@@ -12,7 +12,7 @@ with minimal dependencies as possible and install only what needed.
 Version: 10.3 (Stable)
 
 ## Box64
-Version: 0.3.3 (Devel)
+Version: 0.3.5 (Devel)
 
 # Installation:
 [(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
@@ -326,12 +326,12 @@ e.g: change to ```.wine```
 ~/xow64 WINEPREFIX=.wine
 ```
 
-Install box64 v0.3.2 (available box64 v0.3.0 to v0.3.3 glibc only)
+Install box64 v0.3.3 (available box64 v0.3.0 to v0.3.5 glibc only)
 ```
-~/xow64 box64=0.3.2
+~/xow64 box64=0.3.3
 ```
 
-Update box64 to newer version (v0.3.3 glibc only)
+Update box64 to newer version (v0.3.5 glibc only)
 ```
 ~/xow64 update-box64
 ```

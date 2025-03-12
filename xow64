@@ -1,7 +1,7 @@
 # https://github.com/ar37-rs/xow64-wine
 
 WINE_LATEST=10.3-stable
-BOX64_LATEST=0.3.3
+BOX64_LATEST=0.3.5
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread relatively faster for wined3d (very intense cpu)
 # export MESA_GLTHREAD=true
@@ -479,13 +479,20 @@ elif [[ "$1" == "box64=0.3.2" ]]; then
     proot_info   
     echo "0.3.2" > $TPH/xow64_box64/.box64-version
     install_box64
-elif [[ "$1" == "box64=0.3.3" || "$1" == "update-box64" ]]; then
+elif [[ "$1" == "box64=0.3.3" ]]; then
     proot_info   
     echo "0.3.3" > $TPH/xow64_box64/.box64-version    
     if [[ "$1" == "update-box64" ]]; then
        UPDATE_BOX64=1
     fi
-    install_box64    
+    install_box64  
+elif [[ "$1" == "box64=0.3.5" || "$1" == "update-box64" ]]; then
+    proot_info   
+    echo "0.3.5" > $TPH/xow64_box64/.box64-version    
+    if [[ "$1" == "update-box64" ]]; then
+       UPDATE_BOX64=1
+    fi
+    install_box64  
 elif [[ "$1" == "update-wine" || "$1" == "install-wine" ]]; then
     wine_q
     install_wine

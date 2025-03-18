@@ -9,10 +9,10 @@ with minimal dependencies as possible and install only what needed.
 
 # Current state
 ## Wine
-Version: 10.3 (Devel)
+Version: 10.3
 
 ## Box64
-Version: 0.3.5 (Devel)
+Version: 0.3.5
 
 # Installation:
 [(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
@@ -43,7 +43,7 @@ Switch to different version of wine (default is 10.3-devel)
 
 Other available versions:
 ```
-10.3-stable
+10.3-stable (recommended)
 10.3-staging
 9.18-staging (fix crash gecko iexplore)
 ```

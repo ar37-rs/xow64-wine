@@ -346,7 +346,7 @@ EOF
         echo "invalid environment variable: ${2}."
     fi
 elif [[ "$1" == "env-remove" ]]; then
-    if [[ $2 =~ [a-zA-Z0-9]+$ && -f $TPH/xow64_wine/.envirs ]] then
+    if [[ $2 =~ [a-zA-Z0-9]+$ && -f $TPH/xow64_wine/.envirs ]]; then
         ENVIR=$(cat $TPH/xow64_wine/.envirs)
         rm -rf $TPH/xow64_wine/.envirs
         for i in $ENVIR

@@ -317,7 +317,7 @@ elif [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
 fi
     
 if [[ "$1" == "env-add" ]]; then
-    if [[ $2 =~ [a-zA-Z0-9]+$ ]] then
+    if [[ $2 =~ [a-zA-Z0-9]+$ ]]; then
         ENVIR=
         if [[ -f $TPH/xow64_wine/.envirs ]]; then
             ENVIR=$(cat $TPH/xow64_wine/.envirs)

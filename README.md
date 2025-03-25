@@ -41,7 +41,7 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 # Usage (inside desktop environment native termux):
 Switch to different version of wine (default is 10.4-stable)
 
-Other available versions:
+Other available versions (newer wine version offers better compatibility and stability for newer games):
 ```
 10.4-staging
 9.18-staging

@@ -44,10 +44,10 @@ Switch to different version of wine (default is 10.4-stable)
 Other available versions:
 ```
 10.4-staging
-9.18-staging (fix crash gecko iexplore)
+9.18-staging
 ```
 
-e.g: Wine 9.18 staging
+e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)
 ```
 ~/xow64 wine=9.18-staging
 ```

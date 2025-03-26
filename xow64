@@ -252,7 +252,10 @@ wine_inf() {
     if [ -d /data/data/com.termux/files/usr/glibc/share/wine ]; then
         rm -rf /data/data/com.termux/files/usr/glibc/share/wine
     fi
-    cp -r $TPH/xow64_wine/${WINE_VERSION}/share/wine /data/data/com.termux/files/usr/glibc/share
+    
+    if [ -d $TPH/xow64_wine/${WINE_VERSION}/share/wine ]; then
+        cp -r $TPH/xow64_wine/${WINE_VERSION}/share/wine /data/data/com.termux/files/usr/glibc/share
+    fi
 }
 
 install_wine() {

@@ -28,7 +28,7 @@ or
 pkg install wget
 ```
 
-### Install xow64
+### Install xow64 (Bash script only)
 ```
 cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/xow64 && chmod +x ~/xow64
 ```

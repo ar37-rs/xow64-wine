@@ -218,11 +218,6 @@ Using vulkan turnip driver (for Adreno GPUs)
 ~/xow64 vk=turnip
 ```
 
-Using vulkan radeonsi driver (for AMD based GPUs such Xclipse)
-```
-~/xow64 vk=radeon
-```
-
 Switch back using default vulkan driver (if any)
 ```
 ~/xow64 vk=default

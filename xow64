@@ -1246,6 +1246,7 @@ elif [[ "$1" == "remove-all" ]]; then
     rm -rf $TPH/xow64_drivers
     echo "removing xow64_prefix..."
     rm -rf ~/xow64_prefix
+    rm -rf ~/$WPREFIX
     echo "done."
 elif [[ $1 == desk-size=[A-Za-z0-9]* ]]; then
     wine_q

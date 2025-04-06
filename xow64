@@ -700,8 +700,8 @@ elif [[ "$1" == "driver=virpipe" ]]; then
         if [ ! -d $TPH/xow64_drivers ]; then
             cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
         fi
-        if [ ! -f $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb ]; then
-            cd && rm -rf $TPH/virglrenderer_1.1.0-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.0-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.0-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+        if [ ! -f $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb ]; then
+            cd && rm -rf $TPH/virglrenderer_1.1.1-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.1-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.1-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb
         fi
 
         if [ ! -f $TPH/xow64_drivers/angle-android_2.1.2-latest.deb ]; then

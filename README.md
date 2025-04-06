@@ -44,7 +44,7 @@ Switch to different version of wine (default is 10.4-stable)
 Other available versions:
 ```
 10.4-staging 
-9.18-staging (recommended for virgl users and older games)
+9.18-staging
 ```
 
 e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)

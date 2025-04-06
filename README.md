@@ -62,9 +62,9 @@ Run and check wine version
 ~/xow64 r --version
 ```
 
-Run winecfg
+Run registry editor (regedit)
 ```
-~/xow64 r winecfg
+~/xow64 r regedit
 ```
 
 Run any specific *.exe

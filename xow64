@@ -593,9 +593,9 @@ elif [[ "$1" == "update-virgl" ]]; then
            mkdir $TPH/xow64_drivers
        fi
     fi
-    cd && rm -rf $TPH/virglrenderer_1.1.0-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.0-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.0-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb && cd && rm -rf ~/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x ~/vglx && mv ~/vglx $TPH/xow64_drivers/vglx
+    cd && rm -rf $TPH/virglrenderer_1.1.1-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.1-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.1-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb && cd && rm -rf ~/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x ~/vglx && mv ~/vglx $TPH/xow64_drivers/vglx
     echo "Installing virglrenderer..."
-    dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+    dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb
     echo "done."
 elif [[ "$1" == "update-vkd3d" || "$1" == "update-vkd3d-async" ]]; then
     wine_q

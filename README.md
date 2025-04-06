@@ -43,7 +43,7 @@ Switch to different version of wine (default is 10.4-stable)
 
 Other available versions:
 ```
-10.4-staging
+10.4-staging (recommended for tunip/adreno or any high device with modern gpu)
 9.18-staging (recommended for virgl users, faster and more stable)
 ```
 

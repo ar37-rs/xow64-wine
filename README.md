@@ -16,6 +16,8 @@ Version: 0.3.5
 
 # Installation:
 [(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
+
+[(Using xow64 on native/bionic read more from here)](https://github.com/ar37-rs/xaw64-wine)
 ### Install desktop for native termux
 [(Read for more info on how to setup xfce4)](https://github.com/ar37-rs/xfce4-termux)
 

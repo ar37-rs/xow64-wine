@@ -57,9 +57,9 @@ Switch back to default version (10.4-stable)
 ~/xow64 wine=default
 ```
 
-Run and check wine version
+Run wine config
 ```
-~/xow64 r --version
+~/xow64 r winecfg
 ```
 
 Run registry editor (regedit)

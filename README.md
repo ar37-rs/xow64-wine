@@ -203,7 +203,7 @@ Using WineD3D version 4.21 (relatively faster for some specific games)
 ~/xow64 wined3d=4.21
 ```
 
-Using WineD3D version 9.2 (recommended for virgl stability and performance)
+Using WineD3D version 9.2 (fix graphical glitches for some devices on wine > 10.4 and highly recommended for virgl stability and performance as well)
 ```
 ~/xow64 wined3d=9.2
 ```

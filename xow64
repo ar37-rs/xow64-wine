@@ -152,6 +152,167 @@ check_wineprefix() {
     fi
 }
 
+wined3d_default() {
+if [ -f $TPH/xow64_wine/.wine-version ]; then
+    WINE_VERSION=$(cat $TPH/xow64_wine/.wine-version)
+    if [[ $WINE_VERSION == "" ]]; then
+        WINE_VERSION=$WINE_LATEST
+    fi
+else
+    WINE_VERSION=$WINE_LATEST
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/wined3d.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/ddraw.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/ddraw.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d8.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d8.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d9.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d9.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10_1.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10_1.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10core.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d11.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/wined3d.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/ddraw.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/ddraw.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d8.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d8.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d9.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d9.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10_1.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10_1.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10core.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d11.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+}
+
+
+wined3d_install() {
+if [ -f $TPH/xow64_wine/.wine-version ]; then
+    WINE_VERSION=$(cat $TPH/xow64_wine/.wine-version)
+    if [[ $WINE_VERSION == "" ]]; then
+        WINE_VERSION=$WINE_LATEST
+    fi
+else
+    WINE_VERSION=$WINE_LATEST
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/wined3d.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows/wined3d.dll
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/libwine.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/libwine.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/ddraw.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/ddraw.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d8.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d8.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d9.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d9.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10_1.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10_1.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10core.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d11.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/wined3d.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/libwine.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/libwine.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/ddraw.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/ddraw.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d8.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d8.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d9.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d9.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10_1.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10_1.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10core.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d11.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+}
+
 pan_info() {
     echo "info:"
     if [ -f $TPH/xow64_drivers/.panthor ]; then
@@ -317,6 +478,8 @@ if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
     echo "using wined3d version 3.21"
 elif [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
     echo "using wined3d version 4.21"
+elif [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    echo "using wined3d version 9.2"
 fi
     
 if [[ "$1" == "env-add" ]]; then
@@ -854,6 +1017,9 @@ fi
 if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
     rm -rf $TPH/xow64_wine/.wined3d-3.21
 fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
 if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
     rm -rf $TPH/xow64_wine/.wined3d-4.21
 fi
@@ -929,6 +1095,9 @@ fi
 if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
     rm -rf $TPH/xow64_wine/.wined3d-3.21
 fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
 if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
     rm -rf $TPH/xow64_wine/.wined3d-4.21
 fi
@@ -982,9 +1151,13 @@ fi
 if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
     rm -rf $TPH/xow64_wine/.dxvk-proton
 fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
 if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
     rm -rf $TPH/xow64_wine/.wined3d-4.21
 fi
+wined3d_install
 check_wineprefix
 if [[ $IS_EQUAL == "0" ]]; then
    WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
@@ -1036,6 +1209,10 @@ fi
 if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
     rm -rf $TPH/xow64_wine/.wined3d-3.21
 fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
+wined3d_install
 check_wineprefix
 if [[ $IS_EQUAL == "0" ]]; then
    WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
@@ -1046,6 +1223,62 @@ fi
 touch $TPH/xow64_wine/.wined3d-4.21
 echo
 echo "using wined3d version 4.21"
+elif [[ "$1" == "wined3d=9.2" ]]; then
+
+wine_q
+WINE_VERSION=9.2
+if [ ! -f $TPH/.xow64-proot ]; then
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"dxgi"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d10_1"="native,builtin"
+"d3d11"="native,builtin"
+"wined3d"="native,builtin"
+"ddraw"="native,builtin"
+EOF
+fi
+if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xow64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+wined3d_install
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/xow64_wine/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX}
+else
+   cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+fi
+
+touch $TPH/xow64_wine/.wined3d-9.2
+echo
+echo "using wined3d version 9.2"
 elif [[ "$1" == "wined3d=default" ]]; then
 
 wine_q
@@ -1062,7 +1295,7 @@ else
     fi
 fi
 
-    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine/${WINE_VERSION} && tar -xf wined3d-${WINE_VERSION}.tar.xz && cd && cp -r $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine/${WINE_VERSION} && tar -xf wined3d-${WINE_VERSION}.tar.xz && cd && cp -r $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine $TPH/
 
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
@@ -1083,13 +1316,19 @@ fi
 if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
     rm -rf $TPH/xow64_wine/.wined3d-3.21
 fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
 if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
     rm -rf $TPH/xow64_wine/.wined3d-4.21
 fi
+wined3d_default
 check_wineprefix
 if [[ $IS_EQUAL == "0" ]]; then
    WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
-   mv $TPH/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX} && rm -rf $TPH/.xow64_wine
+   mv $TPH/xow64_wine/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX}
+else
+   cp -r $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine
 fi
 echo
 echo "using default wined3d."

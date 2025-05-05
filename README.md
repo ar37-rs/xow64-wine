@@ -45,7 +45,7 @@ Switch to different version of wine
 
 Other available versions:
 ```
-9.18-staging
+9.18-staging (recommended for virgl users)
 ```
 
 e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)
@@ -203,7 +203,12 @@ Using WineD3D version 4.21 (relatively faster for some specific games)
 ~/xow64 wined3d=4.21
 ```
 
-Switch back using default builtin WineD3D version, the newer the better compatibility and stability
+Using WineD3D version 9.2 (recommended for virgl stability and performance)
+```
+~/xow64 wined3d=9.2
+```
+
+Switch back using default builtin WineD3D version
 ```
 ~/xow64 wined3d=default
 ```

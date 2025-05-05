@@ -9,7 +9,7 @@ with minimal dependencies as possible and install only what needed.
 
 # Current state
 ## Wine
-Version: 10.6
+Version: 10.7
 
 ## Box64
 Version: 0.3.5
@@ -41,11 +41,10 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 ```
 
 # Usage (inside desktop environment native termux):
-Switch to different version of wine (default is 10.6-stable)
+Switch to different version of wine
 
 Other available versions:
 ```
-10.6-staging 
 9.18-staging
 ```
 
@@ -54,7 +53,7 @@ e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based ap
 ~/xow64 wine=9.18-staging
 ```
 
-Switch back to default version (10.6-stable)
+Switch back to default version (10.7-staging)
 ```
 ~/xow64 wine=default
 ```

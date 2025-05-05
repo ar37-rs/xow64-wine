@@ -162,6 +162,10 @@ else
     WINE_VERSION=$WINE_LATEST
 fi
 
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/dxgi.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/dxgi.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
 if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/wined3d.dll ]; then
     cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
 fi
@@ -194,6 +198,9 @@ if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d
     cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
 fi
 
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/dxgi.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/dxgi.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
 
 if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/wined3d.dll ]; then
     cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
@@ -243,6 +250,10 @@ if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/wined3d.dll ]; then
     cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows/wined3d.dll
 fi
 
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/dxgi.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/dxgi.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows/wined3d.dll
+fi
+
 if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/libwine.dll ]; then
     cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/libwine.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
 fi
@@ -275,6 +286,9 @@ if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d11.dll ]; then
     cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
 fi
 
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/dxgi.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/dxgi.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
 
 if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/wined3d.dll ]; then
     cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows

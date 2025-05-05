@@ -45,7 +45,7 @@ Switch to different version of wine
 
 Other available versions:
 ```
-9.18-staging (recommended for low-end devices and virgl users)
+9.18-staging
 ```
 
 e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)
@@ -189,7 +189,7 @@ preconfigured termux gl drivers including virgl (if any)
 ```
 
 # Direct 3D support for OpenGL drivers
-Using WineD3D version 3.21 (faster for some older games)
+Using WineD3D version 3.21
 ```
 ~/xow64 wined3d=3.21
 ```
@@ -198,12 +198,12 @@ and then (for wined3d 3.21 only: changing ```deviceId``` back to default is requ
 ~xow64 device=default
 ```
 
-Using WineD3D version 4.21 (relatively faster for some specific games)
+Using WineD3D version 4.21
 ```
 ~/xow64 wined3d=4.21
 ```
 
-Using WineD3D version 9.2 (fix graphical glitches for some devices on wine > 10.4 and highly recommended for virgl stability and performance as well)
+Using WineD3D version 9.2 (fix graphical glitches for some devices on wine 10.x and highly recommended for virgl stability and performance as well)
 ```
 ~/xow64 wined3d=9.2
 ```

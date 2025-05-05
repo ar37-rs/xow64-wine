@@ -45,7 +45,7 @@ Switch to different version of wine
 
 Other available versions:
 ```
-9.18-staging (recommended for virgl users)
+9.18-staging (recommended for low-end devices and virgl users)
 ```
 
 e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)

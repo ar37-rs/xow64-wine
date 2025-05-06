@@ -251,6 +251,16 @@ Disable dxvk-glasync-proton (vkd3d)
 ~/xow64 vkd3d-async=false
 ```
 
+Using dxvk-v1-proton (support for some legacy devices with vulkan 1.1 as well)
+```
+~/xow64 vkd3d-v1=true
+```
+
+Disable dxvk-v1-proton (vkd3d-v1)
+```
+~/xow64 vkd3d-v1=false
+```
+
 If experiencing error on some specific vulkan drivers use the older supported version [from here](https://github.com/doitsujin/dxvk) or use modified dxvk version [from here](https://github.com/pythonlover02/DXVK-Sarek)
 
 # Additional usage:

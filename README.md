@@ -46,6 +46,7 @@ Switch to different version of wine
 Other available versions:
 ```
 9.18-staging
+10.7-staging
 ```
 
 e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)
@@ -53,7 +54,7 @@ e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based ap
 ~/xow64 wine=9.18-staging
 ```
 
-Switch back to default version (10.7-staging)
+Switch back to default version (10.7-stable)
 ```
 ~/xow64 wine=default
 ```

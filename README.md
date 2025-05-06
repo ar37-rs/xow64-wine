@@ -444,6 +444,8 @@ https://github.com/wine-staging/wine-staging
 
 https://github.com/airidosas252/Wine-Builds
 
+https://github.com/brunodev85/winlator
+
 https://github.com/termux-pacman/glibc-packages
 
 https://github.com/doitsujin/dxvk

@@ -5,7 +5,7 @@ Wine-WoW64 + Box64 presetuped for termux glibc/proot (aarch64)
 
 with minimal dependencies as possible and install only what needed.
 
-# Current state
+# Latest state
 ## Wine
 Version: 10.7
 

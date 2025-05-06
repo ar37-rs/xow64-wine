@@ -1,6 +1,6 @@
 # https://github.com/ar37-rs/xow64-wine
 
-WINE_LATEST=10.7-staging
+WINE_LATEST=10.7-stable
 BOX64_LATEST=0.3.5
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread relatively faster for wined3d (very intense cpu)

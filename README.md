@@ -187,7 +187,7 @@ preconfigured termux gl drivers including virgl (if any)
 ~/xow64 driver=default
 ```
 
-# Direct 3D support for OpenGL drivers
+# Direct 3D support for OpenGL drivers:
 Using WineD3D version 3.21
 ```
 ~/xow64 wined3d=3.21
@@ -405,7 +405,7 @@ Uninstall (remove) xow64-wine completely
 
     [read more from here](https://github.com/FunkyFr3sh/cnc-ddraw)
 
-# Additional troubleshoot
+# Additional troubleshoot:
 * Fix virgl-angle vulkan support for some devices
 
    [such encountered on this issue](https://github.com/ar37-rs/virgl-angle/issues/1)

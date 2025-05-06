@@ -236,29 +236,19 @@ Using dxvk-proton (supported on vulkan llvmpipe and any supported GPU driver)
 ~/xow64 vkd3d=true
 ```
 
-Disable dxvk-proton (vkd3d)
-```
-~/xow64 vkd3d=false
-```
-
 Using dxvk-glasync-proton for more pleasant experience (supported on vulkan the same as dxvk-proton)
 ```
 ~/xow64 vkd3d-async=true
 ```
 
-Disable dxvk-glasync-proton (vkd3d)
-```
-~/xow64 vkd3d-async=false
-```
-
-Using dxvk-v1-proton (support for some legacy devices with vulkan 1.1 as well)
+Using dxvk-v1-proton (support for some legacy devices with vulkan 1.1)
 ```
 ~/xow64 vkd3d-v1=true
 ```
 
-Disable dxvk-v1-proton (vkd3d-v1)
+Disable dxvk-proton, dxvk-glasync and dxvk-v1-proton
 ```
-~/xow64 vkd3d-v1=false
+~/xow64 vkd3d=false
 ```
 
 If experiencing error on some specific vulkan drivers use the older supported version [from here](https://github.com/doitsujin/dxvk) or use modified dxvk version [from here](https://github.com/pythonlover02/DXVK-Sarek)

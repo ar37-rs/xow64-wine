@@ -974,6 +974,88 @@ elif [[ "$1" == "vgl-use=angle" ]]; then
     $TPH/xow64_drivers/vglx use-angle
 elif [[ "$1" == "vgl-use=android" ]]; then
     $TPH/xow64_drivers/vglx use-android
+elif [[ "$1" == "vkd3d-v1=true" || "$1" == "vkd3d-v1-async=true" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [[ "$1" == "vkd3d-v1-async=true" ]]; then
+    echo "Installing dxvk-proton (vkd3d-v1) async components..."
+    if [ ! -f $TPH/.xow64-proot ]; then
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz ]; then
+            cd && rm -rf $TPH/xow64_dxvk_v1_proton_async.tar.xz && rm -rf $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton_async.tar.xz && mv $TPH/xow64_dxvk_v1_proton_async.tar.xz $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz
+        fi
+    else
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz ]; then
+            cd && rm -rf ~/xow64_dxvk_v1_proton_async.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton_async.tar.xz && mv ~/xow64_dxvk_v1_proton_async.tar.xz $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz
+        fi
+    fi
+else
+    if [ ! -f $TPH/.xow64-proot ]; then
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_v1_proton.tar.xz ]; then
+            echo "Installing dxvk-proton (vkd3d-v1) components..."
+            cd && rm -rf $TPH/xow64_dxvk_v1_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton.tar.xz && mv $TPH/xow64_dxvk_v1_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_v1_proton.tar.xz
+        fi
+    else
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_v1_proton.tar.xz ]; then
+            echo "Installing dxvk-proton (vkd3d-v1) components..."
+            cd && rm -rf ~/xow64_dxvk_v1_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton.tar.xz && mv ~/xow64_dxvk_v1_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_v1_proton.tar.xz
+        fi
+    fi
+fi
+
+if [[ "$1" == "vkd3d-v1-async=true" ]]; then
+    echo "extracting xow64_dxvk_v1_proton_async.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_v1_proton_async.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+    
+else
+    echo "extracting xow64_dxvk_v1_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_v1_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX} && rm -rf $TPH/.xow64_wine
+fi
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Volatile Environment]
+"DXVK_STATE_CACHE_PATH"="C:\\.dxvk"
+"DXVK_STATE_CACHE"="reset"
+"DXVK_ASYNC"="1"
+"DXVK_GPLASYNCCACHE"="1"
+
+[Software\\\Wine\\\DllOverrides]
+"di"="native,builtin"
+"dxgi"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d11"="native,builtin"
+"d3d12"="native,builtin"
+"d3d12core"="native,builtin"
+EOF
+
+if [[ "$1" == "vkd3d-v1-async=true" ]]; then
+echo "dxvk-proton (vkd3d-v1) async is activated"
+else
+echo "dxvk-proton (vkd3d-v1) is activated"
+fi
+
+touch $TPH/xow64_wine/.dxvk-proton
+fi
+
+echo "done."
 elif [[ "$1" == "vkd3d=true" || "$1" == "vkd3d-async=true" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot

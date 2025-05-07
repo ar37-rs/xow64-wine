@@ -223,6 +223,16 @@ Using vulkan turnip driver (for Adreno GPUs)
 ~/xow64 vk=turnip
 ```
 
+or turnip 24.x driver for some old Adreno GPUs
+```
+~/xow64 turnip=24.x
+```
+
+or turnip 25.x driver for some newer Adreno GPUs (default)
+```
+~/xow64 turnip=25.x
+```
+
 Switch back using default vulkan driver (if any)
 ```
 ~/xow64 vk=default

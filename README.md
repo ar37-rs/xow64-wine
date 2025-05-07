@@ -321,6 +321,8 @@ e.g: change to ```.wine```
 ```
 
 Install box64 v0.3.3 (available box64 v0.3.0 to v0.3.5 glibc only)
+
+For wine 10.7+ only compatible with box64 0.3.5+, for wine 9.18 staging all version of box64s are compatible
 ```
 ~/xow64 box64=0.3.3
 ```

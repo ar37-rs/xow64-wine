@@ -3,6 +3,9 @@ Wine-WoW64 + Box64 presetuped for termux glibc/proot (aarch64)
 
 <img align="center" src="components/wine.png">
 
+<img align="center" src="components/PES2013.png">
+
+
 with minimal dependencies as possible and install only what needed.
 
 # Latest state:

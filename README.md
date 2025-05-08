@@ -1,9 +1,9 @@
 # XoW64-Wine
 Wine-WoW64 + Box64 presetuped for termux glibc/proot (aarch64)
 
-<img align="center" src="components/CMR2.jpg">
-
 <img align="center" src="components/PES2013.png">
+
+<img align="center" src="components/CMR2.jpg">
 
 with minimal dependencies as possible and install only what needed.
 

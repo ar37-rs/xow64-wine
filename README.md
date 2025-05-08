@@ -35,7 +35,12 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 ```
 
 # Usage (inside termux terminal):
-Launch wine in desktop mode on termux terminal
+Enable sdcard for wine D: drive (optional)
+```
+~/xow64 sdcard=true
+```
+
+Start wine in desktop mode on termux terminal
 ```
 ~/xow64 sd
 ```

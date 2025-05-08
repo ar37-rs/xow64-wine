@@ -1111,8 +1111,14 @@ cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
 "d3d11"="native,builtin"
 "d3d12"="native,builtin"
 "d3d12core"="native,builtin"
-EOF
 
+[Software\\\Wine\\\Direct3D]
+"renderer"="no3d"
+EOF
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
 if [[ "$1" == "vkd3d-v1-async=true" ]]; then
 echo "dxvk-proton (vkd3d-v1) async is activated"
 else
@@ -1127,7 +1133,6 @@ elif [[ "$1" == "vkd3d=true" || "$1" == "vkd3d-async=true" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
     $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
 fi
-
 wine_q
 
 if [[ "$1" == "vkd3d-async=true" ]]; then
@@ -1193,8 +1198,14 @@ cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
 "d3d11"="native,builtin"
 "d3d12"="native,builtin"
 "d3d12core"="native,builtin"
-EOF
 
+[Software\\\Wine\\\Direct3D]
+"renderer"="no3d"
+EOF
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
 if [[ "$1" == "vkd3d-async=true" ]]; then
 echo "dxvk-proton (vkd3d) async is activated"
 else
@@ -1228,6 +1239,7 @@ if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
     wine_q
 fi
 if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/renderer"=/d' $TPH/${WPREFIX}/user.reg
    sed -i '/wined3d"=/d' $TPH/${WPREFIX}/user.reg
    sed -i '/dxgi"=/d' $TPH/${WPREFIX}/user.reg
    sed -i '/d3d8"=/d' $TPH/${WPREFIX}/user.reg
@@ -1260,6 +1272,52 @@ echo "dxvk-proton (vkd3d) async is deactivated"
 else
 echo "dxvk-proton (vkd3d) is deactivated"
 fi
+elif [[ "$1" == "wined3d=vk" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"renderer"="vulkan"
+EOF
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "Wined3d using Vulkan renderer"
+elif [[ "$1" == "wined3d=gl" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"renderer"="gl"
+"shader_backend"="glsl"
+"useGLSL"="enabled"
+EOF
+fi
+echo "Wined3d using OpenGL renderer"
+elif [[ "$1" == "wined3d=gdi" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"renderer"="gdi"
+EOF
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "Wined3d using GDI renderer"
 elif [[ "$1" == "wined3d=3.21" ]]; then
 
 wine_q

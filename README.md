@@ -462,7 +462,7 @@ Uninstall (remove) xow64-wine completely
   [read more for more info from here](https://ivonblog.com/en-us/posts/fix-termux-signal9-error/) or [here](https://github.com/termux/termux-app/issues/2366)
 
 # Other links for credits (3rd parties):
-[InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20termux%20config&source=web)
+[InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20box%20config&source=web)
 
 [XinputBridge Wiki](https://github.com/Ilan12346-maya/XinputBridge)
 

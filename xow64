@@ -441,6 +441,13 @@ wine_inf() {
     fi
 }
 
+kx11pls() {
+    kill -9 $(pgrep -f "termux.x11") 2>/dev/null
+    kill -9 $(pgrep -f "virgl_test_server_android") 2>/dev/null
+    kill -9 $(pgrep -f "virgl_test_server") 2>/dev/null
+    kill -9 $(pgrep -f "pulseaudio") 2>/dev/null
+}
+
 install_wine() {
     if [ -f $TPH/xow64_wine/.wine-version ]; then
         WINE_VERSION=$(cat $TPH/xow64_wine/.wine-version)
@@ -639,7 +646,7 @@ elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
             mkdir $TPH/xow64_drivers
        fi
     else
-       cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && install_wine
+       cd && pkg update && pkg install x11-repo && pkg install termux-x11-nightly xorg-xrandr pulseaudio termux-api tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && install_wine
     fi
     
     check_wineprefix
@@ -651,10 +658,14 @@ elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
     echo "done."
 elif [[ "$1" == "install-deps" ]]; then
     proot_info
-    cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
+    cd && pkg update && pkg install x11-repo && pkg install termux-x11-nightly xorg-xrandr pulseaudio termux-api tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
 elif [[ "$1" == "reinstall-deps" ]]; then
     proot_info
-    cd && pkg update && pkg reinstall tar openssl wget which glibc-repo && pkg update && pkg reinstall glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
+    cd && pkg update && pkg reinstall termux-x11-nightly xorg-xrandr pulseaudio termux-api tar openssl wget which glibc-repo && pkg update && pkg reinstall glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
+elif [[ "$1" == "sdcard=true" ]]; then
+    termux-setup-storage
+    echo "sdcard configured."
+    exit
 elif [[ "$1" == "box64=0.3.0" ]]; then
     proot_info
     echo "0.3.0" > $TPH/xow64_box64/.box64-version
@@ -1640,6 +1651,16 @@ elif [[ "$1" == "remove-all" ]]; then
     rm -rf ~/xow64_prefix
     rm -rf ~/$WPREFIX
     echo "done."
+elif [[ $1 == desk-size=default ]]; then
+    wine_q
+    if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    fi
+
+    if [ -f $TPH/${WPREFIX}/user.reg ]; then
+        sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/${WPREFIX}/user.reg
+        echo "desktop size has been configured to default"
+    fi
 elif [[ $1 == desk-size=[A-Za-z0-9]* ]]; then
     wine_q
     if [[ ! $1 == desk-size=[0-9]*[0-9]x[0-9]*[0-9] ]]; then
@@ -1672,6 +1693,56 @@ elif [[ "$1" == "s" ]]; then
         fi
     else
         DESK_SIZE=800x600
+    fi
+    vkinfo
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        if [ ! -f $TPH/.xow64-proot ]; then
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+        fi
+        $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
+    elif [ -f $TPH/xow64_drivers/.panfrost ]; then
+        pan_info
+        export LIBGL_DRI3_DISABLE=0
+        export MESA_LOADER_DRIVER_OVERRIDE=
+        if [ -f $TPH/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
+        export MESA_GLES_VERSION_OVERRIDE=3.1
+        
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
+    else
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
+    fi
+elif [[ "$1" == "qsd" ]]; then
+    echo "quitting wine desktop..."
+    am broadcast -a com.termux.x11.ACTION_STOP -p com.termux.x11
+    kx11pls
+elif [[ "$1" == "sd" ]]; then
+    am broadcast -a com.termux.x11.ACTION_STOP -p com.termux.x11
+    kx11pls
+    chmod 700 /data/data/com.termux/files/usr/tmp
+    export XDG_RUNTIME_DIR=${TMPDIR}
+
+    pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" --exit-idle-time=-1 &
+    sleep 1
+
+    termux-x11 -ac -once :0 &
+    sleep 1
+
+    am start --user 0 -n com.termux.x11/com.termux.x11.MainActivity
+    export DISPLAY=:0
+    
+    if [ -f $TPH/xow64_wine/.desk-size ]; then
+        DESK_SIZE=$(cat $TPH/xow64_wine/.desk-size)
+        if [[ $DESK_SIZE == "" ]]; then
+            DESK_SIZE=1024x768
+        fi
+    else
+        DESK_SIZE=1024x768
     fi
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then

@@ -45,7 +45,7 @@ Start wine in desktop mode on termux terminal
 ~/xow64 sd
 ```
 
-Quit wine or terminate all wine related process
+Quit wine desktop or terminate all wine related process
 ```
 ~/xow64 qsd
 ```

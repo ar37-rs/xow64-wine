@@ -1297,9 +1297,11 @@ if [ -f $TPH/${WPREFIX}/user.reg ]; then
 cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
 [Software\\\Wine\\\Direct3D]
 "renderer"="gl"
-"shader_backend"="glsl"
-"useGLSL"="enabled"
 EOF
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
 fi
 echo "Wined3d using OpenGL renderer"
 elif [[ "$1" == "wined3d=gdi" ]]; then

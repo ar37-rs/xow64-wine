@@ -18,12 +18,6 @@ Version: 0.3.5
 [(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
 
 [(Using xow64 on native/bionic read more from here)](https://github.com/ar37-rs/xaw64-wine)
-### Install desktop for native termux
-[(Read for more info on how to setup xfce4)](https://github.com/ar37-rs/xfce4-termux)
-
-or
-
-[(using termux-desktop from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
 
 ### Make sure if wget is installed
 ```
@@ -40,24 +34,24 @@ cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/ref
 ~/xow64 install
 ```
 
+# Usage (inside termux terminal):
+Launch wine in desktop mode on termux terminal
+```
+~/xow64 sd
+```
+
+Quit wine or terminate all wine related process
+```
+~/xow64 qsd
+```
+
 # Usage (inside desktop environment native termux):
-Switch to different version of wine
+### Install desktop for native termux
+[(Read for more info on how to setup xfce4)](https://github.com/ar37-rs/xfce4-termux)
 
-Other available versions:
-```
-9.18-staging
-10.7-stable
-```
+or
 
-e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)
-```
-~/xow64 wine=9.18-staging
-```
-
-Switch back to default version (10.7-staging)
-```
-~/xow64 wine=default
-```
+[(using termux-desktop from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
 
 Run wine config
 ```
@@ -98,13 +92,7 @@ Launch SphereMap (test EnvMapping D3D9)
 ~/xow64 spheremap
 ```
 
-Launch wine in windows desktop mode, configure desktop size like so
-
-(or any standard windows screen size)
-```
-~/xow64 desk-size=1024x768
-```
-and then simply start using
+Launch wine in windows desktop mode on termux desktop terminal
 ```
 ~/xow64 s
 ```
@@ -114,7 +102,36 @@ Quit wine or terminate all wine related process
 ~/xow64 q
 ```
 
-# OpenGL/ES drivers:
+# Main Usage:
+Configure wine desktop size (or any standard windows screen size)
+```
+~/xow64 desk-size=1024x768
+```
+
+Switch back wine desktop size to default
+```
+~/xow64 desk-size=default
+```
+
+Switch to different version of wine
+
+Other available versions:
+```
+9.18-staging
+10.7-stable
+```
+
+e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)
+```
+~/xow64 wine=9.18-staging
+```
+
+Switch back to default version (10.7-staging)
+```
+~/xow64 wine=default
+```
+
+### OpenGL/ES drivers:
 Using newer build of virgl (virpipe) driver
 
 (Universal android 9+ with vulkan 1.1+ GPU supported only)
@@ -189,7 +206,7 @@ preconfigured termux gl drivers including virgl (if any)
 ~/xow64 driver=default
 ```
 
-# Direct 3D support for OpenGL drivers:
+### Direct 3D support for OpenGL drivers:
 Using WineD3D version 3.21
 ```
 ~/xow64 wined3d=3.21
@@ -214,7 +231,7 @@ Switch back using default builtin WineD3D version
 ~/xow64 wined3d=default
 ```
 
-# Vulkan drivers:
+### Vulkan drivers:
 Using vulkan llvmpipe, extremely slow for testing only (Universal CPUs)
 ```
 ~/xow64 vk=lvp
@@ -240,7 +257,7 @@ Switch back using default vulkan driver (if any)
 ~/xow64 vk=default
 ```
 
-# Direct 3D support for vulkan drivers:
+### Direct 3D support for vulkan drivers:
 Using dxvk-proton (supported on vulkan llvmpipe and any supported GPU driver)  
 ```
 ~/xow64 vkd3d=true

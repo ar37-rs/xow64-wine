@@ -376,6 +376,11 @@ Update graphics drivers
 ~/xow64 update-drivers
 ```
 
+Update turnip driver (for custom turnip driver only)
+```
+~/xow64 update-turnip
+```
+
 Update angle-android (android 9+ only)
 ```
 ~/xow64 update-angle

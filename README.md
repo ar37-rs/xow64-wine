@@ -226,9 +226,14 @@ Using WineD3D version 4.21
 ~/xow64 wined3d=4.21
 ```
 
-Using WineD3D version 9.2 (fix graphical glitches for some devices on wine 10.x and highly recommended for virgl stability and performance)
+Using WineD3D version 9.2 (fix graphical glitches for some devices on wine 10.7+, highly recommended for virgl stability and performance)
 ```
 ~/xow64 wined3d=9.2
+```
+
+Using WineD3D version 10.3 (fix graphical glitches for some devices on wine 10.7+)
+```
+~/xow64 wined3d=10.3
 ```
 
 Switch back using default builtin WineD3D version

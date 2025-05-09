@@ -1,1 +1,1970 @@
-proot
+#!/bin/bash
+
+# https://github.com/ar37-rs/xow64-wine
+
+WINE_LATEST=10.7-staging
+BOX64_LATEST=0.3.5
+# export WLR_USE_UNIX_SOCKET=1
+# using glthread relatively faster for wined3d (very intense cpu)
+# export MESA_GLTHREAD=true
+export WINEESYNC_TERMUX=1
+export WINEESYNC=1
+
+if [[ "$1" == "proot=true" ]]; then
+    if [[ $(echo $PREFIX) == "/data/data/com.termux/files/usr" ]]; then
+        echo "Proot Mode is only available on proot."
+        exit
+    fi
+    if [ ! -d ~/xow64_prefix ]; then
+        mkdir ~/xow64_prefix
+    fi
+    touch ~/xow64_prefix/.xow64-proot
+    touch ~/xow64_prefix/.xow64-box64-custom
+    echo "proot mode enabled."
+    exit
+elif [[ "$1" == "proot=false" ]]; then
+    rm -rf ~/xow64_prefix/.xow64-proot
+    rm -rf ~/xow64_prefix/.xow64-box64-custom
+    echo "proot mode disabled."
+    exit
+elif [[ "$1" == "box64-custom=true" ]]; then
+    if [ ! -d ~/xow64_prefix ]; then
+        mkdir ~/xow64_prefix
+    fi
+    touch ~/xow64_prefix/.xow64-box64-custom
+    echo "using custom box64."
+    exit
+elif [[ "$1" == "box64-custom=false" ]]; then
+    if [ ! -d ~/xow64_prefix ]; then
+        mkdir ~/xow64_prefix
+    fi
+    rm -rf ~/xow64_prefix/.xow64-box64-custom
+    echo "using default builtin box64."
+    exit
+else
+
+if [ -f ~/xow64_prefix/.xow64-proot ]; then
+    export TPH=~/xow64_prefix
+    
+else
+    export TPH=/data/data/com.termux/files/home
+fi
+
+if [ ! -d $TPH/xow64_wine ]; then
+    mkdir $TPH/xow64_wine
+fi
+
+XOW64_WINEPREFIX=.xow64_wine
+WPREFIX=$XOW64_WINEPREFIX
+
+if [ -f $TPH/xow64_wine/.wine-prefix ]; then
+    CHECKED_PREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+    if [[ $CHECKED_PREFIX == "" ]]; then
+        export WINEPREFIX=$TPH/.xow64_wine
+        echo "info:"
+        echo "WINEPREFIX=${TPH}/.xow64_wine"
+        echo " "
+    else
+        WPREFIX=$CHECKED_PREFIX
+        export WINEPREFIX=$TPH/$CHECKED_PREFIX
+        echo "info:"
+        echo "WINEPREFIX=${TPH}/${CHECKED_PREFIX}"
+        echo " "
+    fi
+else
+    export WINEPREFIX=$TPH/.xow64_wine
+    echo "info:"
+    echo "WINEPREFIX=${TPH}/.xow64_wine"
+    echo " "
+fi
+
+if [ -f $TPH/xow64_wine/.wine-version ]; then
+    WINE_VERSION=$(cat $TPH/xow64_wine/.wine-version)
+    if [[ $WINE_VERSION == "" ]]; then
+        WINE_VERSION=$WINE_LATEST
+    fi
+else
+    WINE_VERSION=$WINE_LATEST
+fi
+
+export BOX64_PATH=$TPH/xow64_wine/${WINE_VERSION}/bin:$BOX64_PATH
+
+if [ -f $TPH/.xow64-proot ]; then
+    export BOX64_RCFILE=/etc/box64.box64rc
+    export BOX64_LD_LIBRARY_PATH=$TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-unix:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-unix:$BOX64_LD_LIBRARY_PATH
+else
+    if [ ! -d $TPH/xow64_box64 ]; then
+        mkdir $TPH/xow64_box64
+    fi
+    if [ -f $TPH/xow64_box64/.box64-version ]; then
+        XOW64_BOXV=$(cat $TPH/xow64_box64/.box64-version)
+        if [[ $XOW64_BOXV == "" ]]; then
+            XOW64_BOXV=$BOX64_LATEST
+        fi
+    else
+        XOW64_BOXV=$BOX64_LATEST
+    fi
+    export BOX64_RCFILE=$TPH/xow64_box64/${XOW64_BOXV}/etc/box64.box64rc
+    export BOX64_LD_LIBRARY_PATH=$TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows:$TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-unix:$TPH/xow64_box64/${XOW64_BOXV}/lib/x86_64-linux-gnu:$TPH/xow64_box64/${XOW64_BOXV}/lib/i386-linux-gnu
+fi
+
+# BOX64 options
+export BOX64_MMAP32=1
+export BOX64_X11THREADS=1
+export BOX64_DYNAREC_SAFEFLAGS=2
+# currently is only working for box64 < 0.3.3
+# export BOX64_INPROCESSGPU=1
+# export BOX64_NOSANDBOX=1
+
+if [ -f $TPH/xow64_wine/.no_debug ]; then
+    export WINEDEBUG=-all
+fi
+
+if [ -f $TPH/.xow64-proot ]; then
+    echo "xow64 on proot mode"
+    export WINE_CA_CERT_PATH=/etc/ssl/certs
+    export EXEX=exec
+else
+    export LD_LIBRARY_PATH=$TPH/xow64_box64/lib/aarch64-linux-gnu:$TPH/xow64_box64/lib/aarch64-linux-gnu/gstreamer-1.0:$TPH/xow64_box64/lib/aarch64-linux-gnu/pulseaudio:$TPH/xow64_box64/lib/aarch64-linux-gnu/mpg123:$LD_LIBRARY_PATH
+    export WINE_CA_CERT_PATH=$PREFIX/glibc/etc/ssl/certs
+    export EXEX="grun -s"
+fi
+
+if [ -f $TPH/.xow64-box64-custom ]; then
+    BOX64D=$(which box64)
+    if [[ $BOX64D == "" ]]; then
+        echo "box64 not found, make sure box64 is installed."
+        if [ -f $TPH/.xow64-proot ]; then
+            echo "xow64 on proot mode."
+        fi
+        exit
+    fi
+    export BOX64X=$BOX64D
+else
+    export BOX64X=$TPH/xow64_box64/${XOW64_BOXV}/box64
+fi
+
+IS_EQUAL=1
+check_wineprefix() {
+    if [ -f $TPH/xow64_wine/.wine-prefix ]; then
+        CHECKED_PREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+        if [[ $CHECKED_PREFIX != $XOW64_WINEPREFIX ]]; then
+            IS_EQUAL=0
+        fi
+    fi
+}
+
+wined3d_default() {
+if [ -f $TPH/xow64_wine/.wine-version ]; then
+    WINE_VERSION=$(cat $TPH/xow64_wine/.wine-version)
+    if [[ $WINE_VERSION == "" ]]; then
+        WINE_VERSION=$WINE_LATEST
+    fi
+else
+    WINE_VERSION=$WINE_LATEST
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/wined3d.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/ddraw.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/ddraw.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d8.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d8.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d9.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d9.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10_1.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10_1.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10core.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d10core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d11.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d12.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d12.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d12core.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/d3d12core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/dxgi.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/syswow64/dxgi.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/wined3d.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/ddraw.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/ddraw.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d8.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d8.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d9.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d9.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10_1.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10_1.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10core.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d10core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d11.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d12.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d12.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d12core.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/d3d12core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/dxgi.dll ]; then
+    cp $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine/drive_c/windows/system32/dxgi.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+}
+
+
+wined3d_install() {
+if [ -f $TPH/xow64_wine/.wine-version ]; then
+    WINE_VERSION=$(cat $TPH/xow64_wine/.wine-version)
+    if [[ $WINE_VERSION == "" ]]; then
+        WINE_VERSION=$WINE_LATEST
+    fi
+else
+    WINE_VERSION=$WINE_LATEST
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/wined3d.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows/wined3d.dll
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/libwine.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/libwine.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/ddraw.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/ddraw.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d8.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d8.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d9.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d9.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10_1.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10_1.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10core.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d10core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d11.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/syswow64/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/wined3d.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/wined3d.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/libwine.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/libwine.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/ddraw.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/ddraw.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d8.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d8.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d9.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d9.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10_1.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10_1.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10core.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d10core.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d11.dll ]; then
+    cp $TPH/xow64_wine/.xow64_wine/drive_c/windows/system32/d3d11.dll $TPH/xow64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+}
+
+pan_info() {
+    echo "info:"
+    if [ -f $TPH/xow64_drivers/.panthor ]; then
+        echo "Panthor is only supported on some mali devices."
+        echo "with kernel 6.10+"
+     else
+        echo "Panfrost is only supported on some mali devices."
+        echo "with kernel 5.10+"
+    fi
+}
+
+proot_info() {
+    if [ -f $TPH/.xow64-proot ]; then
+        echo "the related option is not available on proot mode."
+        exit
+    fi
+}
+
+vkinfo() {
+    if [ -f $TPH/xow64_wine/.vk-radeon ]; then
+        echo "using radeon vulkan driver"
+        export LIBGL_DRI3_DISABLE=0
+        export LIBGL_ALWAYS_SOFTWARE=0
+        export MESA_GL_VERSION_OVERRIDE=4.6COMPAT
+	export MESA_GLSL_VERSION_OVERRIDE=460
+	export MESA_GLES_VERSION_OVERRIDE=3.2
+	export MESA_LOADER_DRIVER_OVERRIDE=zink
+        if [ -f $TPH/.xow64-proot ]; then 
+            export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.aarch64.json
+        else
+	    if [ -f $PREFIX/glibc/share/vulkan/icd.d/radeon_icd.aarch64.json ]; then
+	        export VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/radeon_icd.aarch64.json
+            else
+                export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH
+                export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+                export VK_ICD_FILENAMES=$TPH/xow64_drivers/share/vulkan/icd.d/radeon_icd.aarch64.json
+            fi
+        fi
+    elif [ -f $TPH/xow64_wine/.vk-turnip ]; then
+        export LIBGL_DRI3_DISABLE=0
+        export LIBGL_ALWAYS_SOFTWARE=0
+        export MESA_GL_VERSION_OVERRIDE=4.6COMPAT
+	export MESA_GLSL_VERSION_OVERRIDE=460
+	export MESA_GLES_VERSION_OVERRIDE=3.2
+	export MESA_LOADER_DRIVER_OVERRIDE=zink
+	export TU_DEBUG=noconform
+        if [ -f $TPH/.xow64-proot ]; then
+            export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/freedreno_icd.aarch64.json
+        else
+            if [ -f $TPH/xow64_wine/.turnip_25.0.0 ]; then
+                export VK_ICD_FILENAMES=/data/data/com.termux/files/home/xow64_drivers/share/vulkan/icd.d/freedreno_icd.aarch64.json
+                echo "using custom adreno/turnip 25.0.0 vulkan driver"
+            elif [ -f $TPH/xow64_wine/.turnip_24.1.0 ]; then
+                export VK_ICD_FILENAMES=/data/data/com.termux/files/home/xow64_drivers/share/vulkan/icd.d/freedreno_icd.aarch64.json
+                echo "using custom adreno/turnip 24.1.0 vulkan driver"
+            else
+                export VK_ICD_FILENAMES=/data/data/com.termux/files/usr/glibc/share/vulkan/icd.d/freedreno_icd.aarch64.json
+                echo "using adreno/turnip termux glibc vulkan driver"
+            fi
+        fi
+    elif [ -f $TPH/xow64_wine/.vk-llvmpipe ]; then
+        echo "using llvmpipe vulkan driver"
+        if [ -f $TPH/.xow64-proot ]; then
+            export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/lvp_icd.aarch64.json
+        else
+            if [ -f $TPH/xow64_drivers/share/vulkan/icd.d/lvp_icd.aarch64.json ]; then
+                export VK_ICD_FILENAMES=$TPH/xow64_drivers/share/vulkan/icd.d/lvp_icd.aarch64.json
+            else
+                export VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/lvp_icd.aarch64.json
+            fi
+        fi
+    fi
+
+    if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+        echo "with dxvk-proton (vkd3d) enabled."
+    fi    
+}
+
+wine_q() {
+    kill -9 $(pgrep -f ".exe") 2>/dev/null
+    kill -9 $(pgrep -f ".cmd") 2>/dev/null
+    kill -9 $(pgrep -f ".bat") 2>/dev/null
+}
+
+dllsoverride() {
+    if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    fi
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"di"="native,builtin"
+"dinput"="native,builtin"
+"dinput8"="native,builtin"
+"xinput1_1"="native,builtin"
+"xinput1_2"="native,builtin"
+"xinput1_3"="native,builtin"
+"xinput1_4"="native,builtin"
+"xinput9_1_0"="native,builtin"
+EOF
+fi
+}
+
+wine_inf() {
+    if [ -d /data/data/com.termux/files/usr/glibc/share/wine ]; then
+        rm -rf /data/data/com.termux/files/usr/glibc/share/wine
+    fi
+    
+    if [ -d $TPH/xow64_wine/${WINE_VERSION}/share/wine ]; then
+        cp -r $TPH/xow64_wine/${WINE_VERSION}/share/wine /data/data/com.termux/files/usr/glibc/share
+    fi
+}
+
+kx11pls() {
+    kill -9 $(pgrep -f "termux.x11") 2>/dev/null
+    kill -9 $(pgrep -f "virgl_test_server_android") 2>/dev/null
+    kill -9 $(pgrep -f "virgl_test_server") 2>/dev/null
+    kill -9 $(pgrep -f "pulseaudio") 2>/dev/null
+}
+
+install_wine() {
+    if [ -f $TPH/xow64_wine/.wine-version ]; then
+        WINE_VERSION=$(cat $TPH/xow64_wine/.wine-version)
+        if [[ $WINE_VERSION == "" ]]; then
+            WINE_VERSION=$WINE_LATEST
+        fi
+    else
+        WINE_VERSION=$WINE_LATEST
+    fi
+    echo "Downloading wine..."
+    if [ -f $TPH/.xow64-proot ]; then
+        cd && rm -rf ~/xow64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64-wine-${WINE_VERSION}.tar.xz && mv ~/xow64-wine-${WINE_VERSION}.tar.xz $TPH/xow64-wine-${WINE_VERSION}.tar.xz && cd $TPH && echo "extracting xow64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && echo "Downloading wined3d components..." && cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && rm -rf ~/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    else
+        cd && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64-wine-${WINE_VERSION}.tar.xz && echo "extracting xow64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64-wine-${WINE_VERSION}.tar.xz && echo " " && echo "Downloading wined3d components..." && cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    fi
+
+    wine_inf
+    dllsoverride
+}
+
+UPDATE_BOX64=0
+install_box64() {
+    if [ -f $TPH/xow64_box64/.box64-version ]; then
+        XOW64_BOXV=$(cat $TPH/xow64_box64/.box64-version)
+        if [[ $XOW64_BOXV == "" ]]; then
+            XOW64_BOXV=$BOX64_LATEST
+        fi
+    else
+        XOW64_BOXV=$BOX64_LATEST
+    fi
+    
+    if [ ! -f $TPH/xow64_box64/${XOW64_BOXV}/box64 ]; then
+       UPDATE_BOX64=1
+    fi
+    
+    if [[ $UPDATE_BOX64 == "1" ]]; then
+        echo "Downloading box64-${XOW64_BOXV}..." && cd && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && echo "done."
+    else
+        echo "using box64 v${XOW64_BOXV}"
+    fi
+}
+
+init_envirs() {
+    if [ -f $TPH/xow64_wine/.envirs ]; then
+        ENVIR=$(cat $TPH/xow64_wine/.envirs)
+        for i in $ENVIR
+        do
+        RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+        export $RIVNE
+        done
+    fi
+}
+
+init_envirs
+
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    echo "using wined3d version 3.21"
+elif [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    echo "using wined3d version 4.21"
+elif [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    echo "using wined3d version 9.2"
+fi
+    
+if [[ "$1" == "env-add" ]]; then
+    if [[ $2 =~ [a-zA-Z0-9]+$ ]]; then
+        ENVIR=
+        if [[ -f $TPH/xow64_wine/.envirs ]]; then
+            ENVIR=$(cat $TPH/xow64_wine/.envirs)
+            rm -rf $TPH/xow64_wine/.envirs
+        fi
+
+        for i in $ENVIR
+        do
+            RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+            if [[ $2 != $RIVNE ]]; then
+            
+cd && cat << EOF >> $TPH/xow64_wine/.envirs
+[${RIVNE}]
+EOF
+            fi
+        done
+        cd && cat << EOF >> $TPH/xow64_wine/.envirs
+[${2}]
+EOF
+        echo "the new specific environment variable:"
+        echo
+        echo "${2}"
+        echo
+        echo "has been added."
+    else
+        echo "invalid environment variable: ${2}."
+    fi
+elif [[ "$1" == "env-remove" ]]; then
+    if [[ $2 =~ [a-zA-Z0-9]+$ && -f $TPH/xow64_wine/.envirs ]]; then
+        ENVIR=$(cat $TPH/xow64_wine/.envirs)
+        rm -rf $TPH/xow64_wine/.envirs
+        for i in $ENVIR
+        do
+            RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+            if [[ $2 != $RIVNE ]]; then
+            
+cd && cat << EOF >> $TPH/xow64_wine/.envirs
+[${RIVNE}]
+EOF
+            fi
+        done
+        echo "the specific environment variable:"
+        echo
+        echo "${2}"
+        echo
+        echo "${2} has been removed." 
+    
+    else
+        echo "the specific environment variable not found."
+    fi
+elif [[ "$1" == "env-info" ]]; then
+    if [ -f $TPH/xow64_wine/.envirs ]; then
+        echo "list of environment variable/s added:"
+        echo
+        ENVIR=$(cat $TPH/xow64_wine/.envirs)
+        for i in $ENVIR
+        do
+        RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+        echo $RIVNE
+        done
+        echo " "
+    else
+        echo "no environment variables added yet."
+    fi   
+elif [[ "$1" == "env-default" ]]; then
+    if [ -f $TPH/xow64_wine/.envirs ]; then
+        rm -rf $TPH/xow64_wine/.envirs
+    fi
+    echo "environment variables changed to default."
+elif [[ $1 =~ WINEPREFIX=[.a-zA-Z0-9_]+$ ]]; then
+    if [[ $1 == WINEPREFIX=. ]]; then
+        echo "invalid ${1}"
+        echo "make sure enter to valid name for the prefix"
+        exit
+    fi
+    if [[ $1 =~ WINEPREFIX=[.a-zA-Z0-9_]+$ ]]; then
+       if [ ! -d $TPH/xow64_wine ]; then
+            mkdir $TPH/xow64_wine
+       fi
+        NEW_WINEPREFIX=${1#WINEPREFIX=}
+    
+        echo "${NEW_WINEPREFIX}" > $TPH/xow64_wine/.wine-prefix
+        echo "using new:"
+        echo "WINEPREFIX=${TPH}/${NEW_WINEPREFIX}"
+    else
+        echo "invalid ${1}"
+        echo "make sure enter to valid name for the prefix"
+        exit
+    fi
+elif [[ "$1" == "wine=10.7-devel" ]]; then
+    echo "10.7-devel" > $TPH/xow64_wine/.wine-version
+    if [ ! -d $TPH/xow64_wine/10.7-devel ]; then
+        install_wine
+        echo "done."
+    else
+        wine_inf
+        echo "using wine 10.7 devel"
+    fi
+elif [[ "$1" == "wine=10.7-staging" ]]; then
+    echo "10.7-staging" > $TPH/xow64_wine/.wine-version
+    if [ ! -d $TPH/xow64_wine/10.7-staging ]; then
+        install_wine
+        echo "done."
+    else
+        wine_inf
+        echo "using wine 10.7 staging"
+    fi
+elif [[ "$1" == "wine=10.7-stable" || "$1" == "wine=default" ]]; then
+    echo "10.7-stable" > $TPH/xow64_wine/.wine-version
+    if [ ! -d $TPH/xow64_wine/10.7-stable ]; then
+        install_wine
+        echo "done."
+    else
+        wine_inf
+        echo "using wine 10.7 stable"
+    fi
+elif [[ "$1" == "wine=9.18-staging" ]]; then
+    echo "9.18-staging" > $TPH/xow64_wine/.wine-version
+    if [ ! -d $TPH/xow64_wine/9.18-staging ]; then
+        install_wine
+        echo "done."
+    else
+        wine_inf
+        echo "using wine 9.18 staging"
+    fi
+elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
+    wine_q
+    if [ -f $TPH/.xow64-proot ]; then
+       echo "Installing and updating all xow64 components..." && rm -rf ~/xow64_wine_patch.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && mv ~/xow64_wine_patch.tar.xz $TPH/xow64_wine_patch.tar.xz && cd $TPH && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_box64 && cd && install_wine
+       if [ ! -d $TPH/xow64_drivers ]; then
+            mkdir $TPH/xow64_drivers
+       fi
+    else
+       cd && pkg update && pkg install x11-repo && pkg install termux-x11-nightly xorg-xrandr pulseaudio termux-api tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && install_wine
+    fi
+    
+    check_wineprefix
+    if [[ $IS_EQUAL == "0" ]]; then
+       WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+       mv $TPH/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX} && rm -rf $TPH/.xow64_wine
+    fi
+
+    echo "done."
+elif [[ "$1" == "install-deps" ]]; then
+    proot_info
+    cd && pkg update && pkg install x11-repo && pkg install termux-x11-nightly xorg-xrandr pulseaudio termux-api tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
+elif [[ "$1" == "reinstall-deps" ]]; then
+    proot_info
+    cd && pkg update && pkg reinstall termux-x11-nightly xorg-xrandr pulseaudio termux-api tar openssl wget which glibc-repo && pkg update && pkg reinstall glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
+elif [[ "$1" == "sdcard=true" ]]; then
+    termux-setup-storage
+    echo "sdcard configured."
+    exit
+elif [[ "$1" == "box64=0.3.0" ]]; then
+    proot_info
+    echo "0.3.0" > $TPH/xow64_box64/.box64-version
+    install_box64
+elif [[ "$1" == "box64=0.3.1" ]]; then
+    proot_info   
+    echo "0.3.1" > $TPH/xow64_box64/.box64-version
+    install_box64
+elif [[ "$1" == "box64=0.3.2" ]]; then
+    proot_info   
+    echo "0.3.2" > $TPH/xow64_box64/.box64-version
+    install_box64
+elif [[ "$1" == "box64=0.3.3" ]]; then
+    proot_info   
+    echo "0.3.3" > $TPH/xow64_box64/.box64-version    
+    if [[ "$1" == "update-box64" ]]; then
+       UPDATE_BOX64=1
+    fi
+    install_box64
+elif [[ "$1" == "box64=0.3.4" ]]; then
+    proot_info   
+    echo "0.3.4" > $TPH/xow64_box64/.box64-version    
+    if [[ "$1" == "update-box64" ]]; then
+       UPDATE_BOX64=1
+    fi
+    install_box64
+elif [[ "$1" == "box64=0.3.5" || "$1" == "update-box64" ]]; then
+    proot_info   
+    echo "0.3.5" > $TPH/xow64_box64/.box64-version    
+    if [[ "$1" == "update-box64" ]]; then
+       UPDATE_BOX64=1
+    fi
+    install_box64  
+elif [[ "$1" == "update-wine" || "$1" == "install-wine" ]]; then
+    wine_q
+    install_wine
+    echo "done."
+elif [[ "$1" == "update-patch" || "$1" == "update-patch-exp" ]]; then
+    wine_q
+    echo "Updating patch..."
+    if [ -f $TPH/.xow64-proot ]; then
+        if [[ "$1" == "update-patch-exp" ]]; then
+            echo "Updating patch experimental..."
+            cd && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch_experimental.tar.xz && mv ~/xow64_wine_patch.tar.xz $TPH/xow64_wine_patch_experimental.tar.xz && cd $TPH && echo "extracting xow64_wine_patch_experimental.tar.xz..." && tar -xf xow64_wine_patch_experimental.tar.xz && rm -rf $TPH/xow64_wine_patch_experimental.tar.xz && rm -rf $TPH/xow64_box64
+        else
+            echo "Updating patch..."
+            cd && rm -rf ~/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && mv ~/xow64_wine_patch.tar.xz $TPH/xow64_wine_patch.tar.xz && cd $TPH && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_box64
+        fi
+    else
+        if [ ! -d $TPH/xow64_box64 ]; then
+            echo "Installing box64-0.3.3..."
+            cd && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz
+        fi
+        if [[ "$1" == "update-patch-exp" ]]; then
+            echo "Updating patch experimental..."
+            cd && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch_experimental.tar.xz && echo "extracting xow64_wine_patch_experimental.tar.xz..." && tar -xf $TPH/xow64_wine_patch_experimental.tar.xz && rm -rf $TPH/xow64_wine_patch_experimental.tar.xz
+        else
+            echo "Updating patch..."
+            cd && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz
+        fi
+    fi
+    
+    check_wineprefix
+    if [[ $IS_EQUAL == "0" ]]; then
+       WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+       mv $TPH/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX} && rm -rf $TPH/.xow64_wine
+    fi
+    
+    dllsoverride
+    echo "done."
+elif [[ "$1" == "update-drivers" ]]; then
+
+    if [ -f $TPH/.xow64-proot ]; then
+        if [ -f $TPH/xow64_drivers/.virgl ]; then
+            echo "On proot mode updating vglx script only..."
+            cd && rm -rf ~/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x ~/vglx && mv ~/vglx $TPH/xow64_drivers/vglx
+            echo "done."
+            exit
+        else
+            proot_info
+        fi
+    fi
+    
+    DRIVERS_UPDATE_AVAIL=no
+    if [ -f $TPH/xow64_wine/.vk-radeon ]; then
+       DRIVERS_UPDATE_AVAIL=yes
+    fi
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+       DRIVERS_UPDATE_AVAIL=yes
+    fi
+    if [[ $DRIVERS_UPDATE_AVAIL == "no" ]]; then
+        echo "update-drivers currently available"
+        echo "for virpipe driver and vulkan radeon/xclipse GPUs only"
+        echo "for other GPUs use the available drivers on the system."
+        exit
+    fi
+    
+    echo "Updating graphics drivers..."
+    cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb && rm -rf $TPH/virglrenderer_1.1.1-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.1-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.1-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx
+        $TPH/xow64_drivers/vglx q
+        dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
+        dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb
+        $TPH/xow64_drivers/vglx cd .
+    fi
+    echo "done."
+elif [[ "$1" == "update-angle" ]]; then
+    proot_info
+    echo "Updating angle-android..."
+    if [ -f $TPH/.xow64-proot ]; then
+       if [ ! -d $TPH/xow64_drivers ]; then
+           mkdir $TPH/xow64_drivers
+       fi
+    fi
+    
+    cd && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx && cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
+    $TPH/xow64_drivers/vglx q
+    echo "Installing angle-android..."
+    dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
+    echo "done."
+    $TPH/xow64_drivers/vglx cd .
+elif [[ "$1" == "update-virgl" ]]; then
+    proot_info
+    echo "Updating virglrenderer..."
+    if [ -f $TPH/.xow64-proot ]; then
+       if [ ! -d $TPH/xow64_drivers ]; then
+           mkdir $TPH/xow64_drivers
+       fi
+    fi
+    cd && rm -rf $TPH/virglrenderer_1.1.1-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.1-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.1-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb && cd && rm -rf ~/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x ~/vglx && mv ~/vglx $TPH/xow64_drivers/vglx
+    echo "Installing virglrenderer..."
+    dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb
+    echo "done."
+elif [[ "$1" == "update-vkd3d" || "$1" == "update-vkd3d-async" ]]; then
+    wine_q
+    echo "Updating dxvk-proton (vkd3d) components..."
+    if [ -f $TPH/.xow64-proot ]; then
+        cd && rm -rf ~/xow64_dxvk_proton.tar.xz && rm -rf $TPH/xow64_wine/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_proton.tar.xz
+        cd && rm -rf ~/xow64_dxvk_proton_async.tar.xz && rm -rf $TPH/xow64_wine/xow64_dxvk_proton_async.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton_async.tar.xz && mv ~/xow64_dxvk_proton_async.tar.xz $TPH/xow64_wine/xow64_dxvk_proton_async.tar.xz
+    else
+        cd && rm -rf $TPH/xow64_dxvk_proton.tar.xz && rm -rf $TPH/xow64_wine/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv $TPH/xow64_dxvk_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_proton.tar.xz
+        cd && rm -rf $TPH/xow64_dxvk_proton_async.tar.xz && rm -rf $TPH/xow64_wine/xow64_dxvk_proton_async.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton_async.tar.xz && mv $TPH/xow64_dxvk_proton_async.tar.xz $TPH/xow64_wine/xow64_dxvk_proton_async.tar.xz
+    fi
+    if [[ "$1" == "update-vkd3d-async" ]]; then
+        echo "extracting xow64_dxvk_proton_async.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_proton_async.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+    else
+        echo "extracting xow64_dxvk_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine  
+    fi
+    
+    check_wineprefix
+    if [[ $IS_EQUAL == "0" ]]; then
+       WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+       mv $TPH/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX} && rm -rf $TPH/.xow64_wine
+    fi
+    
+    echo "done."
+elif [[ "$1" == "q" ]]; then
+    echo "quiting wine..."
+    wine_q
+    sleep 1
+elif [[ "$1" == "vk=radeon" ]]; then
+    if [ -f $TPH/.xow64-proot ]; then
+        if [ ! -d $TPH/xow64_wine ]; then
+            mkdir $TPH/xow64_wine
+        fi
+    else
+        if [ ! -d $TPH/xow64_drivers ]; then
+            cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
+        fi
+    fi
+    if [ -f $TPH/xow64_wine/.vk-turnip ]; then
+        rm -rf $TPH/xow64_wine/.vk-turnip
+    fi
+    if [ -f $TPH/xow64_wine/.vk-llvmpipe ]; then
+        rm -rf $TPH/xow64_wine/.vk-llvmpipe
+    fi
+    touch $TPH/xow64_wine/.vk-radeon
+    echo "using vulkan radeon driver."
+elif [[ "$1" == "turnip=24.x" ]]; then
+    proot_info
+    if [ -f $TPH/xow64_wine/.turnip_25.0.0 ]; then
+        rm -rf $TPH/xow64_wine/.turnip_25.0.0
+    fi
+    echo "Installing turnip 24.1.0..."
+    cd && rm -rf $TPH/turnip-24.1.0.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/turnip-24.1.0.tar.xz && echo "extracting turnip-24.1.0.tar.xz..." && tar -xf $TPH/turnip-24.1.0.tar.xz && rm -rf $TPH/turnip-24.1.0.tar.xz
+    touch $TPH/xow64_wine/.turnip_24.1.0
+    touch $TPH/xow64_wine/.vk-turnip
+    echo "using turnip 24.1.0 driver"
+elif [[ "$1" == "turnip=25.x" ]]; then
+    proot_info
+    if [ -f $TPH/xow64_wine/.turnip_24.1.0 ]; then
+        rm -rf $TPH/xow64_wine/.turnip_24.1.0
+    fi
+    echo "Installing turnip 25.0.0..."
+    cd && rm -rf $TPH/turnip-25.0.0.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/turnip-25.0.0.tar.xz && echo "extracting turnip-25.0.0.tar.xz..." && tar -xf $TPH/turnip-25.0.0.tar.xz && rm -rf $TPH/turnip-25.0.0.tar.xz
+    touch $TPH/xow64_wine/.turnip_25.0.0
+    touch $TPH/xow64_wine/.vk-turnip
+    echo "using default turnip 25.0.0 driver"
+elif [[ "$1" == "vk=turnip" ]]; then
+    if [ ! -f $TPH/.xow64-proot ]; then
+        if [ -f $TPH/xow64_wine/.turnip_25.0.0 ]; then
+            rm -rf $TPH/xow64_wine/.turnip_25.0.0
+        fi
+        if [ -f $TPH/xow64_wine/.turnip_24.1.0 ]; then
+            rm -rf $TPH/xow64_wine/.turnip_24.1.0
+        fi
+    fi
+    
+    if [ -f $TPH/.xow64-proot ]; then
+        if [ ! -d $TPH/xow64_wine ]; then
+            mkdir $TPH/xow64_wine
+        fi
+    fi
+    if [ -f $TPH/xow64_wine/.vk-llvmpipe ]; then
+        rm -rf $TPH/xow64_wine/.vk-llvmpipe
+    fi
+    if [ -f $TPH/xow64_wine/.vk-radeon ]; then
+        rm -rf $TPH/xow64_wine/.vk-radeon
+    fi
+    touch $TPH/xow64_wine/.vk-turnip
+    echo "using adreno/turnip driver."
+elif [[ "$1" == "vk=lvp" ]]; then
+    if [ -f $TPH/.xow64-proot ]; then
+        if [ ! -d $TPH/xow64_wine ]; then
+            mkdir $TPH/xow64_wine
+        fi
+    fi
+    if [ -f $TPH/xow64_wine/.vk-radeon ]; then
+        rm -rf $TPH/xow64_wine/.vk-radeon
+    fi
+    if [ -f $TPH/xow64_wine/.vk-turnip ]; then
+        rm -rf $TPH/xow64_wine/.vk-turnip
+    fi
+    touch $TPH/xow64_wine/.vk-llvmpipe
+    echo "using vulkan llvmpipe driver."
+elif [[ "$1" == "vk=default" ]]; then
+    if [ -f $TPH/xow64_wine/.vk-turnip ]; then
+        rm -rf $TPH/xow64_wine/.vk-turnip
+    fi
+    if [ -f $TPH/xow64_wine/.vk-radeon ]; then
+        rm -rf $TPH/xow64_wine/.vk-radeon
+    fi
+    if [ -f $TPH/xow64_wine/.vk-llvmpipe ]; then
+        rm -rf $TPH/xow64_wine/.vk-llvmpipe
+    fi
+    echo "using vulkan default driver."
+elif [[ "$1" == "driver=virpipe" ]]; then
+    if [ -f $TPH/xow64_drivers/.panfrost ]; then
+        rm -rf $TPH/xow64_drivers/.panfrost
+    fi
+    if [ -f $TPH/xow64_drivers/.panthor ]; then
+        rm -rf $TPH/xow64_drivers/.panthor
+    fi
+    if [ ! -d $TPH/xow64_drivers ]; then
+        if [ -f $TPH/.xow64-proot ]; then
+            mkdir $TPH/xow64_drivers
+        else
+            echo "Installing virgl components..." && cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
+        fi
+    fi
+
+    if [ ! -f $TPH/.xow64-proot ]; then
+        if [ ! -d $TPH/xow64_drivers ]; then
+            cd && rm -rf $TPH/xow64_drivers.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_drivers.tar.xz && echo "extracting xow64_drivers.tar.xz..." && tar -xf $TPH/xow64_drivers.tar.xz && rm -rf $TPH/xow64_drivers.tar.xz
+        fi
+        if [ ! -f $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb ]; then
+            cd && rm -rf $TPH/virglrenderer_1.1.1-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.1-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.1-latest_aarch64.deb $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb
+        fi
+
+        if [ ! -f $TPH/xow64_drivers/angle-android_2.1.2-latest.deb ]; then
+             cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
+        fi
+    fi
+
+    if [ -f $TPH/.xow64-proot ]; then
+        if [ ! -d $TPH/xow64_drivers ]; then
+            mkdir $TPH/xow64_drivers
+        fi
+        if [ ! -f $TPH/xow64_drivers/vglx ]; then
+            cd && rm -rf ~/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x ~/vglx && mv ~/vglx $TPH/xow64_drivers/vglx
+        fi
+    else
+        if [ ! -f $TPH/xow64_drivers/vglx ]; then
+            cd && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xow64_drivers/vglx
+        fi
+    fi
+
+    if [ ! -f $TPH/xow64_drivers/.virgl ]; then
+        touch $TPH/xow64_drivers/.virgl
+    fi
+
+    if [ ! -f $TPH/.xow64-proot ]; then
+        $TPH/xow64_drivers/vglx q
+        if [ ! -f $PREFIX/opt/angle-android/vulkan/libEGL_angle.so ]; then 
+            echo "Installing angle-android with vulkan validation layer..."
+            dpkg -i $TPH/xow64_drivers/angle-android_2.1.2-latest.deb
+            echo "angle-android is installed"
+        fi
+        if [ ! -f $PREFIX/bin/virgl_test_server ]; then
+           echo "Installing virgl..."
+           dpkg -i $TPH/xow64_drivers/virglrenderer_1.1.1-latest_aarch64.deb
+           echo "virglrenderer is installed"
+        fi
+        $TPH/xow64_drivers/vglx cd .
+    fi
+    echo "using virpipe driver"
+elif [[ "$1" == "driver=default" ]]; then
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        rm -rf $TPH/xow64_drivers/.virgl
+    fi
+    if [ -f $TPH/xow64_drivers/.panfrost ]; then
+        rm -rf $TPH/xow64_drivers/.panfrost
+    fi
+    if [ -f $TPH/xow64_drivers/.panthor ]; then
+        rm -rf $TPH/xow64_drivers/.panthor
+    fi
+    echo "using default OpenGL/ES driver."
+elif [[ "$1" == "driver=panfrost" ]]; then
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        rm -rf $TPH/xow64_drivers/.virgl
+    fi
+    if [ -f $TPH/xow64_drivers/.panthor ]; then
+        rm -rf $TPH/xow64_drivers/.panthor
+    fi
+    if [ -f $TPH/.xow64-proot ]; then
+        if [ ! -d $TPH/xow64_drivers ]; then
+            mkdir $TPH/xow64_drivers
+        fi
+    fi
+    touch $TPH/xow64_drivers/.panfrost
+    echo "using panfrost OpenGL/ES driver."
+    pan_info
+elif [[ "$1" == "driver=panthor" ]]; then
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        rm -rf $TPH/xow64_drivers/.virgl
+    fi
+    if [ -f $TPH/.xow64-proot ]; then
+        if [ ! -d $TPH/xow64_drivers ]; then
+            mkdir $TPH/xow64_drivers
+        fi
+    fi
+    touch $TPH/xow64_drivers/.panfrost
+    touch $TPH/xow64_drivers/.panthor
+    echo "using panthor OpenGL/ES driver."
+    pan_info
+elif [[ "$1" == "debug=true" ]]; then
+    if [ -f $TPH/xow64_wine/.no_debug ]; then
+        rm -rf $TPH/xow64_wine/.no_debug
+    fi
+    echo "Wine debugger enabled."
+elif [[ "$1" == "debug=false" ]]; then
+    touch $TPH/xow64_wine/.no_debug
+    echo "Wine debugger disabled."
+elif [[ "$1" == "vgl-compat=2.1" ]]; then
+    $TPH/xow64_drivers/vglx 2.1COMPAT
+elif [[ "$1" == "vgl-compat=3.2" ]]; then
+    $TPH/xow64_drivers/vglx 3.2COMPAT
+elif [[ "$1" == "vgl-compat=3.3" ]]; then
+    $TPH/xow64_drivers/vglx 3.3COMPAT
+elif [[ "$1" == "vgl-compat=4.1" ]]; then
+    $TPH/xow64_drivers/vglx 4.1COMPAT
+elif [[ "$1" == "vgl-compat=4.3" ]]; then
+    $TPH/xow64_drivers/vglx 4.3COMPAT
+elif [[ "$1" == "vgl-cfg=d3d" ]]; then
+    $TPH/xow64_drivers/vglx config=d3d
+elif [[ "$1" == "vgl-cfg=gl" ]]; then
+    $TPH/xow64_drivers/vglx config=gl
+elif [[ "$1" == "vgl-use=angle" ]]; then
+    $TPH/xow64_drivers/vglx use-angle
+elif [[ "$1" == "vgl-use=android" ]]; then
+    $TPH/xow64_drivers/vglx use-android
+elif [[ "$1" == "vkd3d-v1=true" || "$1" == "vkd3d-v1-async=true" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [[ "$1" == "vkd3d-v1-async=true" ]]; then
+    echo "Installing dxvk-proton (vkd3d-v1) async components..."
+    if [ ! -f $TPH/.xow64-proot ]; then
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz ]; then
+            cd && rm -rf $TPH/xow64_dxvk_v1_proton_async.tar.xz && rm -rf $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton_async.tar.xz && mv $TPH/xow64_dxvk_v1_proton_async.tar.xz $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz
+        fi
+    else
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz ]; then
+            cd && rm -rf ~/xow64_dxvk_v1_proton_async.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton_async.tar.xz && mv ~/xow64_dxvk_v1_proton_async.tar.xz $TPH/xow64_wine/xow64_dxvk_v1_proton_async.tar.xz
+        fi
+    fi
+else
+    if [ ! -f $TPH/.xow64-proot ]; then
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_v1_proton.tar.xz ]; then
+            echo "Installing dxvk-proton (vkd3d-v1) components..."
+            cd && rm -rf $TPH/xow64_dxvk_v1_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton.tar.xz && mv $TPH/xow64_dxvk_v1_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_v1_proton.tar.xz
+        fi
+    else
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_v1_proton.tar.xz ]; then
+            echo "Installing dxvk-proton (vkd3d-v1) components..."
+            cd && rm -rf ~/xow64_dxvk_v1_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton.tar.xz && mv ~/xow64_dxvk_v1_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_v1_proton.tar.xz
+        fi
+    fi
+fi
+
+if [[ "$1" == "vkd3d-v1-async=true" ]]; then
+    echo "extracting xow64_dxvk_v1_proton_async.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_v1_proton_async.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+    
+else
+    echo "extracting xow64_dxvk_v1_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_v1_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX} && rm -rf $TPH/.xow64_wine
+fi
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Volatile Environment]
+"DXVK_STATE_CACHE_PATH"="C:\\.dxvk"
+"DXVK_STATE_CACHE"="reset"
+"DXVK_ASYNC"="1"
+"DXVK_GPLASYNCCACHE"="1"
+
+[Software\\\Wine\\\DllOverrides]
+"di"="native,builtin"
+"dxgi"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d11"="native,builtin"
+"d3d12"="native,builtin"
+"d3d12core"="native,builtin"
+
+[Software\\\Wine\\\Direct3D]
+"renderer"="no3d"
+EOF
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+if [[ "$1" == "vkd3d-v1-async=true" ]]; then
+echo "dxvk-proton (vkd3d-v1) async is activated"
+else
+echo "dxvk-proton (vkd3d-v1) is activated"
+fi
+
+touch $TPH/xow64_wine/.dxvk-proton
+fi
+
+echo "done."
+elif [[ "$1" == "vkd3d=true" || "$1" == "vkd3d-async=true" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+
+if [[ "$1" == "vkd3d-async=true" ]]; then
+    echo "Installing dxvk-proton (vkd3d) async components..."
+    if [ ! -f $TPH/.xow64-proot ]; then
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_proton_async.tar.xz ]; then
+            cd && rm -rf $TPH/xow64_dxvk_proton_async.tar.xz && rm -rf $TPH/xow64_wine/xow64_dxvk_proton_async.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton_async.tar.xz && mv $TPH/xow64_dxvk_proton_async.tar.xz $TPH/xow64_wine/xow64_dxvk_proton_async.tar.xz
+        fi
+    else
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_proton_async.tar.xz ]; then
+            cd && rm -rf ~/xow64_dxvk_proton_async.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton_async.tar.xz && mv ~/xow64_dxvk_proton_async.tar.xz $TPH/xow64_wine/xow64_dxvk_proton_async.tar.xz
+        fi
+    fi
+else
+    if [ ! -f $TPH/.xow64-proot ]; then
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_proton.tar.xz ]; then
+            echo "Installing dxvk-proton (vkd3d) components..."
+            cd && rm -rf $TPH/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv $TPH/xow64_dxvk_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_proton.tar.xz
+        fi
+    else
+        if [ ! -f $TPH/xow64_wine/xow64_dxvk_proton.tar.xz ]; then
+            echo "Installing dxvk-proton (vkd3d) components..."
+            cd && rm -rf ~/xow64_dxvk_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_proton.tar.xz && mv ~/xow64_dxvk_proton.tar.xz $TPH/xow64_wine/xow64_dxvk_proton.tar.xz
+        fi
+    fi
+fi
+
+if [[ "$1" == "vkd3d-async=true" ]]; then
+    echo "extracting xow64_dxvk_proton_async.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_proton_async.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+    
+else
+    echo "extracting xow64_dxvk_proton.tar.xz..." && cd $TPH/xow64_wine && tar -xf xow64_dxvk_proton.tar.xz && cd && cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX} && rm -rf $TPH/.xow64_wine
+fi
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Volatile Environment]
+"DXVK_STATE_CACHE_PATH"="C:\\.dxvk"
+"DXVK_STATE_CACHE"="reset"
+"DXVK_ASYNC"="1"
+"DXVK_GPLASYNCCACHE"="1"
+
+[Software\\\Wine\\\DllOverrides]
+"di"="native,builtin"
+"dxgi"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d11"="native,builtin"
+"d3d12"="native,builtin"
+"d3d12core"="native,builtin"
+
+[Software\\\Wine\\\Direct3D]
+"renderer"="no3d"
+EOF
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+if [[ "$1" == "vkd3d-async=true" ]]; then
+echo "dxvk-proton (vkd3d) async is activated"
+else
+echo "dxvk-proton (vkd3d) is activated"
+fi
+
+touch $TPH/xow64_wine/.dxvk-proton
+fi
+
+echo "done."
+elif [[ "$1" == "vkd3d=false" || "$1" == "vkd3d-async=false" ]]; then
+
+wine_q
+
+if [ ! -f $TPH/.xow64-proot ]; then
+    if [ ! -f $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    fi
+fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine/${WINE_VERSION} && tar -xf wined3d-${WINE_VERSION}.tar.xz && wined3d_default && cd && cp -r $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/renderer"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/wined3d"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/dxgi"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d8"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d9"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d10core"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d11"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d12"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d12core"=/d' $TPH/${WPREFIX}/user.reg
+fi
+if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xow64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX} && rm -rf $TPH/.xow64_wine
+fi
+echo "done."
+if [[ "$1" == "vkd3d-async=false" ]]; then
+echo "dxvk-proton (vkd3d) async is deactivated"
+else
+echo "dxvk-proton (vkd3d) is deactivated"
+fi
+elif [[ "$1" == "wined3d=vk" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"renderer"="vulkan"
+EOF
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "Wined3d using Vulkan renderer"
+elif [[ "$1" == "wined3d=gl" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"renderer"="gl"
+EOF
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "Wined3d using OpenGL renderer"
+elif [[ "$1" == "wined3d=gdi" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"renderer"="gdi"
+EOF
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "Wined3d using GDI renderer"
+elif [[ "$1" == "wined3d=3.21" ]]; then
+
+wine_q
+WINE_VERSION=3.21
+if [ ! -f $TPH/.xow64-proot ]; then
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"ddraw"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d10_1"="native,builtin"
+"d3d11"="native,builtin"
+"libwine"="native,builtin"
+"wined3d"="native,builtin"
+EOF
+fi
+if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xow64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+wined3d_install
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/xow64_wine/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX}
+else
+   cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+fi
+touch $TPH/xow64_wine/.wined3d-3.21
+echo
+echo "using wined3d version 3.21"
+elif [[ "$1" == "wined3d=4.21" ]]; then
+
+wine_q
+WINE_VERSION=4.21
+if [ ! -f $TPH/.xow64-proot ]; then
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d10_1"="native,builtin"
+"d3d11"="native,builtin"
+"wined3d"="native,builtin"
+"ddraw"="native,builtin"
+EOF
+fi
+if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xow64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
+wined3d_install
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/xow64_wine/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX}
+else
+   cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+fi
+touch $TPH/xow64_wine/.wined3d-4.21
+echo
+echo "using wined3d version 4.21"
+elif [[ "$1" == "wined3d=9.2" ]]; then
+
+wine_q
+WINE_VERSION=9.2
+if [ ! -f $TPH/.xow64-proot ]; then
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d10_1"="native,builtin"
+"d3d11"="native,builtin"
+"wined3d"="native,builtin"
+"ddraw"="native,builtin"
+EOF
+fi
+if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xow64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+wined3d_install
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/xow64_wine/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX}
+else
+   cp -r $TPH/xow64_wine/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/.xow64_wine
+fi
+
+touch $TPH/xow64_wine/.wined3d-9.2
+echo
+echo "using wined3d version 9.2"
+elif [[ "$1" == "wined3d=default" ]]; then
+
+wine_q
+
+if [ ! -f $TPH/.xow64-proot ]; then
+    if [ ! -f $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xow64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    fi
+fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xow64_wine/${WINE_VERSION} && tar -xf wined3d-${WINE_VERSION}.tar.xz && cd && cp -r $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine $TPH/
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/wined3d"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/dxgi"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d8"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d9"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d10core"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/ddraw"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d10_1"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d11"=/d' $TPH/${WPREFIX}/user.reg
+fi
+if [ -f $TPH/xow64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xow64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-9.2
+fi
+if [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xow64_wine/.wined3d-4.21
+fi
+wined3d_default
+check_wineprefix
+if [[ $IS_EQUAL == "0" ]]; then
+   WPREFIX=$(cat $TPH/xow64_wine/.wine-prefix)
+   mv $TPH/xow64_wine/.xow64_wine $TPH/xow64_wine/${WPREFIX} && cp -r $TPH/xow64_wine/${WPREFIX} $TPH/ && rm -rf $TPH/xow64_wine/${WPREFIX}
+else
+   cp -r $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine $TPH/ && rm -rf $TPH/xow64_wine/${WINE_VERSION}/.xow64_wine
+fi
+echo
+echo "using default wined3d."
+elif [[ "$1" == "device=gtx950m" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"VideoPciDeviceID"=dword:0000139A
+"VideoPciVendorID"=dword:000010DE
+EOF
+echo "using custom (GeForce GTX 950M) device id"
+fi
+elif [[ "$1" == "device=gtx980" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"VideoPciDeviceID"=dword:000013C0
+"VideoPciVendorID"=dword:000010DE
+EOF
+echo "using custom (GeForce GTX 980) device id"
+fi
+elif [[ "$1" == "device=uhd630" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"VideoPciDeviceID"=dword:00003E91
+"VideoPciVendorID"=dword:00008086
+EOF
+echo "using custom (UHD Graphics 630) device id"
+fi
+elif [[ "$1" == "device=default" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   wine_q
+   sed -i '/VideoPciDeviceID"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/VideoPciVendorID"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "using default device id"
+elif [[ "$1" == "cnc-ddraw=true" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"ddraw"="native,builtin"
+"winmm"="native,builtin"
+EOF
+echo "done."
+echo "winedlloverride for cnc-ddraw is activated."
+fi
+elif [[ "$1" == "cnc-ddraw=false" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   wine_q
+   sed -i '/ddraw"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/winmm"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "winedlloverride for cnc-ddraw is deactivated."
+elif [[ "$1" == "wine-remove=9.18-staging" ]]; then
+    if [ -d $TPH/xow64_wine/9.18-staging ]; then
+        rm -rf $TPH/xow64_wine/9.18-staging
+        echo "wine 9.18-staging has been removed."
+    else
+        echo "wine 9.18-staging is not installed"
+    fi
+elif [[ "$1" == "wine-remove=10.7-devel" ]]; then
+    if [ -d $TPH/xow64_wine/10.7-devel ]; then
+        rm -rf $TPH/xow64_wine/10.7-devel
+        echo "wine 10.7-devel has been removed."
+    else
+        echo "wine 10.7-devel is not installed"
+    fi
+elif [[ "$1" == "wine-remove=10.7-staging" ]]; then
+    if [ -d $TPH/xow64_wine/10.7-staging ]; then
+        rm -rf $TPH/xow64_wine/10.7-staging
+        echo "wine 10.7-staging has been removed."
+    else
+        echo "wine 10.7-staging is not installed"
+    fi
+elif [[ "$1" == "wine-remove=10.7-stable" ]]; then
+    if [ -d $TPH/xow64_wine/10.7-stable ]; then
+        rm -rf $TPH/xow64_wine/10.7-stable
+        echo "wine 10.7-stable has been removed."
+    else
+        echo "wine 10.7-stable is not installed"
+    fi
+elif [[ "$1" == "box64-remove=0.3.0" ]]; then
+    proot_info
+    if [ -d $TPH/xow64_box64/0.3.0 ]; then
+        rm -rf $TPH/xow64_box64/0.3.0
+        echo "box64 0.3.0 has been removed."
+    else
+        echo "box64 0.3.0 is not installed"
+    fi
+elif [[ "$1" == "box64-remove=0.3.1" ]]; then
+    proot_info
+    if [ -d $TPH/xow64_box64/0.3.1 ]; then
+        rm -rf $TPH/xow64_box64/0.3.1
+        echo "box64 0.3.1 has been removed."
+    else
+        echo "box64 0.3.1 is not installed"
+    fi
+elif [[ "$1" == "box64-remove=0.3.2" ]]; then
+    proot_info
+    if [ -d $TPH/xow64_box64/0.3.2 ]; then
+        rm -rf $TPH/xow64_box64/0.3.2
+        echo "box64 0.3.2 has been removed."
+    else
+        echo "box64 0.3.2 is not installed"
+    fi
+elif [[ "$1" == "box64-remove=0.3.3" ]]; then
+    proot_info
+    if [ -d $TPH/xow64_box64/0.3.3 ]; then
+        rm -rf $TPH/xow64_box64/0.3.3
+        echo "box64 0.3.3 has been removed."
+    else
+        echo "box64 0.3.3 is not installed"
+    fi
+elif [[ "$1" == "box64-remove=0.3.4" ]]; then
+    proot_info
+    if [ -d $TPH/xow64_box64/0.3.4 ]; then
+        rm -rf $TPH/xow64_box64/0.3.4
+        echo "box64 0.3.4 has been removed."
+    else
+        echo "box64 0.3.4 is not installed"
+    fi
+elif [[ "$1" == "remove-all" ]]; then
+    wine_q
+    echo "xow64 will be removed in 7 seconds..." && sleep 2 && echo "xow64 will be removed in 6 seconds..." && sleep 1 && clear && echo "xow64 will be removed in 5 seconds..." && sleep 1 && clear && echo "xow64 will be removed in 4 seconds..." && sleep 1 && clear && echo "xow64 will be removed in 3 seconds..." && sleep 1 && clear && echo "xow64 will be removed in 2 seconds..." && sleep 1 && clear && echo "xow64 will be removed in 1 second..." && sleep 1 && clear && echo "xow64 will be removed in 0 second..." && sleep 1 && clear
+    echo "removing .xow64_wine..."
+    rm -rf $TPH/.xow64_wine
+    rm -rf ~/.xow64_wine
+    echo "removing xow64_wine..."
+    rm -rf $TPH/xow64_wine
+    rm -rf ~/xow64_wine
+    echo "removing xow64_box64..."
+    rm -rf $TPH/xow64_box64
+    rm -rf ~/xow64_box64
+    echo "removing xow64_drivers..."
+    rm -rf $TPH/xow64_drivers
+    echo "removing xow64_prefix..."
+    rm -rf ~/xow64_prefix
+    rm -rf ~/$WPREFIX
+    echo "done."
+elif [[ $1 == desk-size=default ]]; then
+    wine_q
+    if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    fi
+
+    if [ -f $TPH/${WPREFIX}/user.reg ]; then
+        sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/${WPREFIX}/user.reg
+        echo "desktop size has been configured to default"
+    fi
+elif [[ $1 == desk-size=[A-Za-z0-9]* ]]; then
+    wine_q
+    if [[ ! $1 == desk-size=[0-9]*[0-9]x[0-9]*[0-9] ]]; then
+        echo "incorrect desktop size it contains unmatched ${1}"
+        exit
+    fi
+    
+    DSK_SIZE=${1#desk-size=}
+
+    if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine wineboot
+    fi
+
+    if [ -f $TPH/${WPREFIX}/user.reg ]; then
+
+        sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/${WPREFIX}/user.reg
+
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Explorer\\\Desktops]
+"Default"="${DSK_SIZE}"
+EOF
+    echo "${DSK_SIZE}" > $TPH/xow64_wine/.desk-size
+    echo "desktop size has been configured to ${DSK_SIZE}"
+    fi
+elif [[ "$1" == "s" ]]; then
+    if [ -f $TPH/xow64_wine/.desk-size ]; then
+        DESK_SIZE=$(cat $TPH/xow64_wine/.desk-size)
+        if [[ $DESK_SIZE == "" ]]; then
+            DESK_SIZE=800x600
+        fi
+    else
+        DESK_SIZE=800x600
+    fi
+    vkinfo
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        if [ ! -f $TPH/.xow64-proot ]; then
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+        fi
+        $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
+    elif [ -f $TPH/xow64_drivers/.panfrost ]; then
+        pan_info
+        export LIBGL_DRI3_DISABLE=0
+        export MESA_LOADER_DRIVER_OVERRIDE=
+        if [ -f $TPH/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
+        export MESA_GLES_VERSION_OVERRIDE=3.1
+        
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
+    else
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
+    fi
+elif [[ "$1" == "qsd" ]]; then
+    proot_info
+    echo "quitting wine desktop..."
+    am broadcast -a com.termux.x11.ACTION_STOP -p com.termux.x11
+    kx11pls
+elif [[ "$1" == "sd" ]]; then
+    proot_info
+    am broadcast -a com.termux.x11.ACTION_STOP -p com.termux.x11
+    kx11pls
+    chmod 700 /data/data/com.termux/files/usr/tmp
+    export XDG_RUNTIME_DIR=${TMPDIR}
+
+    pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" --exit-idle-time=-1 &
+    sleep 1
+
+    termux-x11 -ac -once :0 &
+    sleep 1
+
+    am start --user 0 -n com.termux.x11/com.termux.x11.MainActivity
+    export DISPLAY=:0
+    
+    if [ -f $TPH/xow64_wine/.desk-size ]; then
+        DESK_SIZE=$(cat $TPH/xow64_wine/.desk-size)
+        if [[ $DESK_SIZE == "" ]]; then
+            DESK_SIZE=1024x768
+        fi
+    else
+        DESK_SIZE=1024x768
+    fi
+    vkinfo
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        if [ ! -f $TPH/.xow64-proot ]; then
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+        fi
+        $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
+    elif [ -f $TPH/xow64_drivers/.panfrost ]; then
+        pan_info
+        export LIBGL_DRI3_DISABLE=0
+        export MESA_LOADER_DRIVER_OVERRIDE=
+        if [ -f $TPH/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
+        export MESA_GLES_VERSION_OVERRIDE=3.1
+        
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
+    else
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
+    fi
+elif [[ "$1" == "gpucaps" ]]; then
+    GPUCAPS=$TPH/${WPREFIX}/drive_c/ProgramData/GpuCaps
+    vkinfo
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        cd $GPUCAPS
+        if [ ! -f $TPH/.xow64-proot ]; then
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+        fi
+        $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine GpuCaps.exe
+    elif [ -f $TPH/xow64_drivers/.panfrost ]; then
+        pan_info
+        export LIBGL_DRI3_DISABLE=0
+        export MESA_LOADER_DRIVER_OVERRIDE=
+        if [ -f $TPH/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
+        export MESA_GLES_VERSION_OVERRIDE=3.1
+        cd $GPUCAPS && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine GpuCaps.exe
+    else
+        cd $GPUCAPS && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine GpuCaps.exe
+    fi
+elif [[ "$1" == "testd3d" ]]; then
+    vkinfo
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs'
+        if [ ! -f $TPH/.xow64-proot ]; then
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+        fi
+        $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
+    elif [ -f $TPH/xow64_drivers/.panfrost ]; then
+        pan_info
+        export LIBGL_DRI3_DISABLE=0
+        export MESA_LOADER_DRIVER_OVERRIDE=
+        if [ -f $TPH/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
+        export MESA_GLES_VERSION_OVERRIDE=3.1
+        cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
+    else
+        cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
+    fi
+ elif [[ "$1" == "cubemap" ]]; then
+    CUBEMAP=$TPH/${WPREFIX}/drive_c/ProgramData/EnvMapping
+    vkinfo
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        cd $CUBEMAP
+        if [ ! -f $TPH/.xow64-proot ]; then
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+        fi
+        $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine CubeMap.exe
+    elif [ -f $TPH/xow64_drivers/.panfrost ]; then
+        pan_info
+        export LIBGL_DRI3_DISABLE=0
+        export MESA_LOADER_DRIVER_OVERRIDE=
+        if [ -f $TPH/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
+        export MESA_GLES_VERSION_OVERRIDE=3.1
+        cd $CUBEMAP $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine CubeMap.exe
+    else
+        cd $CUBEMAP && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine CubeMap.exe
+    fi
+elif [[ "$1" == "spheremap" ]]; then
+    SHEREMAP=$TPH/${WPREFIX}/drive_c/ProgramData/EnvMapping
+    vkinfo
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        cd $SHEREMAP
+        if [ ! -f $TPH/.xow64-proot ]; then
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+        fi
+        $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine SphereMap.exe
+    elif [ -f $TPH/xow64_drivers/.panfrost ]; then
+        pan_info
+        export LIBGL_DRI3_DISABLE=0
+        export MESA_LOADER_DRIVER_OVERRIDE=
+        if [ -f $TPH/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
+        export MESA_GLES_VERSION_OVERRIDE=3.1
+        cd $SHEREMAP && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine SphereMap.exe
+    else
+        cd $SHEREMAP && $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine SphereMap.exe
+    fi
+elif [[ "$1" == "r" ]]; then
+    vkinfo
+    if [ -f $TPH/xow64_drivers/.virgl ]; then
+        if [ ! -f $TPH/.xow64-proot ]; then
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+        fi
+        $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine "${@:2}"
+    elif [ -f $TPH/xow64_drivers/.panfrost ]; then
+        pan_info
+        export LIBGL_DRI3_DISABLE=0
+        export MESA_LOADER_DRIVER_OVERRIDE=
+        if [ -f $TPH/xow64_drivers/.panthor ]; then
+            export GALLIUM_DRIVER=panthor
+        else
+            export GALLIUM_DRIVER=panfrost
+        fi
+        export MESA_GL_VERSION_OVERRIDE=3.2COMPAT
+        export MESA_GLSL_VERSION_OVERRIDE=150
+        export MESA_GLES_VERSION_OVERRIDE=3.1
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine "${@:2}"
+    else
+        $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine "${@:2}"
+    fi
+else
+echo "Command not found"
+echo "Please input the correct available command"
+echo "Read for more info from here:"
+echo "https://github.com/ar37-rs/xow64-wine"
+echo "Or try running simple program:"
+echo "wine r app_name.exe"
+echo
+fi
+fi

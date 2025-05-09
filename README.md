@@ -242,17 +242,17 @@ Using vulkan llvmpipe, extremely slow for testing only (Universal CPUs)
 ~/xow64 vk=lvp
 ```
 
-Using vulkan turnip driver (for Adreno GPUs)
+Using vulkan turnip native termux glibc driver (for Adreno GPUs)
 ```
 ~/xow64 vk=turnip
 ```
 
-or turnip 24.x driver for some old Adreno GPUs
+or custom turnip 24.x driver for some old Adreno GPUs
 ```
 ~/xow64 turnip=24.x
 ```
 
-or turnip 25.x driver for some newer Adreno GPUs (default)
+or custom turnip 25.x driver for some newer Adreno GPUs (default)
 ```
 ~/xow64 turnip=25.x
 ```

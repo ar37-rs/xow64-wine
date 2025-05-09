@@ -860,8 +860,11 @@ elif [[ "$1" == "turnip=24.x" ]]; then
     if [ -f $TPH/xow64_wine/.turnip_25.0.0 ]; then
         rm -rf $TPH/xow64_wine/.turnip_25.0.0
     fi
-    echo "Installing turnip 24.1.0..."
-    cd && rm -rf $TPH/turnip-24.1.0.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/turnip-24.1.0.tar.xz && echo "extracting turnip-24.1.0.tar.xz..." && tar -xf $TPH/turnip-24.1.0.tar.xz && rm -rf $TPH/turnip-24.1.0.tar.xz
+    if [ ! -f $TPH/xow64_drivers/turnip-24.1.0.tar.xz ]; then
+        echo "Installing turnip 24.1.0..."
+        cd && rm -rf $TPH/turnip-24.1.0.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/turnip-24.1.0.tar.xz && mv $TPH/turnip-24.1.0.tar.xz $TPH/xow64_drivers/turnip-24.1.0.tar.xz
+    fi
+    echo "extracting turnip-24.1.0.tar.xz..." && cd $TPH/xow64_drivers && tar -xf turnip-24.1.0.tar.xz && cp -r $TPH/xow64_drivers/xow64_drivers $TPH/ && rm -rf $TPH/xow64_drivers/xow64_drivers
     touch $TPH/xow64_wine/.turnip_24.1.0
     touch $TPH/xow64_wine/.vk-turnip
     echo "using turnip 24.1.0 driver"
@@ -870,11 +873,24 @@ elif [[ "$1" == "turnip=25.x" ]]; then
     if [ -f $TPH/xow64_wine/.turnip_24.1.0 ]; then
         rm -rf $TPH/xow64_wine/.turnip_24.1.0
     fi
-    echo "Installing turnip 25.0.0..."
-    cd && rm -rf $TPH/turnip-25.0.0.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/turnip-25.0.0.tar.xz && echo "extracting turnip-25.0.0.tar.xz..." && tar -xf $TPH/turnip-25.0.0.tar.xz && rm -rf $TPH/turnip-25.0.0.tar.xz
+    if [ ! -f $TPH/xow64_drivers/turnip-25.0.0.tar.xz ]; then
+        echo "Installing turnip 25.0.0..."
+        cd && rm -rf $TPH/turnip-25.0.0.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/turnip-25.0.0.tar.xz && mv $TPH/turnip-25.0.0.tar.xz $TPH/xow64_drivers/turnip-25.0.0.tar.xz
+    fi
+    echo "extracting turnip-25.0.0.tar.xz..." && cd $TPH/xow64_drivers && tar -xf turnip-25.0.0.tar.xz && cp -r $TPH/xow64_drivers/xow64_drivers $TPH/ && rm -rf $TPH/xow64_drivers/xow64_drivers
     touch $TPH/xow64_wine/.turnip_25.0.0
     touch $TPH/xow64_wine/.vk-turnip
     echo "using default turnip 25.0.0 driver"
+elif [[ "$1" == "update-turnip" ]]; then
+if [ -f $TPH/xow64_wine/.turnip_24.1.0 ]; then
+    echo "Installing turnip 24.1.0..."
+    cd && rm -rf $TPH/turnip-24.1.0.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/turnip-24.1.0.tar.xz && mv $TPH/turnip-24.1.0.tar.xz $TPH/xow64_drivers/turnip-24.1.0.tar.xz && echo "extracting turnip-24.1.0.tar.xz..." && cd $TPH/xow64_drivers && tar -xf turnip-24.1.0.tar.xz && cp -r $TPH/xow64_drivers/xow64_drivers $TPH/ && rm -rf $TPH/xow64_drivers/xow64_drivers
+elif [ -f $TPH/xow64_wine/.turnip_25.0.0 ]; then
+    echo "Installing turnip 25.0.0..."
+    cd && rm -rf $TPH/turnip-25.0.0.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/turnip-25.0.0.tar.xz && mv $TPH/turnip-25.0.0.tar.xz $TPH/xow64_drivers/turnip-25.0.0.tar.xz && echo "extracting turnip-25.0.0.tar.xz..." && cd $TPH/xow64_drivers && tar -xf turnip-25.0.0.tar.xz && cp -r $TPH/xow64_drivers/xow64_drivers $TPH/ && rm -rf $TPH/xow64_drivers/xow64_drivers
+else
+    echo "Only available for custom turnip driver"
+fi
 elif [[ "$1" == "vk=turnip" ]]; then
     if [ ! -f $TPH/.xow64-proot ]; then
         if [ -f $TPH/xow64_wine/.turnip_25.0.0 ]; then

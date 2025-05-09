@@ -39,9 +39,7 @@ sudo dnf install wget tar which
 sudo dnf install box64 box64-data
 ```
 
-### Install xow64 (the same as for termux glibc)
-
-#### (Run inside proot desktop terminal)
+### Install xow64 (Run inside proot desktop terminal)
 ```
 cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/proot_mode/xow64 && chmod +x ~/xow64
 ```

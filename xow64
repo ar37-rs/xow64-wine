@@ -1776,6 +1776,16 @@ elif [[ "$1" == "s" ]]; then
         fi
     else
         DESK_SIZE=800x600
+        if [ -f $TPH/${WPREFIX}/user.reg ]; then
+
+            sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/${WPREFIX}/user.reg
+
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Explorer\\\Desktops]
+"Default"="${DESK_SIZE}"
+EOF
+
+        fi
     fi
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
@@ -1828,6 +1838,16 @@ elif [[ "$1" == "sd" ]]; then
         fi
     else
         DESK_SIZE=1024x768
+        if [ -f $TPH/${WPREFIX}/user.reg ]; then
+
+            sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/${WPREFIX}/user.reg
+
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Explorer\\\Desktops]
+"Default"="${DESK_SIZE}"
+EOF
+
+        fi
     fi
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then

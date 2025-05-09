@@ -43,7 +43,7 @@ sudo dnf install box64 box64-data
 
 #### (Run inside proot desktop terminal)
 ```
-cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/xow64 && chmod +x ~/xow64
+cd $HOME && rm -rf ~/xow64 && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/proot_mode/xow64 && chmod +x ~/xow64
 ```
 
 ### Activate proot mode

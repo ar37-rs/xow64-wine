@@ -252,7 +252,7 @@ or custom turnip 24.x driver for some old Adreno GPUs
 ~/xow64 turnip=24.x
 ```
 
-or custom turnip 25.x driver for some newer Adreno GPUs (default)
+or custom turnip 25.x driver for some newer Adreno GPUs
 ```
 ~/xow64 turnip=25.x
 ```

@@ -120,10 +120,9 @@ Switch back wine desktop size to default
 
 Switch to different version of wine
 
-Other available versions:
+Other available version:
 ```
 9.18-staging
-10.7-stable
 ```
 
 e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)

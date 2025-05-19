@@ -9,7 +9,7 @@ with minimal dependencies as possible and install only what needed.
 
 # Latest state:
 ## Wine
-Version: 10.7
+Version: 10.8
 
 ## Box64
 Version: 0.3.5
@@ -130,7 +130,7 @@ e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based ap
 ~/xow64 wine=9.18-staging
 ```
 
-Switch back to default version (10.7-staging)
+Switch back to default version (10.8-staging)
 ```
 ~/xow64 wine=default
 ```

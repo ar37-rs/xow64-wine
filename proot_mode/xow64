@@ -2,7 +2,7 @@
 
 # https://github.com/ar37-rs/xow64-wine
 
-WINE_LATEST=10.8-staging
+WINE_LATEST=10.9-staging
 BOX64_LATEST=0.3.5
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread 
@@ -614,15 +614,6 @@ elif [[ $1 =~ WINEPREFIX=[.a-zA-Z0-9_]+$ ]]; then
         echo "make sure enter to valid name for the prefix"
         exit
     fi
-elif [[ "$1" == "wine=10.8-devel" ]]; then
-    echo "10.8-devel" > $TPH/xow64_wine/.wine-version
-    if [ ! -d $TPH/xow64_wine/10.8-devel ]; then
-        install_wine
-        echo "done."
-    else
-        wine_inf
-        echo "using wine 10.8 devel"
-    fi
 elif [[ "$1" == "wine=10.8-staging" ]]; then
     echo "10.8-staging" > $TPH/xow64_wine/.wine-version
     if [ ! -d $TPH/xow64_wine/10.8-staging ]; then
@@ -630,16 +621,25 @@ elif [[ "$1" == "wine=10.8-staging" ]]; then
         echo "done."
     else
         wine_inf
-        echo "using wine 10.8 staging"
+        echo "using wine 10.8-staging"
     fi
-elif [[ "$1" == "wine=10.8-stable" || "$1" == "wine=default" ]]; then
-    echo "10.8-stable" > $TPH/xow64_wine/.wine-version
-    if [ ! -d $TPH/xow64_wine/10.8-stable ]; then
+elif [[ "$1" == "wine=10.9-staging" ]]; then
+    echo "10.9-staging" > $TPH/xow64_wine/.wine-version
+    if [ ! -d $TPH/xow64_wine/10.9-staging ]; then
         install_wine
         echo "done."
     else
         wine_inf
-        echo "using wine 10.8 stable"
+        echo "using wine 10.9 staging"
+    fi
+elif [[ "$1" == "wine=10.9-stable" || "$1" == "wine=default" ]]; then
+    echo "10.9-stable" > $TPH/xow64_wine/.wine-version
+    if [ ! -d $TPH/xow64_wine/10.9-stable ]; then
+        install_wine
+        echo "done."
+    else
+        wine_inf
+        echo "using wine 10.9 stable"
     fi
 elif [[ "$1" == "wine=9.18-staging" ]]; then
     echo "9.18-staging" > $TPH/xow64_wine/.wine-version
@@ -658,7 +658,7 @@ elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
             mkdir $TPH/xow64_drivers
        fi
     else
-       cd && pkg update && pkg install x11-repo && pkg install termux-x11-nightly xorg-xrandr pulseaudio termux-api tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && install_wine
+       cd && pkg update && pkg install x11-repo && pkg install termux-x11-nightly x11 xorg-xrandr pulseaudio termux-api tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "Installing and updating all xow64 components..." && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_box64-${XOW64_BOXV}.tar.xz && echo "extracting xow64_box64-${XOW64_BOXV}.tar.xz..." && tar -xf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && rm -rf $TPH/xow64_box64-${XOW64_BOXV}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/xow64_wine_patch.tar.xz && echo "extracting xow64_wine_patch.tar.xz..." && tar -xf $TPH/xow64_wine_patch.tar.xz && rm -rf $TPH/xow64_wine_patch.tar.xz && cd && install_wine
     fi
     
     check_wineprefix
@@ -670,10 +670,10 @@ elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
     echo "done."
 elif [[ "$1" == "install-deps" ]]; then
     proot_info
-    cd && pkg update && pkg install x11-repo && pkg install termux-x11-nightly xorg-xrandr pulseaudio termux-api tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
+    cd && pkg update && pkg install x11-repo && pkg install termux-x11-nightly x11 xorg-xrandr pulseaudio termux-api tar virglrenderer angle-android openssl wget which glibc-repo && pkg update && pkg install glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
 elif [[ "$1" == "reinstall-deps" ]]; then
     proot_info
-    cd && pkg update && pkg reinstall termux-x11-nightly xorg-xrandr pulseaudio termux-api tar openssl wget which glibc-repo && pkg update && pkg reinstall glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
+    cd && pkg update && pkg reinstall termux-x11-nightly x11 xorg-xrandr pulseaudio termux-api tar openssl wget which glibc-repo && pkg update && pkg reinstall glibc glibc-runner glib*glibc libx11-glibc pulseaudio-glibc libpulse-glibc mesa-*glibc vulkan-tools*-glibc freetype-glibc fontconfig-glibc libxcomposite-glibc libxcursor-glibc libxrender-glibc libxi-glibc libxinerama-glibc libxkbcommon-glibc libxrandr-glibc libxrender-glibc libgnutls-glibc openssl-glibc zstd-glibc zlib-glibc libxshmfence-glibc vulkan-icd-loader-glibc && echo "done."
 elif [[ "$1" == "sdcard=true" ]]; then
     termux-setup-storage
     echo "sdcard configured."
@@ -1737,13 +1737,6 @@ elif [[ "$1" == "wine-remove=9.18-staging" ]]; then
     else
         echo "wine 9.18-staging is not installed"
     fi
-elif [[ "$1" == "wine-remove=10.8-devel" ]]; then
-    if [ -d $TPH/xow64_wine/10.8-devel ]; then
-        rm -rf $TPH/xow64_wine/10.8-devel
-        echo "wine 10.8-devel has been removed."
-    else
-        echo "wine 10.8-devel is not installed"
-    fi
 elif [[ "$1" == "wine-remove=10.8-staging" ]]; then
     if [ -d $TPH/xow64_wine/10.8-staging ]; then
         rm -rf $TPH/xow64_wine/10.8-staging
@@ -1751,12 +1744,19 @@ elif [[ "$1" == "wine-remove=10.8-staging" ]]; then
     else
         echo "wine 10.8-staging is not installed"
     fi
-elif [[ "$1" == "wine-remove=10.8-stable" ]]; then
-    if [ -d $TPH/xow64_wine/10.8-stable ]; then
-        rm -rf $TPH/xow64_wine/10.8-stable
-        echo "wine 10.8-stable has been removed."
+elif [[ "$1" == "wine-remove=10.9-staging" ]]; then
+    if [ -d $TPH/xow64_wine/10.9-staging ]; then
+        rm -rf $TPH/xow64_wine/10.9-staging
+        echo "wine 10.9-staging has been removed."
     else
-        echo "wine 10.8-stable is not installed"
+        echo "wine 10.9-staging is not installed"
+    fi
+elif [[ "$1" == "wine-remove=10.9-stable" ]]; then
+    if [ -d $TPH/xow64_wine/10.9-stable ]; then
+        rm -rf $TPH/xow64_wine/10.9-stable
+        echo "wine 10.9-stable has been removed."
+    else
+        echo "wine 10.9-stable is not installed"
     fi
 elif [[ "$1" == "box64-remove=0.3.0" ]]; then
     proot_info

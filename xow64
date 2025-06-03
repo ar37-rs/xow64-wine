@@ -623,7 +623,7 @@ elif [[ "$1" == "wine=10.8-staging" ]]; then
         wine_inf
         echo "using wine 10.8-staging"
     fi
-elif [[ "$1" == "wine=10.9-staging" ]]; then
+elif [[ "$1" == "wine=10.9-staging" || "$1" == "wine=default" ]]; then
     echo "10.9-staging" > $TPH/xow64_wine/.wine-version
     if [ ! -d $TPH/xow64_wine/10.9-staging ]; then
         install_wine
@@ -631,15 +631,6 @@ elif [[ "$1" == "wine=10.9-staging" ]]; then
     else
         wine_inf
         echo "using wine 10.9 staging"
-    fi
-elif [[ "$1" == "wine=10.9-stable" || "$1" == "wine=default" ]]; then
-    echo "10.9-stable" > $TPH/xow64_wine/.wine-version
-    if [ ! -d $TPH/xow64_wine/10.9-stable ]; then
-        install_wine
-        echo "done."
-    else
-        wine_inf
-        echo "using wine 10.9 stable"
     fi
 elif [[ "$1" == "wine=9.18-staging" ]]; then
     echo "9.18-staging" > $TPH/xow64_wine/.wine-version

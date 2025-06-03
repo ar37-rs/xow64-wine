@@ -9,7 +9,7 @@ with minimal dependencies as possible and install only what needed.
 
 # Latest state:
 ## Wine
-Version: 10.8
+Version: 10.9
 
 ## Box64
 Version: 0.3.5
@@ -123,6 +123,7 @@ Switch to different version of wine
 Other available version:
 ```
 9.18-staging
+10.8-staging
 ```
 
 e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)
@@ -130,7 +131,7 @@ e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based ap
 ~/xow64 wine=9.18-staging
 ```
 
-Switch back to default version (10.8-staging)
+Switch back to default version (10.9-staging)
 ```
 ~/xow64 wine=default
 ```
@@ -368,11 +369,6 @@ For wine 10.7+ only compatible with box64 0.3.5+, for wine 9.18 staging all vers
 Update box64 to newer version (v0.3.5 glibc only)
 ```
 ~/xow64 update-box64
-```
-
-Update wine
-```
-~/xow64 update-wine
 ```
 
 Update graphics drivers

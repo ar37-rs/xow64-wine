@@ -291,9 +291,9 @@ Disable dxvk-proton, dxvk-glasync and dxvk-v1-proton
 If experiencing error on some specific vulkan drivers use the older supported version [from here](https://github.com/doitsujin/dxvk) or use modified dxvk version [from here](https://github.com/pythonlover02/DXVK-Sarek)
 
 # Additional usage:
-Adding any custom environment variable (e.g: disabling ```MMAP32```)
+Adding any custom environment variable (e.g: set ```MAXCPU``` needed for some games)
 ```
-~/xow64 env-add BOX64_MMAP32=0
+~/xow64 env-add BOX64_MAXCPU=4
 ```
 
 Check list of the added custom environment variables
@@ -303,13 +303,14 @@ Check list of the added custom environment variables
 
 Remove the added custom environemnt variable
 ```
-~/xow64 env-remove BOX64_MMAP32=0
+~/xow64 env-remove BOX64_MAXCPU=4
 ```
 
 Reset custom environment variables to default
 ```
 ~/xow64 env-default
 ```
+[Read for more box64 environment variables from here](https://github.com/ar37-rs/box64/blob/main/docs/USAGE.md)
 
 Using custom graphic card deviceId and vendorId, some games require the ```deviceId``` to be available on the system
 

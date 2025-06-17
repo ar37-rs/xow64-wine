@@ -9,10 +9,10 @@ with minimal dependencies as possible and install only what needed.
 
 # Latest state:
 ## Wine
-Version: 10.9
+Version: 10.10
 
 ## Box64
-Version: 0.3.5
+Version: 0.3.7
 
 # Installation:
 [(Using xow64 on proot read the tutorial from here)](https://github.com/ar37-rs/xow64-wine/blob/main/PROOT_MODE.MD)
@@ -123,7 +123,7 @@ Switch to different version of wine
 Other available version:
 ```
 9.18-staging
-10.8-staging
+10.9-staging
 ```
 
 e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)
@@ -131,7 +131,7 @@ e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based ap
 ~/xow64 wine=9.18-staging
 ```
 
-Switch back to default version (10.9-staging)
+Switch back to default version (10.10-staging)
 ```
 ~/xow64 wine=default
 ```
@@ -408,9 +408,9 @@ Update patch
 ~/xow64 update-patch
 ```
 
-Remove specific installed version of wine (e.g: 10.4-staging)
+Remove specific installed version of wine (e.g: 9.18-staging)
 ```
-~/xow64 wine-remove=10.4-staging
+~/xow64 wine-remove=9.18-staging
 ```
 
 Remove specific installed version of box64 (e.g: 0.3.2)

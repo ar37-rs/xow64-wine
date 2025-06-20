@@ -370,8 +370,7 @@ vkinfo() {
 	    if [ -f $PREFIX/glibc/share/vulkan/icd.d/radeon_icd.aarch64.json ]; then
 	        export VK_ICD_FILENAMES=$PREFIX/glibc/share/vulkan/icd.d/radeon_icd.aarch64.json
             else
-                export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH
-                export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+                export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/gbm:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/dri:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
                 export VK_ICD_FILENAMES=$TPH/xow64_drivers/share/vulkan/icd.d/radeon_icd.aarch64.json
             fi
         fi
@@ -1851,7 +1850,7 @@ EOF
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
         if [ ! -f $TPH/.xow64-proot ]; then
-            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/gbm:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/dri:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
         fi
         $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
     elif [ -f $TPH/xow64_drivers/.panfrost ]; then
@@ -1913,7 +1912,7 @@ EOF
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
         if [ ! -f $TPH/.xow64-proot ]; then
-            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/gbm:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/dri:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
         fi
         $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine start explorer /desktop=shell,$DESK_SIZE
     elif [ -f $TPH/xow64_drivers/.panfrost ]; then
@@ -1939,7 +1938,7 @@ elif [[ "$1" == "gpucaps" ]]; then
     if [ -f $TPH/xow64_drivers/.virgl ]; then
         cd $GPUCAPS
         if [ ! -f $TPH/.xow64-proot ]; then
-            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/gbm:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/dri:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
         fi
         $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine GpuCaps.exe
     elif [ -f $TPH/xow64_drivers/.panfrost ]; then
@@ -1963,7 +1962,7 @@ elif [[ "$1" == "testd3d" ]]; then
     if [ -f $TPH/xow64_drivers/.virgl ]; then
         cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs'
         if [ ! -f $TPH/.xow64-proot ]; then
-            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/gbm:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/dri:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
         fi
         $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
     elif [ -f $TPH/xow64_drivers/.panfrost ]; then
@@ -1988,7 +1987,7 @@ elif [[ "$1" == "testd3d" ]]; then
     if [ -f $TPH/xow64_drivers/.virgl ]; then
         cd $CUBEMAP
         if [ ! -f $TPH/.xow64-proot ]; then
-            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/gbm:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/dri:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
         fi
         $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine CubeMap.exe
     elif [ -f $TPH/xow64_drivers/.panfrost ]; then
@@ -2013,7 +2012,7 @@ elif [[ "$1" == "spheremap" ]]; then
     if [ -f $TPH/xow64_drivers/.virgl ]; then
         cd $SHEREMAP
         if [ ! -f $TPH/.xow64-proot ]; then
-            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/gbm:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/dri:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
         fi
         $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine SphereMap.exe
     elif [ -f $TPH/xow64_drivers/.panfrost ]; then
@@ -2036,7 +2035,7 @@ elif [[ "$1" == "r" ]]; then
     vkinfo
     if [ -f $TPH/xow64_drivers/.virgl ]; then
         if [ ! -f $TPH/.xow64-proot ]; then
-            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/d3d:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
+            export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/gbm:$LD_LIBRARY_PATH && export LD_LIBRARY_PATH=$TPH/xow64_drivers/lib/dri:$LD_LIBRARY_PATH && export LIBGL_DRIVERS_PATH=$TPH/xow64_drivers/lib/dri
         fi
         $TPH/xow64_drivers/vglx $EXEX $BOX64X $TPH/xow64_wine/${WINE_VERSION}/bin/wine "${@:2}"
     elif [ -f $TPH/xow64_drivers/.panfrost ]; then

@@ -125,7 +125,7 @@ Other available version:
 9.18-staging
 ```
 
-e.g: Wine 9.18 staging (if experiencing crash gecko iexplore or website based apps, recommended using this version)
+e.g: Wine 9.18 staging (if experiencing crash gecko on website based apps and some older games, highly recommended using this version)
 ```
 ~/xow64 wine=9.18-staging
 ```

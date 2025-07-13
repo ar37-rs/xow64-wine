@@ -2,7 +2,7 @@
 
 # https://github.com/ar37-rs/xow64-wine
 
-WINE_LATEST=10.11-staging
+WINE_LATEST=10.12-staging
 BOX64_LATEST=0.3.7
 # export WLR_USE_UNIX_SOCKET=1
 # using glthread 
@@ -615,14 +615,14 @@ elif [[ "$1" == "wine=10.10-staging" ]]; then
         wine_inf
         echo "using wine 10.10-staging"
     fi
-elif [[ "$1" == "wine=10.11-staging" || "$1" == "wine=default" ]]; then
-    echo "10.11-staging" > $TPH/xow64_wine/.wine-version
-    if [ ! -d $TPH/xow64_wine/10.11-staging ]; then
+elif [[ "$1" == "wine=10.12-staging" || "$1" == "wine=default" ]]; then
+    echo "10.12-staging" > $TPH/xow64_wine/.wine-version
+    if [ ! -d $TPH/xow64_wine/10.12-staging ]; then
         install_wine
         echo "done."
     else
         wine_inf
-        echo "using wine 10.11 staging"
+        echo "using wine 10.12 staging"
     fi
 elif [[ "$1" == "wine=9.18-staging" ]]; then
     echo "9.18-staging" > $TPH/xow64_wine/.wine-version
@@ -690,6 +690,9 @@ elif [[ "$1" == "box64=0.3.7" || "$1" == "update-box64" ]]; then
     echo "0.3.7" > $TPH/xow64_box64/.box64-version
     install_box64  
 elif [[ "$1" == "update-wine" || "$1" == "install-wine" ]]; then
+    if [ -f $TPH/xow64_wine/.wine-version ]; then
+        rm -rf $TPH/xow64_wine/.wine-version
+    fi
     wine_q
     install_wine
     echo "done."
@@ -1722,19 +1725,19 @@ elif [[ "$1" == "wine-remove=10.10-staging" ]]; then
     else
         echo "wine 10.10-staging is not installed"
     fi
-elif [[ "$1" == "wine-remove=10.11-staging" ]]; then
-    if [ -d $TPH/xow64_wine/10.11-staging ]; then
-        rm -rf $TPH/xow64_wine/10.11-staging
-        echo "wine 10.11-staging has been removed."
+elif [[ "$1" == "wine-remove=10.12-staging" ]]; then
+    if [ -d $TPH/xow64_wine/10.12-staging ]; then
+        rm -rf $TPH/xow64_wine/10.12-staging
+        echo "wine 10.12-staging has been removed."
     else
-        echo "wine 10.11-staging is not installed"
+        echo "wine 10.12-staging is not installed"
     fi
-elif [[ "$1" == "wine-remove=10.11-stable" ]]; then
-    if [ -d $TPH/xow64_wine/10.11-stable ]; then
-        rm -rf $TPH/xow64_wine/10.11-stable
-        echo "wine 10.11-stable has been removed."
+elif [[ "$1" == "wine-remove=10.12-stable" ]]; then
+    if [ -d $TPH/xow64_wine/10.12-stable ]; then
+        rm -rf $TPH/xow64_wine/10.12-stable
+        echo "wine 10.12-stable has been removed."
     else
-        echo "wine 10.11-stable is not installed"
+        echo "wine 10.12-stable is not installed"
     fi
 elif [[ "$1" == "box64-remove=0.3.0" ]]; then
     proot_info
